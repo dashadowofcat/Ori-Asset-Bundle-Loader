@@ -30,9 +30,7 @@ namespace OriAssetBundleLoader
 
             GameObject obj = UnityEngine.Object.Instantiate(Root);
 
-            GameObject OriObj = UniverseLib.RuntimeHelper.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "seinCharacter").FirstOrDefault();
-
-            obj.transform.position = OriObj.transform.position;
+            obj.transform.position = Settings.OriObject.transform.position;
 
             Object.DontDestroyOnLoad(obj);
 
