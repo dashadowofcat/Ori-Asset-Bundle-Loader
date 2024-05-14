@@ -2,6 +2,7 @@
 using MelonLoader;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UniverseLib;
 
 namespace OriAssetBundleLoader
@@ -21,6 +22,16 @@ namespace OriAssetBundleLoader
             if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.U))
             {
                 LoadObject();
+            }
+
+            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.Y))
+            {
+
+                SceneManager.LoadScene(294, LoadSceneMode.Additive);
+
+                GameObject ori = GameObject.Find("seinCharacter");
+
+                ori.transform.position = new Vector3(-333, -2310, 0);
             }
         }
 
@@ -48,6 +59,8 @@ namespace OriAssetBundleLoader
 
         public void ConvertAssetToWOTW(GameObject Asset)
         {
+            ConvertElementToWOTW(Asset);
+
             if (Asset.GetComponent<MeshRenderer>())
             {
                 ConvertRendererToWOTW(Asset);
@@ -82,5 +95,53 @@ namespace OriAssetBundleLoader
         {
             Asset.layer = 10;
         } 
+
+        void ConvertElementToWOTW(GameObject Asset)
+        {
+            if (Asset.name == "Bash")
+            {
+                SpiritLantern lantern = Asset.AddComponent<SpiritLantern>();
+
+                lantern.OnBashSoundProvider = RuntimeHelper.FindObjectsOfTypeAll<Varying2DSoundProvider>().Where(S => S.name == "spiritLanternOnBashSoundProvider").FirstOrDefault();
+
+                return;
+            }
+
+            if (Asset.name == "Leash" || Asset.name == "LeashBulb")
+            {
+                HookFlingPlant Hook = Asset.AddComponent<HookFlingPlant>();
+
+                Rigidbody rb = Asset.AddComponent<Rigidbody>();
+
+                Hook.HookTarget = Asset.transform;
+
+                Hook.m_rigidbody = rb;
+
+                Hook.IsSticky = !(Asset.name == "LeashBulb");
+
+                rb.constraints = RigidbodyConstraints.FreezeAll;
+
+                return;
+            }
+
+            /*
+            if(Asset.name == "CheckPoint")
+            {
+                if (!Asset.GetComponent<BoxCollider2D>())
+                {
+                    LoggerInstance.Warning("Check point requires a BoxCollider2D");
+                    return;
+                }
+
+                BoxCollider2D coll = Asset.GetComponent<BoxCollider2D>();
+
+                InvisibleCheckpoint checkPoint = Asset.AddComponent<InvisibleCheckpoint>();
+
+                checkPoint.m_bounds = new Rect(Asset.transform.position, coll.bounds.size);
+
+                return;
+            }
+            */
+        }
     }
 }

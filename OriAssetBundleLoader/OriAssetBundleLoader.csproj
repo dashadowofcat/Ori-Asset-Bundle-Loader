@@ -67,6 +67,10 @@
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\..\DialogueMod\DialogueMod\bin\Debug\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\UnityEngine.PhysicsModule.dll</HintPath>
