@@ -124,7 +124,10 @@ namespace OriAssetBundleLoader
                 return;
             }
 
-            /*
+            
+            // the checkpoint dosnt work when the player enters the bounds
+            // i dont quite know why yet
+
             if(Asset.name == "CheckPoint")
             {
                 if (!Asset.GetComponent<BoxCollider2D>())
@@ -139,9 +142,11 @@ namespace OriAssetBundleLoader
 
                 checkPoint.m_bounds = new Rect(Asset.transform.position, coll.bounds.size);
 
+                MonoBehaviour.Destroy(coll);
+
                 return;
             }
-            */
+            
         }
     }
 }
