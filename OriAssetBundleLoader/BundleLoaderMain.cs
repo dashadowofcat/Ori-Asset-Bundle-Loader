@@ -1,9 +1,14 @@
 ﻿using Il2Cpp;
+using Il2CppMoon;
 using MelonLoader;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UniverseLib;
+using HarmonyLib;
+using System;
+using System.Collections.Generic;
+using Il2CppSystem.Collections.Generic;
 
 namespace OriAssetBundleLoader
 {
@@ -16,7 +21,6 @@ namespace OriAssetBundleLoader
             bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
         }
 
-
         public override void OnUpdate()
         {
             if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.U))
@@ -26,12 +30,17 @@ namespace OriAssetBundleLoader
 
             if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.Y))
             {
+                GameObject.Find("systems/scenesManager").GetComponent<GoToSceneController>().GoToScene("stressTestMaster");
+            }
 
-                SceneManager.LoadScene(294, LoadSceneMode.Additive);
+            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.G))
+            {
+                Il2CppSystem.Collections.Generic.List<RuntimeSceneMetaData> scenes = GameObject.Find("systems/scenesManager").GetComponent<ScenesManager>().AllScenes;
 
-                GameObject ori = GameObject.Find("seinCharacter");
-
-                ori.transform.position = new Vector3(-333, -2310, 0);
+                foreach (RuntimeSceneMetaData scene in scenes)
+                {
+                    LoggerInstance.Msg(scene.Scene);
+                }
             }
         }
 
@@ -43,14 +52,14 @@ namespace OriAssetBundleLoader
 
             obj.transform.position = Settings.OriObject.transform.position;
 
-            Object.DontDestroyOnLoad(obj);
+            UnityEngine.Object.DontDestroyOnLoad(obj);
 
             ConvertChildrenToWOTW(obj.transform);
         }
 
         void ConvertChildrenToWOTW(Transform parent)
         {
-            foreach (Transform child in UniverseLib.RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == parent && m != parent))
+            foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == parent && m != parent))
             {
                 ConvertAssetToWOTW(child.gameObject);
             }
@@ -94,10 +103,12 @@ namespace OriAssetBundleLoader
         void ConvertColliderToWOTW(GameObject Asset)
         {
             Asset.layer = 10;
-        } 
+        }
+
 
         void ConvertElementToWOTW(GameObject Asset)
         {
+
             if (Asset.name == "Bash")
             {
                 SpiritLantern lantern = Asset.AddComponent<SpiritLantern>();
@@ -123,30 +134,6 @@ namespace OriAssetBundleLoader
 
                 return;
             }
-
-            
-            // the checkpoint dosnt work when the player enters the bounds
-            // i dont quite know why yet
-
-            if(Asset.name == "CheckPoint")
-            {
-                if (!Asset.GetComponent<BoxCollider2D>())
-                {
-                    LoggerInstance.Warning("Check point requires a BoxCollider2D");
-                    return;
-                }
-
-                BoxCollider2D coll = Asset.GetComponent<BoxCollider2D>();
-
-                InvisibleCheckpoint checkPoint = Asset.AddComponent<InvisibleCheckpoint>();
-
-                checkPoint.m_bounds = new Rect(Asset.transform.position, coll.bounds.size);
-
-                MonoBehaviour.Destroy(coll);
-
-                return;
-            }
-            
         }
     }
 }

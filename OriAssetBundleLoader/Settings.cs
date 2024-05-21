@@ -16,9 +16,14 @@ namespace OriAssetBundleLoader
             get { return GameObject.Find("seinCharacter/ori3D/mirrorHolder/rigHolder/oriRig/Model_GRP/body_MDL").GetComponent<SkinnedMeshRenderer>().material; }
         }
 
-        public static GameObject OriObject
+        public static GameObject OriModelObject
         {
             get { return GameObject.Find("seinCharacter/ori3D/mirrorHolder/rigHolder/oriRig/Model_GRP/body_MDL"); }
+        }
+
+        public static GameObject OriObject
+        {
+            get { return GameObject.Find("seinCharacter"); }
         }
     }
 }
