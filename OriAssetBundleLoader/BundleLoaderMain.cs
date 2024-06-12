@@ -113,7 +113,7 @@ namespace OriAssetBundleLoader
             {
                 SpiritLantern lantern = Asset.AddComponent<SpiritLantern>();
 
-                lantern.OnBashSoundProvider = RuntimeHelper.FindObjectsOfTypeAll<Varying2DSoundProvider>().Where(S => S.name == "spiritLanternOnBashSoundProvider").FirstOrDefault();
+                lantern.OnBashSoundProvider = RuntimeHelper.FindObjectsOfTypeAll<Varying2DSoundProvider>().Where(S => S.name == "startDashForward").FirstOrDefault();
 
                 return;
             }
