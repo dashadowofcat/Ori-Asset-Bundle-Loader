@@ -32,16 +32,6 @@ namespace OriAssetBundleLoader
             {
                 GameObject.Find("systems/scenesManager").GetComponent<GoToSceneController>().GoToScene("stressTestMaster");
             }
-
-            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.G))
-            {
-                Il2CppSystem.Collections.Generic.List<RuntimeSceneMetaData> scenes = GameObject.Find("systems/scenesManager").GetComponent<ScenesManager>().AllScenes;
-
-                foreach (RuntimeSceneMetaData scene in scenes)
-                {
-                    LoggerInstance.Msg(scene.Scene);
-                }
-            }
         }
 
         public void LoadObject()
