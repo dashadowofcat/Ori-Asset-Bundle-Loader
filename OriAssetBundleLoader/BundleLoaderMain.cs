@@ -17,10 +17,19 @@ namespace OriAssetBundleLoader
     public class BundleLoaderMain : MelonMod
     {
         Il2CppAssetBundle bundle;
+        System.Collections.Generic.Dictionary<string, ElementConverter> Converters = new System.Collections.Generic.Dictionary<string, ElementConverter>();
 
         public override void OnApplicationStart()
         {
+            SetupConverters();
+
             bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
+        }
+
+        void SetupConverters()
+        {
+            Converters.Add("Bash", new BashConverter());
+            Converters.Add("Leash", new LeashConverter());
         }
 
         public static Material OriMaterial
@@ -106,11 +115,11 @@ namespace OriAssetBundleLoader
         {
             Asset.layer = 10;
         }
-
-
         void ConvertElementToWOTW(GameObject Asset)
         {
+            if (!Converters.ContainsKey(Asset.name)) return;
 
+            Converters[Asset.name].ConvertElement(Asset);
         }
     }
 }
