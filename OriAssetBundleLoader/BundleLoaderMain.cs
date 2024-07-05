@@ -30,6 +30,7 @@ namespace OriAssetBundleLoader
         {
             Converters.Add("Bash", new BashConverter());
             Converters.Add("Leash", new LeashConverter());
+            Converters.Add("Spring", new SpringConveter());
         }
 
         public static Material OriMaterial

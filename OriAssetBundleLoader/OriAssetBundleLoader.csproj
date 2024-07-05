@@ -93,6 +93,7 @@
   <ItemGroup>
     <Compile Include="BundleLoaderMain.cs" />
     <Compile Include="Element Converters\BashConverter.cs" />
+    <Compile Include="Element Converters\SpringConveter.cs" />
     <Compile Include="Element Converters\LeashConverter.cs" />
     <Compile Include="Element Converters\ElementConverter.cs" />
     <Compile Include="Settings.cs" />
