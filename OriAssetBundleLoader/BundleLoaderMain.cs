@@ -9,6 +9,8 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using Il2CppSystem.Collections.Generic;
+using Il2CppInterop.Runtime.Injection;
+using System.Collections;
 
 namespace OriAssetBundleLoader
 {
@@ -19,6 +21,16 @@ namespace OriAssetBundleLoader
         public override void OnApplicationStart()
         {
             bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
+        }
+
+        public static Material OriMaterial
+        {
+            get { return GameObject.Find("seinCharacter/ori3D/mirrorHolder/rigHolder/oriRig/Model_GRP/body_MDL").GetComponent<SkinnedMeshRenderer>().material; }
+        }
+
+        public static GameObject OriObject
+        {
+            get { return GameObject.Find("seinCharacter"); }
         }
 
         public override void OnUpdate()
@@ -40,7 +52,7 @@ namespace OriAssetBundleLoader
 
             GameObject obj = UnityEngine.Object.Instantiate(Root);
 
-            obj.transform.position = Settings.OriObject.transform.position;
+            obj.transform.position = OriObject.transform.position;
 
             UnityEngine.Object.DontDestroyOnLoad(obj);
 
@@ -80,7 +92,7 @@ namespace OriAssetBundleLoader
 
             Texture2D ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
 
-            ObjRenderer.material = Settings.OriMaterial;
+            ObjRenderer.material = OriMaterial;
 
             ObjRenderer.material.color = Settings.EnviormentColor;
 
@@ -123,7 +135,21 @@ namespace OriAssetBundleLoader
                 rb.constraints = RigidbodyConstraints.FreezeAll;
 
                 return;
+
+                
             }
+
+        }
+    }
+
+
+
+    class SpringConverter : ElementConverter
+    {
+
+        public override void ConvertElement(GameObject Asset)
+        {
+            
         }
     }
 }
