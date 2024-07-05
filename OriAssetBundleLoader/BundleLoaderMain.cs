@@ -111,45 +111,6 @@ namespace OriAssetBundleLoader
         void ConvertElementToWOTW(GameObject Asset)
         {
 
-            if (Asset.name == "Bash")
-            {
-                SpiritLantern lantern = Asset.AddComponent<SpiritLantern>();
-
-                lantern.OnBashSoundProvider = RuntimeHelper.FindObjectsOfTypeAll<Varying2DSoundProvider>().Where(S => S.name == "startDashForward").FirstOrDefault();
-
-                return;
-            }
-
-            if (Asset.name == "Leash" || Asset.name == "LeashBulb")
-            {
-                HookFlingPlant Hook = Asset.AddComponent<HookFlingPlant>();
-
-                Rigidbody rb = Asset.AddComponent<Rigidbody>();
-
-                Hook.HookTarget = Asset.transform;
-
-                Hook.m_rigidbody = rb;
-
-                Hook.IsSticky = !(Asset.name == "LeashBulb");
-
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-
-                return;
-
-                
-            }
-
-        }
-    }
-
-
-
-    class SpringConverter : ElementConverter
-    {
-
-        public override void ConvertElement(GameObject Asset)
-        {
-            
         }
     }
 }
