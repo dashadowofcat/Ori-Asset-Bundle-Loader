@@ -10,7 +10,7 @@ class SpringConveter : ElementConverter
     {
         Spring spring = Asset.AddComponent<Spring>();
 
-        spring.Height = float.Parse(Asset.transform.Find("Force").GetChild(0).name);
+        spring.Height = this.GetFloat(Asset, "Force");
 
         Asset.transform.forward = new Vector3(0, 0, 1);
     }

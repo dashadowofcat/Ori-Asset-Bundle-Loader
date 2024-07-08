@@ -54,6 +54,11 @@ namespace OriAssetBundleLoader
             {
                 GameObject.Find("systems/scenesManager").GetComponent<GoToSceneController>().GoToScene("stressTestMaster");
             }
+
+            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.J))
+            {
+                SceneManager.LoadScene("kwoloksCavernF", LoadSceneMode.Additive);
+            }
         }
 
         public void LoadObject()

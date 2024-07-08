@@ -41,8 +41,15 @@
     <Reference Include="Il2Cppmscorlib">
       <HintPath>..\..\gorlekDepthsMod\gorlekDepthsMod\bin\Debug\Il2Cppmscorlib.dll</HintPath>
     </Reference>
+    <Reference Include="Il2Cpp__externalProjects">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\Il2Cpp__externalProjects.dll</HintPath>
+    </Reference>
     <Reference Include="Il2Cpp__mainWisp">
       <HintPath>..\..\DialogueMod\DialogueMod\bin\Debug\Il2Cpp__mainWisp.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2Cpp__standardAssetsAssemblyDefinition, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\Il2Cpp__standardAssetsAssemblyDefinition.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cpp__suspend, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

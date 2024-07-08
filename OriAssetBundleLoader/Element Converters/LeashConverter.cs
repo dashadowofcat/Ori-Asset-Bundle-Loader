@@ -16,7 +16,7 @@ class LeashConverter : ElementConverter
 
         Hook.m_rigidbody = rb;
 
-        Hook.IsSticky = Asset.transform.Find("Sticky").Find("true");
+        Hook.IsSticky = this.GetBool(Asset, "Sticky");
 
         rb.constraints = RigidbodyConstraints.FreezeAll;
     }
