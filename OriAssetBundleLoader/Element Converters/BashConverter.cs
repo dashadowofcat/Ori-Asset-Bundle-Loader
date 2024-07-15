@@ -4,7 +4,7 @@ using UnityEngine;
 using UniverseLib;
 
 
-class BashConverter : ElementConverter
+public class BashConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {

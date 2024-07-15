@@ -4,7 +4,7 @@ using UnityEngine;
 using UniverseLib;
 
 
-class LeashConverter : ElementConverter
+public class LeashConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {

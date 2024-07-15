@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class ElementConverter
+public class ElementConverter
 {
     public virtual void ConvertElement(GameObject Asset)
     {

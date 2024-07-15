@@ -16,21 +16,24 @@ namespace OriAssetBundleLoader
 {
     public class BundleLoaderMain : MelonMod
     {
-        Il2CppAssetBundle bundle;
-        System.Collections.Generic.Dictionary<string, ElementConverter> Converters = new System.Collections.Generic.Dictionary<string, ElementConverter>();
+        Il2CppAssetBundle Bundle;
+
+        ConverterManager Convertermanager = new ConverterManager();
+
+        PrefabManager PrefabManager = new PrefabManager();
 
         public override void OnApplicationStart()
         {
-            SetupConverters();
+            Convertermanager.SetupConverters();
 
-            bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
+            Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
         }
 
-        void SetupConverters()
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            Converters.Add("Bash", new BashConverter());
-            Converters.Add("Leash", new LeashConverter());
-            Converters.Add("Spring", new SpringConveter());
+            if (sceneName != "wotwTitleScreen") return;
+
+            MelonCoroutines.Start(PrefabManager.SetupPrefabs());
         }
 
         public static Material OriMaterial
@@ -54,16 +57,11 @@ namespace OriAssetBundleLoader
             {
                 GameObject.Find("systems/scenesManager").GetComponent<GoToSceneController>().GoToScene("stressTestMaster");
             }
-
-            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.J))
-            {
-                SceneManager.LoadScene("kwoloksCavernF", LoadSceneMode.Additive);
-            }
         }
-
+        
         public void LoadObject()
         {
-            GameObject Root = bundle.LoadAsset<GameObject>("prefab root");
+            GameObject Root = Bundle.LoadAsset<GameObject>("prefab root");
 
             GameObject obj = UnityEngine.Object.Instantiate(Root);
 
@@ -123,9 +121,9 @@ namespace OriAssetBundleLoader
         }
         void ConvertElementToWOTW(GameObject Asset)
         {
-            if (!Converters.ContainsKey(Asset.name)) return;
+            if (!Convertermanager.Converters.ContainsKey(Asset.name)) return;
 
-            Converters[Asset.name].ConvertElement(Asset);
+            Convertermanager.Converters[Asset.name].ConvertElement(Asset);
         }
     }
 }
