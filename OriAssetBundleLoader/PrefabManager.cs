@@ -17,7 +17,7 @@ public class PrefabManager
     {
         SceneManager.LoadScene("springIntroCavernA", LoadSceneMode.Additive);
 
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSeconds(.5f);
 
         spring = RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject;
     }
