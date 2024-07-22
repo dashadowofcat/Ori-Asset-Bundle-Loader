@@ -21,7 +21,7 @@ public class PrefabManager
 
         MelonLogger.Msg("point 1");
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault() == null) yield return new WaitForFixedUpdate();
+        while (RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1) yield return new WaitForFixedUpdate();
 
         MelonLogger.Msg("point 2");
 
