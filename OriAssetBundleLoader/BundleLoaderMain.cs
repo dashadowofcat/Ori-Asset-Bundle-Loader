@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Il2CppSystem.Collections.Generic;
 using Il2CppInterop.Runtime.Injection;
 using System.Collections;
+using Il2CppSystem.IO;
 
 namespace OriAssetBundleLoader
 {
@@ -27,6 +28,11 @@ namespace OriAssetBundleLoader
             Convertermanager.SetupConverters();
 
             Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
+
+            if (!File.Exists("Mods/UnityExplorer.ML.IL2CPP.net6preview.interop.dll"))
+            {
+                Universe.Init();
+            }
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
