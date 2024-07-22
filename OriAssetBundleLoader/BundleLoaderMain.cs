@@ -55,9 +55,10 @@ namespace OriAssetBundleLoader
 
         public override void OnUpdate()
         {
-            if (InputManager.GetKeyDown(KeyCode.J))
+
+            if (InputManager.GetMouseButton(2))
             {
-                MelonLogger.Msg("j");
+                MelonLogger.Msg("click");
             }
 
             if (InputManager.GetKeyDown(KeyCode.U))
@@ -65,7 +66,7 @@ namespace OriAssetBundleLoader
                 LoadObject();
             }
 
-            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.Y))
+            if (InputManager.GetKeyDown(KeyCode.Y))
             {
                 GameObject.Find("systems/scenesManager").GetComponent<GoToSceneController>().GoToScene("stressTestMaster");
             }
