@@ -23,6 +23,11 @@ public class PrefabManager
 
         while (RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1) yield return new WaitForFixedUpdate();
 
+        foreach (Scene scene in SceneManager.GetAllScenes())
+        {
+            MelonLogger.Msg(scene.name);
+        }
+
         MelonLogger.Msg("point 2");
 
         spring = RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject;
