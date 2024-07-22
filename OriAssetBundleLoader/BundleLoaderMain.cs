@@ -12,6 +12,7 @@ using Il2CppSystem.Collections.Generic;
 using Il2CppInterop.Runtime.Injection;
 using System.Collections;
 using Il2CppSystem.IO;
+using UniverseLib.Input;
 
 namespace OriAssetBundleLoader
 {
@@ -23,16 +24,13 @@ namespace OriAssetBundleLoader
 
         PrefabManager PrefabManager = new PrefabManager();
 
-        public override void OnInitializeMelon()
+        public override void OnApplicationStart()
         {
             if (!File.Exists("Mods/UnityExplorer.ML.IL2CPP.net6preview.interop.dll"))
             {
                 Universe.Init();
             }
-        }
 
-        public override void OnApplicationStart()
-        {
             Convertermanager.SetupConverters();
 
             Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
@@ -57,12 +55,12 @@ namespace OriAssetBundleLoader
 
         public override void OnUpdate()
         {
-            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.J))
+            if (InputManager.GetKeyDown(KeyCode.J))
             {
                 MelonLogger.Msg("j");
             }
 
-            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.U))
+            if (InputManager.GetKeyDown(KeyCode.U))
             {
                 LoadObject();
             }
