@@ -23,16 +23,19 @@ namespace OriAssetBundleLoader
 
         PrefabManager PrefabManager = new PrefabManager();
 
+        public override void OnInitializeMelon()
+        {
+            if (!File.Exists("Mods/UnityExplorer.ML.IL2CPP.net6preview.interop.dll"))
+            {
+                Universe.Init();
+            }
+        }
+
         public override void OnApplicationStart()
         {
             Convertermanager.SetupConverters();
 
             Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
-
-            if (!File.Exists("Mods/UnityExplorer.ML.IL2CPP.net6preview.interop.dll"))
-            {
-                Universe.Init();
-            }
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
@@ -54,6 +57,11 @@ namespace OriAssetBundleLoader
 
         public override void OnUpdate()
         {
+            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.J))
+            {
+                MelonLogger.Msg("j");
+            }
+
             if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.U))
             {
                 LoadObject();
