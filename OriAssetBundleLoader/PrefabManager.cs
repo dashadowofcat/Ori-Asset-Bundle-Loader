@@ -21,4 +21,58 @@ public class PrefabManager
 
         spring = RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject;
     }
+
+    void ConvertToWOTW(Transform parent)
+    {
+        foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == parent && m != parent))
+        {
+            ConvertAssetToWOTW(child.gameObject);
+        }
+    }
+
+
+    public void ConvertAssetToWOTW(GameObject Asset)
+    {
+        ConvertElementToWOTW(Asset);
+
+        if (Asset.GetComponent<MeshRenderer>())
+        {
+            ConvertRendererToWOTW(Asset);
+            return;
+        }
+
+        if (Asset.GetComponent<Collider>())
+        {
+            ConvertColliderToWOTW(Asset);
+
+            return;
+        }
+    }
+
+    void ConvertRendererToWOTW(GameObject Asset)
+    {
+        MeshRenderer ObjRenderer = Asset.GetComponent<MeshRenderer>();
+
+        Texture2D ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
+
+        ObjRenderer.material = Settings.EnvironmentMaterial;
+
+        ObjRenderer.material.color = Settings.EnvironmentColor;
+
+        ObjRenderer.material.mainTexture = ObjTexture;
+
+        UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerMaskTexture, null);
+        UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerTexture, null);
+    }
+
+    void ConvertColliderToWOTW(GameObject Asset)
+    {
+        Asset.layer = 10;
+    }
+    void ConvertElementToWOTW(GameObject Asset)
+    {
+        if (!Convertermanager.Converters.ContainsKey(Asset.name)) return;
+
+        Convertermanager.Converters[Asset.name].ConvertElement(Asset);
+    }
 }

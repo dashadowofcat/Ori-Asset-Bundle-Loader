@@ -19,7 +19,7 @@ namespace OriAssetBundleLoader
     {
         Il2CppAssetBundle Bundle;
 
-        ConverterManager Convertermanager = new ConverterManager();
+        ConverterManager ConverterManager = new ConverterManager();
 
         PrefabManager PrefabManager = new PrefabManager();
 
@@ -28,7 +28,7 @@ namespace OriAssetBundleLoader
 
             if (!File.Exists($"{MelonEnvironment.ModsDirectory}/UnityExplorer.ML.IL2CPP.net6preview.interop.dll"))
             {
-                string UnhollowedModulesFolder = Path.Combine(Path.GetDirectoryName(MelonHandler.ModsDirectory),Path.Combine("MelonLoader", "Il2CppAssemblies"));
+                string UnhollowedModulesFolder = Path.Combine(Path.GetDirectoryName(MelonEnvironment.ModsDirectory),Path.Combine("MelonLoader", "Il2CppAssemblies"));
 
                 Universe.Init(0, OnUniverseInit, OnUniverseLog, new UniverseLibConfig()
                 {
@@ -38,13 +38,13 @@ namespace OriAssetBundleLoader
                 });
             }
 
-            Convertermanager.SetupConverters();
+            ConverterManager.SetupConverters();
 
             Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
         }
 
         void OnUniverseInit() { }
-        void OnUniverseLog(string txt, UnityEngine.LogType type) { }
+        void OnUniverseLog(string txt, LogType type) { }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
@@ -77,61 +77,7 @@ namespace OriAssetBundleLoader
 
             UnityEngine.Object.DontDestroyOnLoad(obj);
 
-            ConvertChildrenToWOTW(obj.transform);
-        }
-
-        void ConvertChildrenToWOTW(Transform parent)
-        {
-            foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == parent && m != parent))
-            {
-                ConvertAssetToWOTW(child.gameObject);
-            }
-        }
-
-
-        public void ConvertAssetToWOTW(GameObject Asset)
-        {
-            ConvertElementToWOTW(Asset);
-
-            if (Asset.GetComponent<MeshRenderer>())
-            {
-                ConvertRendererToWOTW(Asset);
-                return;
-            }
-
-            if (Asset.GetComponent<Collider>())
-            {
-                ConvertColliderToWOTW(Asset);
-
-                return;
-            }
-        }
-
-        void ConvertRendererToWOTW(GameObject Asset)
-        {
-            MeshRenderer ObjRenderer = Asset.GetComponent<MeshRenderer>();
-
-            Texture2D ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
-
-            ObjRenderer.material = Settings.EnvironmentMaterial;
-
-            ObjRenderer.material.color = Settings.EnvironmentColor;
-
-            ObjRenderer.material.mainTexture = ObjTexture;
-
-            UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerMaskTexture, null);
-            UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerTexture, null);
-        }
-
-        void ConvertColliderToWOTW(GameObject Asset)
-        {
-            Asset.layer = 10;
-        }
-        void ConvertElementToWOTW(GameObject Asset)
-        {
-            if (!Convertermanager.Converters.ContainsKey(Asset.name)) return;
-
-            Convertermanager.Converters[Asset.name].ConvertElement(Asset);
+            ConverterManager.ConvertToWOTW(obj.transform);
         }
     }
 }
