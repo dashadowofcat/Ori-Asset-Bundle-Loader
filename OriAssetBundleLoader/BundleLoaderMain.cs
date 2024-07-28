@@ -53,16 +53,6 @@ namespace OriAssetBundleLoader
             MelonCoroutines.Start(PrefabManager.SetupPrefabs());
         }
 
-        public static Material OriMaterial
-        {
-            get { return GameObject.Find("seinCharacter/ori3D/mirrorHolder/rigHolder/oriRig/Model_GRP/body_MDL").GetComponent<SkinnedMeshRenderer>().material; }
-        }
-
-        public static GameObject OriObject
-        {
-            get { return GameObject.Find("seinCharacter"); }
-        }
-
         public override void OnUpdate()
         {
 
@@ -83,7 +73,7 @@ namespace OriAssetBundleLoader
 
             GameObject obj = UnityEngine.Object.Instantiate(Root);
 
-            obj.transform.position = OriObject.transform.position;
+            obj.transform.position = Settings.LevelSpawnPosition.transform.position;
 
             UnityEngine.Object.DontDestroyOnLoad(obj);
 
@@ -123,9 +113,9 @@ namespace OriAssetBundleLoader
 
             Texture2D ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
 
-            ObjRenderer.material = OriMaterial;
+            ObjRenderer.material = Settings.EnvironmentMaterial;
 
-            ObjRenderer.material.color = Settings.EnviormentColor;
+            ObjRenderer.material.color = Settings.EnvironmentColor;
 
             ObjRenderer.material.mainTexture = ObjTexture;
 

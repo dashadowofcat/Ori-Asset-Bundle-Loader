@@ -9,6 +9,16 @@ namespace OriAssetBundleLoader
 {
     public static class Settings
     {
-        public static Color EnviormentColor = new Color(1.8f, 1.6f, 1.4f);
+        public static Color EnvironmentColor = new Color(1, 1, 1);
+
+        public static Material EnvironmentMaterial
+        {
+            get { return GameObject.Find("seinCharacter/ori3D/mirrorHolder/rigHolder/oriRig/Model_GRP/body_MDL").GetComponent<SkinnedMeshRenderer>().material; }
+        }
+
+        public static Transform LevelSpawnPosition
+        {
+            get { return GameObject.Find("seinCharacter").transform; }
+        }
     }
 }
