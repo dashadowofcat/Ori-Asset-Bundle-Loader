@@ -55,7 +55,6 @@ namespace OriAssetBundleLoader
 
         public override void OnUpdate()
         {
-
             if (InputManager.GetKeyDown(KeyCode.U))
             {
                 LoadObject();
