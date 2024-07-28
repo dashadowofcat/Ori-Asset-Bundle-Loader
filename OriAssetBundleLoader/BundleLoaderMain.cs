@@ -28,22 +28,23 @@ namespace OriAssetBundleLoader
 
             if (!File.Exists($"{MelonEnvironment.ModsDirectory}/UnityExplorer.ML.IL2CPP.net6preview.interop.dll"))
             {
-                //string UnhollowedModulesFolder = Path.Combine(Path.GetDirectoryName(MelonEnvironment.ModsDirectory), Path.Combine("MelonLoader", "Managed"));
+                string UnhollowedModulesFolder = Path.Combine(Path.GetDirectoryName(MelonHandler.ModsDirectory),Path.Combine("MelonLoader", "Il2CppAssemblies"));
 
-                //Universe.Init(0, OnUniverseInit, OnUniverseLog, new UniverseLibConfig()
-                //{
-                //    Disable_EventSystem_Override = false,
-                //    Force_Unlock_Mouse = false,
-                //    Unhollowed_Modules_Folder = UnhollowedModulesFolder
-                //});
-
-                Universe.Init();
+                Universe.Init(0, OnUniverseInit, OnUniverseLog, new UniverseLibConfig()
+                {
+                    Disable_EventSystem_Override = false,
+                    Force_Unlock_Mouse = false,
+                    Unhollowed_Modules_Folder = UnhollowedModulesFolder
+                });
             }
 
             Convertermanager.SetupConverters();
 
             Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
         }
+
+        void OnUniverseInit() { }
+        void OnUniverseLog(string txt, UnityEngine.LogType type) { }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
@@ -65,17 +66,12 @@ namespace OriAssetBundleLoader
         public override void OnUpdate()
         {
 
-            if (MoonInput.GetMouseButton(2))
-            {
-                MelonLogger.Msg("click");
-            }
-
-            if (MoonInput.GetKeyDown(KeyCode.U))
+            if (InputManager.GetKeyDown(KeyCode.U))
             {
                 LoadObject();
             }
 
-            if (MoonInput.GetKeyDown(KeyCode.Y))
+            if (InputManager.GetKeyDown(KeyCode.Y))
             {
                 GameObject.Find("systems/scenesManager").GetComponent<GoToSceneController>().GoToScene("stressTestMaster");
             }
