@@ -18,7 +18,7 @@ public class PrefabManager
     {
         // Cache Spring Plant
 
-        SceneManager.LoadScene("springIntroCavernA", LoadSceneMode.Additive);
+        SceneManager.LoadScene("springIntroCavernA", LoadSceneMode.Additive); // First load the scene that contains the object in question
 
         while (RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1) yield return new WaitForFixedUpdate();
 
