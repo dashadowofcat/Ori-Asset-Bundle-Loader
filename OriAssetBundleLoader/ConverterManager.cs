@@ -17,7 +17,7 @@ public class ConverterManager
         Converters.Add("Bash", new BashConverter());
         Converters.Add("Leash", new LeashConverter());
         Converters.Add("Spring", new SpringConverter());
-        Converters.Add("TerrainDamageDealer", new DamageDealerConverter());
+        Converters.Add("TerrainDamageDealer", new TerrainDamageDealerConverter());
     }
 
     public void ConvertToWOTW(Transform parent)
