@@ -20,5 +20,7 @@ public class PrefabManager
         while (RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1) yield return new WaitForFixedUpdate();
 
         spring = RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject;
+
+        MelonLogger.Msg("Spring Loaded");
     }
 }
