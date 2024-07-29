@@ -68,7 +68,7 @@ namespace OriAssetBundleLoader
         
         public void LoadObject()
         {
-            GameObject Root = Bundle.LoadAsset<GameObject>("prefab root");
+            GameObject Root = Bundle.LoadAsset<GameObject>("Level");
 
             GameObject obj = UnityEngine.Object.Instantiate(Root);
 
