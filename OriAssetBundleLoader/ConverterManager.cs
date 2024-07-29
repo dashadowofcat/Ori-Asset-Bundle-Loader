@@ -17,6 +17,7 @@ public class ConverterManager
         Converters.Add("Bash", new BashConverter());
         Converters.Add("Leash", new LeashConverter());
         Converters.Add("Spring", new SpringConverter());
+        Converters.Add("DamageDealer", new DamageDealerConverter());
         Converters.Add("TerrainDamageDealer", new TerrainDamageDealerConverter());
     }
 

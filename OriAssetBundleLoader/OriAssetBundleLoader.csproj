@@ -101,6 +101,7 @@
     <Compile Include="BundleLoaderMain.cs" />
     <Compile Include="ConverterManager.cs" />
     <Compile Include="Element Converters\DamageDealerConverter.cs" />
+    <Compile Include="Element Converters\TerrainDamageDealerConverter.cs" />
     <Compile Include="PrefabManager.cs" />
     <Compile Include="Element Converters\BashConverter.cs" />
     <Compile Include="Element Converters\SpringConverter.cs" />

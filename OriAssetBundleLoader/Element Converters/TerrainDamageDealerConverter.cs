@@ -6,17 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class DamageDealerConverter : ElementConverter
+public class TerrainDamageDealerConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
         GameObject ColliderGameobject = Asset.transform.parent.Find("Collision").gameObject;
 
+
+
         DamageDealer damageDealer = ColliderGameobject.AddComponent<DamageDealer>();
 
-        damageDealer.Damage = float.Parse(Asset.transform.GetChild(0).name);
+        damageDealer.Damage = GetFloat(Asset, "DamageAmount");
 
-        damageDealer.DamageType = DamageType.Spikes;
+        DamageType damageType;
+
+        Enum.TryParse<DamageType>(GetString(Asset, "DamageType"), out damageType);
+
+        damageDealer.DamageType = damageType;
 
         damageDealer.m_collider = ColliderGameobject.GetComponent<Collider>();
 
