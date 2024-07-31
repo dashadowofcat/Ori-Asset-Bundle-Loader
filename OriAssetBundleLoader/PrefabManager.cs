@@ -1,4 +1,5 @@
 ﻿using Il2Cpp;
+using Il2CppMoon;
 using MelonLoader;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ public class PrefabManager
 {
     public static GameObject spring;
     public static GameObject lifePlant;
+    public static GameObject hornBug;
 
     public System.Collections.IEnumerator SetupPrefabs()
     {
@@ -35,6 +37,16 @@ public class PrefabManager
         lifePlant = RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").FirstOrDefault().gameObject;
 
         MelonLogger.Msg("Life Plant Loaded");
+
+        // Cache Horn Bug
+
+        SceneManager.LoadScene("kwoloksCavernLeashGate", LoadSceneMode.Additive);
+
+        while (RuntimeHelper.FindObjectsOfTypeAll<Vitals>().Where(g => g.name == "hornBugEntity").Count() < 1) yield return new WaitForFixedUpdate();
+
+        hornBug = RuntimeHelper.FindObjectsOfTypeAll<Vitals>().Where(g => g.name == "hornBugEntity").FirstOrDefault().gameObject;
+
+        MelonLogger.Msg("Horn Bug Loaded");
 
     }
 }
