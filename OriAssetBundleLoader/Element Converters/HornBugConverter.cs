@@ -12,5 +12,13 @@ public class HornBugConverter : ElementConverter
         GameObject hornBug = GameObject.Instantiate(PrefabManager.hornBug, Asset.transform);
 
         hornBug.transform.localPosition = Vector3.zero;
+
+        HornBugPlaceholder PlaceHolder = hornBug.GetComponent<HornBugPlaceholder>();
+
+        PlaceHolder.SpawnOn = EntityPlaceholder.SpawnMode.Manual;
+
+        GameObject.Destroy(PlaceHolder.PooledEntity);
+
+        PlaceHolder.Spawn();
     }
 }

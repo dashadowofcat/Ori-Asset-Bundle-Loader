@@ -18,6 +18,7 @@ public class ConverterManager
         Converters.Add("Leash", new LeashConverter());
         Converters.Add("Spring", new SpringConverter());
         Converters.Add("LifePlant", new LifePlantConverter());
+        Converters.Add("HornBug", new HornBugConverter());
         Converters.Add("DamageDealer", new DamageDealerConverter());
         Converters.Add("TerrainDamageDealer", new TerrainDamageDealerConverter());
     }
