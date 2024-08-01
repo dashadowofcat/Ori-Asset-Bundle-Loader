@@ -18,9 +18,9 @@ public class PrefabManager
 
     public System.Collections.IEnumerator SetupPrefabs()
     {
-        // Cache Spring Plant
-
         SceneManager.LoadScene("springIntroCavernA", LoadSceneMode.Additive); // First load the scene that contains the object in question
+
+        // Cache Spring Plant From springIntroCavernA
 
         while (RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1) yield return new WaitForFixedUpdate();
 
@@ -28,23 +28,22 @@ public class PrefabManager
 
         MelonLogger.Msg("Spring Loaded");
 
-        // Cache Life Plant
 
-        SceneManager.LoadScene("kwoloksCavernO", LoadSceneMode.Additive);
+        SceneManager.LoadScene("kwoloksCavernLeashGate", LoadSceneMode.Additive);
+
+        // Cache Horn Bug From kwoloksCavernLeashGate
+
+        while (RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); // I don't know if this is the correct object to look for
+
+        hornBug = RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject;
+
+        // Cache Life Plant From kwoloksCavernLeashGate
 
         while (RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").Count() < 1) yield return new WaitForFixedUpdate();
 
         lifePlant = RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").FirstOrDefault().gameObject;
 
         MelonLogger.Msg("Life Plant Loaded");
-
-        // Cache Horn Bug
-
-        SceneManager.LoadScene("kwoloksCavernLeashGate", LoadSceneMode.Additive);
-
-        while (RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); // I don't know if this is the correct object to look for
-
-        hornBug = RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject;
 
         MelonLogger.Msg("Horn Bug Loaded");
 
