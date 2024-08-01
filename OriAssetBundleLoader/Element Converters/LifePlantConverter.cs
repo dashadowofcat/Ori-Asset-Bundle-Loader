@@ -19,6 +19,8 @@ public class LifePlantConverter : ElementConverter
 
         OrbSpawner orbSpawner = lifePlant.GetComponent<OrbSpawner>();
 
+        lifePlant.transform.Find("deathEffect").gameObject.SetActive(false);
+
         orbSpawner.IdealOrbCount = this.GetInt(Asset, "IdealOrbs");
 
         orbSpawner.NumberOfHealthOrbs = this.GetInt(Asset, "NumberOfHealthOrbs");
