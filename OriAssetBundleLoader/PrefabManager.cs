@@ -15,6 +15,9 @@ public class PrefabManager
     public static GameObject spring;
     public static GameObject lifePlant;
     public static GameObject hornBug;
+    public static GameObject electricMantis;
+    public static GameObject baseMantis;
+    public static GameObject greenMantis;
 
     public System.Collections.IEnumerator SetupPrefabs()
     {
@@ -33,7 +36,7 @@ public class PrefabManager
 
         // Cache Horn Bug From kwoloksCavernLeashGate
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); // I don't know if this is the correct object to look for
+        while (RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); 
 
         hornBug = RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject;
 
@@ -46,6 +49,40 @@ public class PrefabManager
         MelonLogger.Msg("Life Plant Loaded");
 
         MelonLogger.Msg("Horn Bug Loaded");
+
+
+        SceneManager.LoadScene("lumaSwampTransitionB", LoadSceneMode.Additive);
+
+        // Cache Shockwave Mantis From lumaSwampTransitionB
+
+        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); 
+
+        electricMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
+
+        MelonLogger.Msg("Electric Mantis Loaded");
+
+
+        SceneManager.LoadScene("swampTorchIntroductionA", LoadSceneMode.Additive);
+
+        // Cache Base Mantis From swampTorchIntroductionA
+
+        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate();
+
+        baseMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
+
+        MelonLogger.Msg("Base Mantis Loaded");
+
+
+        SceneManager.LoadScene("kwoloksCavernBossRoom", LoadSceneMode.Additive);
+
+        // Cache Green Mantis From kwoloksCavernBossRoom
+
+        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate();
+
+        greenMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
+
+        MelonLogger.Msg("Green Mantis Loaded");
+
 
     }
 }

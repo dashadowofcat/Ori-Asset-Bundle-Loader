@@ -19,6 +19,7 @@ public class ConverterManager
         Converters.Add("Spring", new SpringConverter());
         Converters.Add("LifePlant", new LifePlantConverter());
         Converters.Add("HornBug", new HornBugConverter());
+        Converters.Add("Mantis", new MantisConverter());
         Converters.Add("DamageDealer", new DamageDealerConverter());
         Converters.Add("TerrainDamageDealer", new TerrainDamageDealerConverter());
     }
