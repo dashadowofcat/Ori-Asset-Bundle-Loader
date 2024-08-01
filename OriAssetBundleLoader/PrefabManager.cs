@@ -42,9 +42,9 @@ public class PrefabManager
 
         SceneManager.LoadScene("kwoloksCavernLeashGate", LoadSceneMode.Additive);
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugEntity").Count() < 1) yield return new WaitForFixedUpdate(); // I don't know if this is the correct object to look for
+        while (RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); // I don't know if this is the correct object to look for
 
-        hornBug = RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugEntity").FirstOrDefault().gameObject;
+        hornBug = RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject;
 
         MelonLogger.Msg("Horn Bug Loaded");
 
