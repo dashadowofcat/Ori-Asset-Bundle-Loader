@@ -19,6 +19,9 @@ public class HornBugConverter : ElementConverter
 
         GameObject.Destroy(PlaceHolder.PooledEntity);
 
-        PlaceHolder.Spawn();
+        PlaceHolder.SpawnOnGround = false;
+
+        // the delay is so it has enough time to setup
+        PlaceHolder.Invoke("Spawn", .05f);
     }
 }
