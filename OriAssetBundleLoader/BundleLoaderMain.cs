@@ -57,7 +57,7 @@ namespace OriAssetBundleLoader
         {
             if (InputManager.GetKeyDown(KeyCode.U))
             {
-                LoadObject();
+                LoadLevel();
             }
 
             if (InputManager.GetKeyDown(KeyCode.Y))
@@ -66,7 +66,7 @@ namespace OriAssetBundleLoader
             }
         }
         
-        public void LoadObject()
+        public void LoadLevel()
         {
             GameObject Root = Bundle.LoadAsset<GameObject>("Level");
 

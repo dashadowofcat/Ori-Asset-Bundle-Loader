@@ -104,6 +104,7 @@
     <Compile Include="Element Converters\HornBugConverter.cs" />
     <Compile Include="Element Converters\LifePlantConverter.cs" />
     <Compile Include="Element Converters\DamageDealerConverter.cs" />
+    <Compile Include="Element Converters\MantisConverter.cs" />
     <Compile Include="Element Converters\TerrainDamageDealerConverter.cs" />
     <Compile Include="PrefabManager.cs" />
     <Compile Include="Element Converters\BashConverter.cs" />
