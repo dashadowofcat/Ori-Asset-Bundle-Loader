@@ -41,22 +41,21 @@ public class PrefabManager
 
         hornBug = RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject;
 
+        MelonLogger.Msg("Horn Bug Loaded");
+
         // Cache Life Plant From kwoloksCavernLeashGate
 
         while (RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").Count() < 1) yield return new WaitForFixedUpdate();
 
         lifePlant = RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").FirstOrDefault().gameObject;
 
+        MelonLogger.Msg("Life Plant Loaded");
+
         // Cache Rotating Spike Hazard From kwoloksCavernLeashGate
 
         while (RuntimeHelper.FindObjectsOfTypeAll<AutoRotate>().Where(g => g.name == "rotatingObstacleA").Count() < 1) yield return new WaitForFixedUpdate();
 
         rotatingSpikeHazaard = RuntimeHelper.FindObjectsOfTypeAll<AutoRotate>().Where(g => g.name == "rotatingObstacleA").FirstOrDefault().gameObject;
-
-
-        MelonLogger.Msg("Life Plant Loaded");
-
-        MelonLogger.Msg("Horn Bug Loaded");
 
         MelonLogger.Msg("Rotating Spike Hazard Loaded");
 
