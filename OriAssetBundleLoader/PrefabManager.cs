@@ -18,6 +18,7 @@ public class PrefabManager
     public static GameObject electricMantis;
     public static GameObject baseMantis;
     public static GameObject greenMantis;
+    public static GameObject rotatingSpikeHazaard;
 
     public System.Collections.IEnumerator SetupPrefabs()
     {
@@ -46,9 +47,18 @@ public class PrefabManager
 
         lifePlant = RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").FirstOrDefault().gameObject;
 
+        // Cache Rotating Spike Hazard From kwoloksCavernLeashGate
+
+        while (RuntimeHelper.FindObjectsOfTypeAll<AutoRotate>().Where(g => g.name == "rotatingObstacleA").Count() < 1) yield return new WaitForFixedUpdate();
+
+        rotatingSpikeHazaard = RuntimeHelper.FindObjectsOfTypeAll<AutoRotate>().Where(g => g.name == "rotatingObstacleA").FirstOrDefault().gameObject;
+
+
         MelonLogger.Msg("Life Plant Loaded");
 
         MelonLogger.Msg("Horn Bug Loaded");
+
+        MelonLogger.Msg("Rotating Spike Hazard Loaded");
 
 
         SceneManager.LoadScene("lumaSwampTransitionB", LoadSceneMode.Additive);

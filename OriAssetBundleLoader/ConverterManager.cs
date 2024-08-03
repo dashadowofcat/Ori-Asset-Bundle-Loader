@@ -22,6 +22,7 @@ public class ConverterManager
         Converters.Add("Mantis", new MantisConverter());
         Converters.Add("DamageDealer", new DamageDealerConverter());
         Converters.Add("TerrainDamageDealer", new TerrainDamageDealerConverter());
+        Converters.Add("RotatingSpikeHazard", new RotatingSpikeHazardConverter());
     }
 
     public void ConvertToWOTW(Transform parent)
