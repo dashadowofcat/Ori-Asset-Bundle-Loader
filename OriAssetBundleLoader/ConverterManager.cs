@@ -31,6 +31,18 @@ public class ConverterManager
         {
             ConvertAssetToWOTW(child.gameObject);
         }
+
+        foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == parent && m != parent))
+        {
+            GameObject Asset = child.gameObject;
+
+            if (Asset.GetComponent<Collider>())
+            {
+                ConvertColliderToWOTW(Asset);
+
+                return;
+            }
+        }
     }
 
 
@@ -41,13 +53,6 @@ public class ConverterManager
         if (Asset.GetComponent<MeshRenderer>())
         {
             ConvertRendererToWOTW(Asset);
-            return;
-        }
-
-        if (Asset.GetComponent<Collider>())
-        {
-            ConvertColliderToWOTW(Asset);
-
             return;
         }
     }

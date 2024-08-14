@@ -42,6 +42,10 @@ public class HornBugConverter : ElementConverter
 
         // initialize for level
 
+        EntityPlaceholderScalingLink ScalingLink = PlaceHolder.Prefab.GetComponent<EntityPlaceholderScalingLink>();
+
+        ScalingLink.ScalingData = null;
+
         PlaceHolder.SpawnOn = EntityPlaceholder.SpawnMode.AutoSpawn;
 
         GameObject.Destroy(PlaceHolder.PooledEntity);

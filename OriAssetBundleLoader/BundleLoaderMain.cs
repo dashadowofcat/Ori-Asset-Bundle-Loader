@@ -23,6 +23,8 @@ namespace OriAssetBundleLoader
 
         PrefabManager PrefabManager = new PrefabManager();
 
+        GameObject LatestLevelInstance;
+
         public override void OnInitializeMelon()
         {
 
@@ -60,6 +62,11 @@ namespace OriAssetBundleLoader
                 LoadLevel();
             }
 
+            if (InputManager.GetKeyDown(KeyCode.U))
+            {
+                LoadLevel();
+            }
+
             if (InputManager.GetKeyDown(KeyCode.Y))
             {
                 GameObject.Find("systems/scenesManager").GetComponent<GoToSceneController>().GoToScene("stressTestMaster");
@@ -69,6 +76,8 @@ namespace OriAssetBundleLoader
         public void LoadLevel()
         {
             GameObject Root = Bundle.LoadAsset<GameObject>("Level");
+
+            LatestLevelInstance = Root;
 
             GameObject obj = UnityEngine.Object.Instantiate(Root);
 
