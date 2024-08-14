@@ -62,9 +62,9 @@ namespace OriAssetBundleLoader
                 LoadLevel();
             }
 
-            if (InputManager.GetKeyDown(KeyCode.U))
+            if (InputManager.GetKeyDown(KeyCode.J))
             {
-                LoadLevel();
+                ReLoadLevel();
             }
 
             if (InputManager.GetKeyDown(KeyCode.Y))
@@ -77,11 +77,28 @@ namespace OriAssetBundleLoader
         {
             GameObject Root = Bundle.LoadAsset<GameObject>("Level");
 
-            LatestLevelInstance = Root;
+            GameObject obj = UnityEngine.Object.Instantiate(Root);
+
+            LatestLevelInstance = obj;
+
+            obj.transform.position = Settings.LevelSpawnPosition.transform.position;
+
+            UnityEngine.Object.DontDestroyOnLoad(obj);
+
+            ConverterManager.ConvertToWOTW(obj.transform);
+        }
+
+        public void ReLoadLevel()
+        {
+            GameObject Root = Bundle.LoadAsset<GameObject>("Level");
 
             GameObject obj = UnityEngine.Object.Instantiate(Root);
 
-            obj.transform.position = Settings.LevelSpawnPosition.transform.position;
+            obj.transform.position = LatestLevelInstance.transform.position;
+
+            GameObject.Destroy(LatestLevelInstance);
+
+            LatestLevelInstance = obj;
 
             UnityEngine.Object.DontDestroyOnLoad(obj);
 
