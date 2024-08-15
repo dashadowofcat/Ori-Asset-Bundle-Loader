@@ -53,13 +53,13 @@ public class PrefabManager
 
         // Cache Rotating Spike Hazard From kwoloksCavernLeashGate
 
-        
+        /*
         while (RuntimeHelper.FindObjectsOfTypeAll<AutoRotate>().Where(g => g.transform.parent.name == "midGroup" && g.name == "rotatingObstacleA (10)").Count() < 1) yield return new WaitForFixedUpdate();
 
         rotatingSpikeHazaard = RuntimeHelper.FindObjectsOfTypeAll<AutoRotate>().Where(g => g.transform.parent.name == "midGroup" && g.name == "rotatingObstacleA (5)").FirstOrDefault().gameObject;
 
         MelonLogger.Msg("Rotating Spike Hazard Loaded");
-        
+        */
 
         SceneManager.LoadScene("lumaSwampTransitionB", LoadSceneMode.Additive);
 
