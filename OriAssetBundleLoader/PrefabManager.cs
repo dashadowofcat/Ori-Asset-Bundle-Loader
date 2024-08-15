@@ -65,9 +65,9 @@ public class PrefabManager
 
         // Cache Shockwave Mantis From lumaSwampTransitionB
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); 
+        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "lumaSwampTransitionB" && g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); 
 
-        electricMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
+        electricMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "lumaSwampTransitionB" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
 
         MelonLogger.Msg("Electric Mantis Loaded");
 
@@ -76,9 +76,9 @@ public class PrefabManager
 
         // Cache Base Mantis From swampTorchIntroductionA
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate();
+        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate();
 
-        baseMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
+        baseMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
 
         MelonLogger.Msg("Base Mantis Loaded");
 
@@ -87,9 +87,9 @@ public class PrefabManager
 
         // Cache Green Mantis From kwoloksCavernBossRoom
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate();
+        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate();
 
-        greenMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
+        greenMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
 
         MelonLogger.Msg("Green Mantis Loaded");
 
