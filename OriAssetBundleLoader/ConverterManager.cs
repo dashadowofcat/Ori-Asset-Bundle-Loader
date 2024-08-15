@@ -61,11 +61,13 @@ public class ConverterManager
     {
         MeshRenderer ObjRenderer = Asset.GetComponent<MeshRenderer>();
 
+        Color ObjColor = ObjRenderer.material.color;
+
         Texture2D ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
 
         ObjRenderer.material = Settings.EnvironmentMaterial;
 
-        ObjRenderer.material.color = Settings.EnvironmentColor;
+        ObjRenderer.material.color = ObjColor * Settings.EnvironmentColor;
 
         ObjRenderer.material.mainTexture = ObjTexture;
 
