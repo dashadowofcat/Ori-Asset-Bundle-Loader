@@ -23,6 +23,7 @@ public class ConverterManager
         Converters.Add("DamageDealer", new DamageDealerConverter());
         Converters.Add("TerrainDamageDealer", new TerrainDamageDealerConverter());
         Converters.Add("RotatingSpikeHazard", new RotatingSpikeHazardConverter());
+        Converters.Add("AutoRotate", new AutoRotateConverter());
     }
 
     public void ConvertToWOTW(Transform parent)
