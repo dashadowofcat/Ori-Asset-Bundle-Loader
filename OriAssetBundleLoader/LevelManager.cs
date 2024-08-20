@@ -89,16 +89,11 @@ public class LevelManager
         RuntimeSceneMetaData stressTestMaster = ScenesManager.GetComponent<ScenesManager>().AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
 
         ScenesManager.GetComponent<GoToSceneController>().GoToScene(stressTestMaster, new Action(OnLoadStressTestMasterScene), false);
-
     }
 
     public static void LoadLevel()
     {
-        if(BundleLoaderMain.LatestLevelInstance != null)
-        {
-            ReLoadLevel();
-            return;
-        }
+        if(BundleLoaderMain.LatestLevelInstance != null) GameObject.Destroy(BundleLoaderMain.LatestLevelInstance);
 
         GameObject Root = BundleLoaderMain.Bundle.LoadAsset<GameObject>("Level");
 
@@ -113,28 +108,14 @@ public class LevelManager
         BundleLoaderMain.ConverterManager.ConvertToWOTW(obj.transform);
     }
 
-    public static void ReLoadLevel()
-    {
-        GameObject Root = BundleLoaderMain.Bundle.LoadAsset<GameObject>("Level");
-
-        GameObject obj = UnityEngine.Object.Instantiate(Root);
-
-        obj.transform.position = BundleLoaderMain.LatestLevelInstance.transform.position;
-
-        GameObject.Destroy(BundleLoaderMain.LatestLevelInstance);
-
-        BundleLoaderMain.LatestLevelInstance = obj;
-
-        UnityEngine.Object.DontDestroyOnLoad(obj);
-
-        BundleLoaderMain.ConverterManager.ConvertToWOTW(obj.transform);
-    }
-
     static bool SetSize = false;
     public static void OnLoadStressTestMasterScene()
     {
         GameObject.Find("seinCharacter").transform.position = Settings.PlayerSpawnPosition;
 
+        RuntimeHelper.FindObjectsOfTypeAll<GameplayCamera>().FirstOrDefault().MoveCameraToTargetInstantly(true);
+
+        if (!GameObject.Find("stressTestMaster")) return;
 
         GameObject ScenesManager = GameObject.Find("systems/scenesManager");
 
@@ -177,7 +158,7 @@ public class LevelManager
     {
         public string Text;
 
-        void Start()
+        void OnEnable()
         {
             TextBox text = GetComponent<TextBox>();
 

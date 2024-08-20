@@ -61,13 +61,5 @@ namespace OriAssetBundleLoader
 
             MelonCoroutines.Start(LevelManager.SetupPauseMenuElement());
         }
-
-        public override void OnUpdate()
-        {
-            if (InputManager.GetKeyDown(KeyCode.J))
-            {
-                LevelManager.ReLoadLevel();
-            }
-        }
     }
 }
