@@ -13,7 +13,8 @@ namespace OriAssetBundleLoader
 
         public static Material EnvironmentMaterial => GameObject.Find("seinCharacter/ori3D/mirrorHolder/rigHolder/oriRig/Model_GRP/body_MDL").GetComponent<SkinnedMeshRenderer>().material;
 
-        public static Transform LevelSpawnPosition => GameObject.Find("seinCharacter").transform;
-        
+        public static Vector3 LevelSpawnPosition = new Vector3(-333, -2313, 0);
+
+        public static Vector2 PlayerSpawnPosition = new Vector2();
     }
 }

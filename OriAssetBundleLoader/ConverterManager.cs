@@ -1,4 +1,6 @@
 ﻿using Il2Cpp;
+using Il2CppMoon;
+using Il2CppMoon.ArtOptimization;
 using OriAssetBundleLoader;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,7 @@ public class ConverterManager
         Converters.Add("TerrainDamageDealer", new TerrainDamageDealerConverter());
         Converters.Add("RotatingSpikeHazard", new RotatingSpikeHazardConverter());
         Converters.Add("AutoRotate", new AutoRotateConverter());
+        Converters.Add("SpawnPosition", new SpawnPositionConverter());
     }
 
     public void ConvertToWOTW(Transform parent)

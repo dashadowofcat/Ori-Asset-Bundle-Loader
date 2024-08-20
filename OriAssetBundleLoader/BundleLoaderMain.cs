@@ -12,18 +12,21 @@ using Il2CppSystem.IO;
 using UniverseLib.Input;
 using UniverseLib.Config;
 using MelonLoader.Utils;
+using Il2CppGame;
+using System.Collections;
+using Il2CppCatlikeCoding.TextBox;
 
 namespace OriAssetBundleLoader
 {
     public class BundleLoaderMain : MelonMod
     {
-        Il2CppAssetBundle Bundle;
+        public static Il2CppAssetBundle Bundle;
 
-        ConverterManager ConverterManager = new ConverterManager();
+        public static ConverterManager ConverterManager = new ConverterManager();
 
-        PrefabManager PrefabManager = new PrefabManager();
+        public static PrefabManager PrefabManager = new PrefabManager();
 
-        GameObject LatestLevelInstance;
+        public static GameObject LatestLevelInstance;
 
         public override void OnInitializeMelon()
         {
@@ -40,6 +43,8 @@ namespace OriAssetBundleLoader
                 });
             }
 
+            LevelManager.RegisterComponents();
+
             ConverterManager.SetupConverters();
 
             Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
@@ -53,56 +58,16 @@ namespace OriAssetBundleLoader
             if (sceneName != "wotwTitleScreen") return;
 
             MelonCoroutines.Start(PrefabManager.SetupPrefabs());
+
+            MelonCoroutines.Start(LevelManager.SetupPauseMenuElement());
         }
 
         public override void OnUpdate()
         {
-            if (InputManager.GetKeyDown(KeyCode.U))
-            {
-                LoadLevel();
-            }
-
             if (InputManager.GetKeyDown(KeyCode.J))
             {
-                ReLoadLevel();
+                LevelManager.ReLoadLevel();
             }
-
-            if (InputManager.GetKeyDown(KeyCode.Y))
-            {
-                GameObject.Find("systems/scenesManager").GetComponent<GoToSceneController>().GoToScene("stressTestMaster");
-            }
-        }
-        
-        public void LoadLevel()
-        {
-            GameObject Root = Bundle.LoadAsset<GameObject>("Level");
-
-            GameObject obj = UnityEngine.Object.Instantiate(Root);
-
-            LatestLevelInstance = obj;
-
-            obj.transform.position = Settings.LevelSpawnPosition.transform.position;
-
-            UnityEngine.Object.DontDestroyOnLoad(obj);
-
-            ConverterManager.ConvertToWOTW(obj.transform);
-        }
-
-        public void ReLoadLevel()
-        {
-            GameObject Root = Bundle.LoadAsset<GameObject>("Level");
-
-            GameObject obj = UnityEngine.Object.Instantiate(Root);
-
-            obj.transform.position = LatestLevelInstance.transform.position;
-
-            GameObject.Destroy(LatestLevelInstance);
-
-            LatestLevelInstance = obj;
-
-            UnityEngine.Object.DontDestroyOnLoad(obj);
-
-            ConverterManager.ConvertToWOTW(obj.transform);
         }
     }
 }
