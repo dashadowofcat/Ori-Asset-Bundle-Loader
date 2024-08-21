@@ -16,7 +16,10 @@ public class PrefabCachingManager
 
     public static Dictionary<string, GameObject> Prefabs = new Dictionary<string, GameObject>();
 
-
+    /// <summary>
+    /// registers a prefab to be cached into
+    /// the Prefabs dictionary
+    /// </summary>
     public static void RegisterPrefabToCache(string GameObjectName, string SceneName, Func<bool> FindCondition, Func<GameObject> GameObjectCondition, string FinishCacheMessage = "")
     {
         MelonCoroutines.Start(CachePrefab(GameObjectName, SceneName, FindCondition, GameObjectCondition, FinishCacheMessage));
@@ -59,7 +62,7 @@ public class PrefabCachingManager
 
         RegisterPrefabToCache("GreenMantis", "kwoloksCavernBossRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Green Mantis Loaded.");
 
-        // TO BE IMPLEMENTED
+        // not implemented yet
         // Cache Rotating Spike Hazard From kwoloksCavernLeashGate
 
         /*
