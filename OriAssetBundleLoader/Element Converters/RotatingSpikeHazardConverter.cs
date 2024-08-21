@@ -10,7 +10,7 @@ public class RotatingSpikeHazardConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        GameObject rotatingHazard = GameObject.Instantiate(PrefabManager.rotatingSpikeHazaard, Asset.transform);
+        GameObject rotatingHazard = GameObject.Instantiate(PrefabCachingManager.rotatingSpikeHazaard, Asset.transform);
 
         rotatingHazard.transform.localPosition = Vector3.zero;
 

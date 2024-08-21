@@ -101,13 +101,13 @@ public class LevelManager
 
     public static void LoadLevel()
     {
-        if(BundleLoaderMain.LatestLevelInstance != null) GameObject.Destroy(BundleLoaderMain.LatestLevelInstance);
+        if(BundleLoaderMain.LevelInstance != null) GameObject.Destroy(BundleLoaderMain.LevelInstance);
 
         GameObject Root = BundleLoaderMain.Bundle.LoadAsset<GameObject>("Level");
 
         GameObject obj = UnityEngine.Object.Instantiate(Root);
 
-        BundleLoaderMain.LatestLevelInstance = obj;
+        BundleLoaderMain.LevelInstance = obj;
 
         obj.transform.position = Settings.LevelSpawnPosition;
 

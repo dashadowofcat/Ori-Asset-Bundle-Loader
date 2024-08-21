@@ -26,7 +26,7 @@ namespace OriAssetBundleLoader
 
         public static PrefabManager PrefabManager = new PrefabManager();
 
-        public static GameObject LatestLevelInstance;
+        public static GameObject LevelInstance;
 
         public override void OnInitializeMelon()
         {

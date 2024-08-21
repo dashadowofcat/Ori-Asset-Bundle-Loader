@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UniverseLib;
 
-public class PrefabManager
+public class PrefabCachingManager
 {
     public static GameObject spring;
     public static GameObject lifePlant;

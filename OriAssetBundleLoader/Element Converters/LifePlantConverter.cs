@@ -13,7 +13,7 @@ public class LifePlantConverter : ElementConverter
     {
         MelonLogger.Warning("non-completed convertion, you can either ignore it or re-visit the development");
 
-        GameObject lifePlant = GameObject.Instantiate(PrefabManager.lifePlant, Asset.transform);
+        GameObject lifePlant = GameObject.Instantiate(PrefabCachingManager.lifePlant, Asset.transform);
 
         lifePlant.transform.localPosition = Vector3.zero;
 

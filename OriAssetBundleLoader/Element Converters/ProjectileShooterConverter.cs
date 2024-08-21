@@ -11,7 +11,7 @@ public class ProjectileShooterConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        GameObject projectileShooter = GameObject.Instantiate(PrefabManager.spring, Asset.transform);
+        GameObject projectileShooter = GameObject.Instantiate(PrefabCachingManager.spring, Asset.transform);
 
         projectileShooter.transform.localPosition = Vector3.zero;
 

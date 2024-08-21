@@ -10,7 +10,7 @@ public class HornBugConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        GameObject hornBug = GameObject.Instantiate(PrefabManager.hornBug, Asset.transform);
+        GameObject hornBug = GameObject.Instantiate(PrefabCachingManager.hornBug, Asset.transform);
 
         hornBug.transform.localPosition = Vector3.zero;
 
