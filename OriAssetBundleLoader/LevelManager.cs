@@ -29,6 +29,8 @@ public class LevelManager
     {
         while (RuntimeHelper.FindObjectsOfTypeAll<PauseScreen>().FirstOrDefault() == null) yield return new WaitForFixedUpdate();
 
+        // setup variables
+
         GameObject PauseScreen = RuntimeHelper.FindObjectsOfTypeAll<PauseScreen>().FirstOrDefault().gameObject;
 
         CleverMenuItemSelectionManager selectionManager = PauseScreen.GetComponent<CleverMenuItemSelectionManager>();
@@ -37,7 +39,11 @@ public class LevelManager
 
         GameObject OriginalButton = PauseScreen.transform.Find("faderRoot/items/options").gameObject;
 
+        // instantiate button;
+
         CleverMenuItem Button = GameObject.Instantiate(OriginalButton, layout.transform).GetComponent<CleverMenuItem>();
+
+        // setup button
 
         Button.name = "Visit Level";
 
@@ -49,6 +55,8 @@ public class LevelManager
         TextSetter setter = text.AddComponent<TextSetter>();
 
         setter.Text = "ENTER LEVEL";
+
+        // setup on pressed action sequence
 
         ActionSequence PressedSequence = Button.transform.Find("pressed").GetComponent<ActionSequence>();
 
@@ -158,12 +166,14 @@ public class LevelManager
     {
         public string Text;
 
-        void OnEnable()
-        {
-            TextBox text = GetComponent<TextBox>();
+        TextBox TextBox;
 
-            text.SetText(Text);
-            text.RefreshText();
+        void Update()
+        {
+            if (TextBox == null) TextBox = GetComponent<TextBox>();
+
+            TextBox.SetText(Text);
+            TextBox.RefreshText();
         }
     }
 }
