@@ -2,6 +2,7 @@
 using Il2CppMoon;
 using MelonLoader;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,45 +13,53 @@ using UniverseLib;
 
 public class PrefabCachingManager
 {
-    public static GameObject spring;
-    public static GameObject lifePlant;
-    public static GameObject hornBug;
-    public static GameObject electricMantis;
-    public static GameObject baseMantis;
-    public static GameObject greenMantis;
-    public static GameObject rotatingSpikeHazaard;
 
-    public System.Collections.IEnumerator SetupPrefabs()
+    public static Dictionary<string, GameObject> Prefabs = new Dictionary<string, GameObject>();
+
+
+    public static void RegisterPrefabToCache(string GameObjectName, string SceneName, Func<bool> FindCondition, Func<GameObject> GameObjectCondition, string FinishCacheMessage = "")
     {
-        SceneManager.LoadScene("springIntroCavernA", LoadSceneMode.Additive); // First load the scene that contains the object in question
+        MelonCoroutines.Start(CachePrefab(GameObjectName, SceneName, FindCondition, GameObjectCondition, FinishCacheMessage));
+    }
 
-        // Cache Spring Plant From springIntroCavernA
+    private static IEnumerator CachePrefab(string GameObjectName, string SceneName, Func<bool> FindCondition, Func<GameObject> GameObjectCondition, string FinishCacheMessage = "")
+    {
+        if(!SceneManager.GetSceneByName(SceneName).isLoaded) SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1) yield return new WaitForFixedUpdate();
+        while (FindCondition.Invoke()) yield return new WaitForFixedUpdate();
 
-        spring = RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject;
+        GameObject gameObject = GameObjectCondition.Invoke();
 
-        MelonLogger.Msg("Spring Loaded");
+        Prefabs.Add(GameObjectName, gameObject);
 
+        if(FinishCacheMessage != "") MelonLogger.Msg(FinishCacheMessage);
+    }
 
-        SceneManager.LoadScene("kwoloksCavernLeashGate", LoadSceneMode.Additive);
+    public static GameObject GetPrefab(string GameObjectName)
+    {
+        if(!Prefabs.ContainsKey(GameObjectName))
+        {
+            MelonLogger.Error($"{GameObjectName} does not exist in the Prefabs dictionary");
+        }
 
-        // Cache Horn Bug From kwoloksCavernLeashGate
+        return Prefabs[GameObjectName];
+    }
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); 
+    public void SetupPrefabs()
+    {
+        RegisterPrefabToCache("Spring", "springIntroCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject, "Spring Loaded.");
 
-        hornBug = RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject;
+        RegisterPrefabToCache("HornBug", "kwoloksCavernLeashGate", () => RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject, "Horn Bug Loaded.");
 
-        MelonLogger.Msg("Horn Bug Loaded");
+        RegisterPrefabToCache("LifePlant", "kwoloksCavernLeashGate", () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").FirstOrDefault().gameObject, "Life Plant Loaded.");
 
-        // Cache Life Plant From kwoloksCavernLeashGate
+        RegisterPrefabToCache("ElectricMantis", "lumaSwampTransitionB", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "lumaSwampTransitionB" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "lumaSwampTransitionB" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Electric Mantis Loaded.");
 
-        while (RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").Count() < 1) yield return new WaitForFixedUpdate();
+        RegisterPrefabToCache("BaseMantis", "swampTorchIntroductionA", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Base Mantis Loaded.");
 
-        lifePlant = RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").FirstOrDefault().gameObject;
+        RegisterPrefabToCache("GreenMantis", "kwoloksCavernBossRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Green Mantis Loaded.");
 
-        MelonLogger.Msg("Life Plant Loaded");
-
+        // TO BE IMPLEMENTED
         // Cache Rotating Spike Hazard From kwoloksCavernLeashGate
 
         /*
@@ -60,39 +69,5 @@ public class PrefabCachingManager
 
         MelonLogger.Msg("Rotating Spike Hazard Loaded");
         */
-
-        SceneManager.LoadScene("lumaSwampTransitionB", LoadSceneMode.Additive);
-
-        // Cache Shockwave Mantis From lumaSwampTransitionB
-
-        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "lumaSwampTransitionB" && g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate(); 
-
-        electricMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "lumaSwampTransitionB" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
-
-        MelonLogger.Msg("Electric Mantis Loaded");
-
-
-        SceneManager.LoadScene("swampTorchIntroductionA", LoadSceneMode.Additive);
-
-        // Cache Base Mantis From swampTorchIntroductionA
-
-        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate();
-
-        baseMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
-
-        MelonLogger.Msg("Base Mantis Loaded");
-
-
-        SceneManager.LoadScene("kwoloksCavernBossRoom", LoadSceneMode.Additive);
-
-        // Cache Green Mantis From kwoloksCavernBossRoom
-
-        while (RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").Count() < 1) yield return new WaitForFixedUpdate();
-
-        greenMantis = RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject;
-
-        MelonLogger.Msg("Green Mantis Loaded");
-
-
     }
 }

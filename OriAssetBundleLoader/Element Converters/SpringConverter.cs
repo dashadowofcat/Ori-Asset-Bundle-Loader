@@ -8,7 +8,7 @@ public class SpringConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        GameObject spring = GameObject.Instantiate(PrefabCachingManager.spring, Asset.transform);
+        GameObject spring = GameObject.Instantiate(PrefabCachingManager.GetPrefab("Spring"), Asset.transform);
 
         spring.transform.localPosition = Vector3.zero;
 

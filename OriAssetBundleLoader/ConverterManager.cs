@@ -36,7 +36,7 @@ public class ConverterManager
     /// </summary>
     public static void RegisterConverter(string GameObjectName, ElementConverter Converter)
     {
-        Converters.Add("SpawnPosition", new SpawnPositionConverter());
+        Converters.Add(GameObjectName, Converter);
     }
 
     public void ConvertToWOTW(Transform LevelParent)

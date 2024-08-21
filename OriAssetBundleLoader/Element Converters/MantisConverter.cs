@@ -20,15 +20,15 @@ public class MantisConverter : ElementConverter
         switch (MantisType)
         {
             case mantisType.Base:
-                mantis = GameObject.Instantiate(PrefabCachingManager.baseMantis, Asset.transform);
+                mantis = GameObject.Instantiate(PrefabCachingManager.GetPrefab("BaseMantis"), Asset.transform);
                 break;
 
             case mantisType.Green:
-                mantis = GameObject.Instantiate(PrefabCachingManager.greenMantis, Asset.transform);
+                mantis = GameObject.Instantiate(PrefabCachingManager.GetPrefab("GreenMantis"), Asset.transform);
                 break;
 
             case mantisType.Electric:
-                mantis = GameObject.Instantiate(PrefabCachingManager.electricMantis, Asset.transform);
+                mantis = GameObject.Instantiate(PrefabCachingManager.GetPrefab("ElectricMantis"), Asset.transform);
                 break;
         }
 

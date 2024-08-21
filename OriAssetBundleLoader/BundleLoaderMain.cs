@@ -24,7 +24,7 @@ namespace OriAssetBundleLoader
 
         public static ConverterManager ConverterManager = new ConverterManager();
 
-        public static PrefabManager PrefabManager = new PrefabManager();
+        public static PrefabCachingManager PrefabManager = new PrefabCachingManager();
 
         public static GameObject LevelInstance;
 
@@ -57,7 +57,7 @@ namespace OriAssetBundleLoader
         {
             if (sceneName != "wotwTitleScreen") return;
 
-            MelonCoroutines.Start(PrefabManager.SetupPrefabs());
+            PrefabManager.SetupPrefabs();
 
             MelonCoroutines.Start(LevelManager.SetupPauseMenuElement());
         }

@@ -12,8 +12,6 @@ public class TerrainDamageDealerConverter : ElementConverter
     {
         GameObject ColliderGameobject = Asset.transform.parent.Find("Collision").gameObject;
 
-
-
         DamageDealer damageDealer = ColliderGameobject.AddComponent<DamageDealer>();
 
         damageDealer.Damage = GetFloat(Asset, "DamageAmount");
