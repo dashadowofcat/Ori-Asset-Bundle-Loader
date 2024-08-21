@@ -12,7 +12,7 @@ using UniverseLib;
 
 public class ConverterManager
 {
-    public Dictionary<string, ElementConverter> Converters = new Dictionary<string, ElementConverter>();
+    public static Dictionary<string, ElementConverter> Converters = new Dictionary<string, ElementConverter>();
 
     public void SetupConverters()
     {
@@ -29,14 +29,24 @@ public class ConverterManager
         Converters.Add("SpawnPosition", new SpawnPositionConverter());
     }
 
-    public void ConvertToWOTW(Transform parent)
+
+    /// <summary>
+    /// registers a converter into the converter 
+    /// dictionary to be used in level loading
+    /// </summary>
+    public static void RegisterConverter(string GameObjectName, ElementConverter Converter)
     {
-        foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == parent && m != parent))
+        Converters.Add("SpawnPosition", new SpawnPositionConverter());
+    }
+
+    public void ConvertToWOTW(Transform LevelParent)
+    {
+        foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == LevelParent && m != LevelParent))
         {
             ConvertAssetToWOTW(child.gameObject);
         }
 
-        foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == parent && m != parent))
+        foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == LevelParent && m != LevelParent))
         {
             GameObject Asset = child.gameObject;
 
@@ -50,7 +60,7 @@ public class ConverterManager
     }
 
 
-    public void ConvertAssetToWOTW(GameObject Asset)
+    private void ConvertAssetToWOTW(GameObject Asset)
     {
         ConvertElementToWOTW(Asset);
 
@@ -61,7 +71,7 @@ public class ConverterManager
         }
     }
 
-    void ConvertRendererToWOTW(GameObject Asset)
+    private void ConvertRendererToWOTW(GameObject Asset)
     {
         MeshRenderer ObjRenderer = Asset.GetComponent<MeshRenderer>();
 
@@ -79,11 +89,11 @@ public class ConverterManager
         UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerTexture, null);
     }
 
-    void ConvertColliderToWOTW(GameObject Asset)
+    private void ConvertColliderToWOTW(GameObject Asset)
     {
         Asset.layer = 10;
     }
-    void ConvertElementToWOTW(GameObject Asset)
+    private void ConvertElementToWOTW(GameObject Asset)
     {
         if (!Converters.ContainsKey(Asset.name)) return;
 
