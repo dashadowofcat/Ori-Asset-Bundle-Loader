@@ -14,7 +14,7 @@ public class ConverterManager
 {
     public static Dictionary<string, ElementConverter> Converters = new Dictionary<string, ElementConverter>();
 
-    public static void RegisterConverters()
+    public void RegisterConverters()
     {
         RegisterConverter("Bash", new BashConverter());
         RegisterConverter("Leash", new LeashConverter());
