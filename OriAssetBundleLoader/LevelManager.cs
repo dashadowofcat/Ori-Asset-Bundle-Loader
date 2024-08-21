@@ -1,18 +1,12 @@
 ﻿using Il2Cpp;
 using Il2CppCatlikeCoding.TextBox;
 using Il2CppInterop.Runtime.Injection;
-using MelonLoader;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UniverseLib;
-using Il2CppInterop.Runtime;
 using OriAssetBundleLoader;
-using UnityEngine.Profiling.Memory.Experimental;
 using UnityEngine.SceneManagement;
 
 public class LevelManager

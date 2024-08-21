@@ -1,6 +1,7 @@
 ﻿using Il2Cpp;
 using Il2CppMoon;
 using MelonLoader;
+using OriAssetBundleLoader;
 using System;
 using System.Collections;
 using System.Collections.Generic;
