@@ -14,19 +14,19 @@ public class ConverterManager
 {
     public static Dictionary<string, ElementConverter> Converters = new Dictionary<string, ElementConverter>();
 
-    public void SetupConverters()
+    public void RegisterConverters()
     {
-        Converters.Add("Bash", new BashConverter());
-        Converters.Add("Leash", new LeashConverter());
-        Converters.Add("Spring", new SpringConverter());
-        Converters.Add("LifePlant", new LifePlantConverter());
-        Converters.Add("HornBug", new HornBugConverter());
-        Converters.Add("Mantis", new MantisConverter());
-        Converters.Add("DamageDealer", new DamageDealerConverter());
-        Converters.Add("TerrainDamageDealer", new TerrainDamageDealerConverter());
-        Converters.Add("RotatingSpikeHazard", new RotatingSpikeHazardConverter());
-        Converters.Add("AutoRotate", new AutoRotateConverter());
-        Converters.Add("SpawnPosition", new SpawnPositionConverter());
+        RegisterConverter("Bash", new BashConverter());
+        RegisterConverter("Leash", new LeashConverter());
+        RegisterConverter("Spring", new SpringConverter());
+        RegisterConverter("LifePlant", new LifePlantConverter());
+        RegisterConverter("HornBug", new HornBugConverter());
+        RegisterConverter("Mantis", new MantisConverter());
+        RegisterConverter("DamageDealer", new DamageDealerConverter());
+        RegisterConverter("TerrainDamageDealer", new TerrainDamageDealerConverter());
+        RegisterConverter("RotatingSpikeHazard", new RotatingSpikeHazardConverter());
+        RegisterConverter("AutoRotate", new AutoRotateConverter());
+        RegisterConverter("SpawnPosition", new SpawnPositionConverter());
     }
 
 
