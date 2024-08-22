@@ -49,7 +49,7 @@ public class PrefabCachingManager
         return Prefabs[GameObjectName];
     }
 
-    public void SetupPrefabs()
+    public void RegisterBuiltInPrefabs()
     {
         RegisterPrefabToCache("Spring", "springIntroCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject, "Spring Loaded.");
 
