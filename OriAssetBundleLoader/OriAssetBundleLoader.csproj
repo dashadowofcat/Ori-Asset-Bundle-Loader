@@ -103,6 +103,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BundleLoaderMain.cs" />
+    <Compile Include="Element Converters\TwoSlotDoorConverter.cs" />
+    <Compile Include="Element Converters\KeystoneConverter.cs" />
     <Compile Include="Element Converters\SpawnPositionConverter.cs" />
     <Compile Include="LevelManager.cs" />
     <Compile Include="ConverterManager.cs" />
