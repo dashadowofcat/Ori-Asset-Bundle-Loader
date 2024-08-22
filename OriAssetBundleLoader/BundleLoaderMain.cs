@@ -1,20 +1,11 @@
 ﻿using Il2Cpp;
 using Il2CppMoon;
 using MelonLoader;
-using System.Linq;
 using UnityEngine;
 using UniverseLib;
-using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using Il2CppSystem.Collections.Generic;
 using Il2CppSystem.IO;
-using UniverseLib.Input;
 using UniverseLib.Config;
 using MelonLoader.Utils;
-using Il2CppGame;
-using System.Collections;
-using Il2CppCatlikeCoding.TextBox;
 
 namespace OriAssetBundleLoader
 {
@@ -57,7 +48,7 @@ namespace OriAssetBundleLoader
         {
             if (sceneName != "wotwTitleScreen") return;
 
-            PrefabManager.SetupPrefabs();
+            PrefabManager.RegisterBuiltInPrefabs();
 
             MelonCoroutines.Start(LevelManager.SetupPauseMenuElement());
         }
