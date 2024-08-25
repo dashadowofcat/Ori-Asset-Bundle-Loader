@@ -19,14 +19,14 @@ public class ConverterManager
         RegisterConverter("Bash", new BashConverter());
         RegisterConverter("Leash", new LeashConverter());
         RegisterConverter("Spring", new SpringConverter());
-        RegisterConverter("LifePlant", new LifePlantConverter());
+        RegisterConverter("Life Plant", new LifePlantConverter());
         RegisterConverter("HornBug", new HornBugConverter());
         RegisterConverter("Mantis", new MantisConverter());
-        RegisterConverter("DamageDealer", new DamageDealerConverter());
+        RegisterConverter("Damage Dealer", new DamageDealerConverter());
         RegisterConverter("TerrainDamageDealer", new TerrainDamageDealerConverter());
         RegisterConverter("RotatingSpikeHazard", new RotatingSpikeHazardConverter());
-        RegisterConverter("AutoRotate", new AutoRotateConverter());
-        RegisterConverter("SpawnPosition", new SpawnPositionConverter());
+        RegisterConverter("Auto Rotate", new AutoRotateConverter());
+        RegisterConverter("Spawn Position", new SpawnPositionConverter());
     }
 
 
