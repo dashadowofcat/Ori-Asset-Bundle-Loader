@@ -67,7 +67,7 @@ public class PrefabCachingManager
         // Ben // Keystone seems to be loading properly but for some reason the game speed slows way down. Maybe it's performance related?
         // Ben // The keystone also isn't spawned in the test level when placed in the editor. I must be missing something.
 
-        RegisterPrefabToCache("TwoSlotDoor", "swampNightcrawlerCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").FirstOrDefault().gameObject, "Two Slot Door Loaded.");
+        //RegisterPrefabToCache("TwoSlotDoor", "swampNightcrawlerCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").FirstOrDefault().gameObject, "Two Slot Door Loaded.");
         // Ben // This is not loading correctly, I'm not sure which script too look for here. I thought there's a "doorWithTwoSlots" script but it doesn't autofill here.
 
 

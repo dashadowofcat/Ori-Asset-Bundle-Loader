@@ -21,6 +21,7 @@ public class ConverterManager
         RegisterConverter("Spring", new SpringConverter());
         RegisterConverter("Life Plant", new LifePlantConverter());
         RegisterConverter("HornBug", new HornBugConverter());
+        RegisterConverter("Keystone", new KeystoneConverter());
         RegisterConverter("Mantis", new MantisConverter());
         RegisterConverter("Damage Dealer", new DamageDealerConverter());
         RegisterConverter("TerrainDamageDealer", new TerrainDamageDealerConverter());
