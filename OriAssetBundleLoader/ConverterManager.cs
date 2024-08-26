@@ -20,6 +20,7 @@ public class ConverterManager
         RegisterConverter("Leash", new LeashConverter());
         RegisterConverter("Spring", new SpringConverter());
         RegisterConverter("Life Plant", new LifePlantConverter());
+        RegisterConverter("Energy Plant Medium", new EnergyPlantMediumConverter());
         RegisterConverter("HornBug", new HornBugConverter());
         RegisterConverter("Keystone", new KeystoneConverter());
         RegisterConverter("Mantis", new MantisConverter());

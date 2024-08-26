@@ -57,6 +57,8 @@ public class PrefabCachingManager
 
         RegisterPrefabToCache("LifePlant", "kwoloksCavernLeashGate", () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").FirstOrDefault().gameObject, "Life Plant Loaded.");
 
+        RegisterPrefabToCache("EnergyPlantMedium", "kwoloksCavernF", () => RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(g => g.name == "energyPlantMedium").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(g => g.name == "energyPlantMedium").FirstOrDefault().gameObject, "Energy Plant Medium Loaded.");
+
         RegisterPrefabToCache("ElectricMantis", "lumaSwampTransitionB", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "lumaSwampTransitionB" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "lumaSwampTransitionB" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Electric Mantis Loaded.");
 
         RegisterPrefabToCache("BaseMantis", "swampTorchIntroductionA", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Base Mantis Loaded.");
