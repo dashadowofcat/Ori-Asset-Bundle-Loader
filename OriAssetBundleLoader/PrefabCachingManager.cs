@@ -66,22 +66,7 @@ public class PrefabCachingManager
         RegisterPrefabToCache("GreenMantis", "kwoloksCavernBossRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Green Mantis Loaded.");
 
         RegisterPrefabToCache("Keystone", "swampWalljumpChallengeB", () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").FirstOrDefault().gameObject, "Keystone Loaded.");
-        // Ben // Keystone seems to be loading properly but for some reason the game speed slows way down. Maybe it's performance related?
-        // Ben // The keystone also isn't spawned in the test level when placed in the editor. I must be missing something.
 
         //RegisterPrefabToCache("TwoSlotDoor", "swampNightcrawlerCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").FirstOrDefault().gameObject, "Two Slot Door Loaded.");
-        // Ben // This is not loading correctly, I'm not sure which script too look for here. I thought there's a "doorWithTwoSlots" script but it doesn't autofill here.
-
-
-        // not implemented yet
-        // Cache Rotating Spike Hazard From kwoloksCavernLeashGate
-
-        /*
-        while (RuntimeHelper.FindObjectsOfTypeAll<AutoRotate>().Where(g => g.transform.parent.name == "midGroup" && g.name == "rotatingObstacleA (10)").Count() < 1) yield return new WaitForFixedUpdate();
-
-        rotatingSpikeHazaard = RuntimeHelper.FindObjectsOfTypeAll<AutoRotate>().Where(g => g.transform.parent.name == "midGroup" && g.name == "rotatingObstacleA (5)").FirstOrDefault().gameObject;
-
-        MelonLogger.Msg("Rotating Spike Hazard Loaded");
-        */
     }
 }

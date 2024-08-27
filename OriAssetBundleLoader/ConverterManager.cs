@@ -26,7 +26,6 @@ public class ConverterManager
         RegisterConverter("Mantis", new MantisConverter());
         RegisterConverter("Damage Dealer", new DamageDealerConverter());
         RegisterConverter("TerrainDamageDealer", new TerrainDamageDealerConverter());
-        RegisterConverter("RotatingSpikeHazard", new RotatingSpikeHazardConverter());
         RegisterConverter("Auto Rotate", new AutoRotateConverter());
         RegisterConverter("Spawn Position", new SpawnPositionConverter());
     }
