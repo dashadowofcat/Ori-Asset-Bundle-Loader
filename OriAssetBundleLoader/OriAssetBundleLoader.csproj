@@ -115,7 +115,6 @@
     <Compile Include="Element Converters\LifePlantConverter.cs" />
     <Compile Include="Element Converters\DamageDealerConverter.cs" />
     <Compile Include="Element Converters\ProjectileShooterConverter.cs" />
-    <Compile Include="Element Converters\RotatingSpikeHazardConverter.cs" />
     <Compile Include="Element Converters\TerrainDamageDealerConverter.cs" />
     <Compile Include="PrefabCachingManager.cs" />
     <Compile Include="Element Converters\BashConverter.cs" />
