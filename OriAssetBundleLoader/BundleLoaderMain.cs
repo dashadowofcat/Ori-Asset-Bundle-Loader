@@ -6,6 +6,7 @@ using UniverseLib;
 using Il2CppSystem.IO;
 using UniverseLib.Config;
 using MelonLoader.Utils;
+using UniverseLib.Input;
 
 namespace OriAssetBundleLoader
 {
@@ -51,6 +52,14 @@ namespace OriAssetBundleLoader
             PrefabManager.RegisterBuiltInPrefabs();
 
             MelonCoroutines.Start(LevelManager.SetupPauseMenuElement());
+        }
+
+        public override void OnUpdate()
+        {
+            if(InputManager.GetKeyDown(KeyCode.U))
+            {
+                LevelManager.LoadLevel();
+            }
         }
     }
 }

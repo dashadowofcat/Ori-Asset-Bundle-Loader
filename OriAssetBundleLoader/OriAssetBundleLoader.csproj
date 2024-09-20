@@ -59,6 +59,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\Il2Cpp__suspend.dll</HintPath>
     </Reference>
+    <Reference Include="Il2Cpp__uberSerialization, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\Il2Cpp__uberSerialization.dll</HintPath>
+    </Reference>
     <Reference Include="MelonLoader">
       <HintPath>..\..\..\..\Desktop\cell machine\MelonLoader\net6\MelonLoader.dll</HintPath>
     </Reference>
@@ -103,8 +107,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BundleLoaderMain.cs" />
+    <Compile Include="Element Converters\SlotDoorConverter.cs" />
     <Compile Include="Element Converters\EnergyPlantMediumConverter.cs" />
-    <Compile Include="Element Converters\TwoSlotDoorConverter.cs" />
     <Compile Include="Element Converters\KeystoneConverter.cs" />
     <Compile Include="Element Converters\SpawnPositionConverter.cs" />
     <Compile Include="LevelManager.cs" />

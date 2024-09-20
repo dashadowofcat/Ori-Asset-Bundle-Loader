@@ -28,6 +28,7 @@ public class ConverterManager
         RegisterConverter("TerrainDamageDealer", new TerrainDamageDealerConverter());
         RegisterConverter("Auto Rotate", new AutoRotateConverter());
         RegisterConverter("Spawn Position", new SpawnPositionConverter());
+        RegisterConverter("Four Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.FourSlot));
     }
 
 

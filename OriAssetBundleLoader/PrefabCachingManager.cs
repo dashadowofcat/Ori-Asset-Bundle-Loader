@@ -68,5 +68,7 @@ public class PrefabCachingManager
         RegisterPrefabToCache("Keystone", "swampWalljumpChallengeB", () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").FirstOrDefault().gameObject, "Keystone Loaded.");
 
         //RegisterPrefabToCache("TwoSlotDoor", "swampNightcrawlerCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").FirstOrDefault().gameObject, "Two Slot Door Loaded.");
+
+        RegisterPrefabToCache("FourSlotDoor", "baursReachWindTunnel", () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "door" && g.gameObject.scene.name == "baursReachWindTunnel").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "door" && g.gameObject.scene.name == "baursReachWindTunnel").FirstOrDefault().transform.parent.gameObject, "Four slot door Loaded.");
     }
 }
