@@ -20,9 +20,12 @@ public class SlotDoorConverter : ElementConverter
 
     public override void ConvertElement(GameObject Asset)
     {
+        MelonLogger.Warning("non-completed convertion (SlotDoorConverter), you can either ignore it or re-visit the development");
+
+        return;
+
+
         GameObject Door = null;
-
-
 
         Door = SpawnDoor(Asset, doorType);
 
