@@ -63,11 +63,10 @@ public class PrefabCachingManager
 
         RegisterPrefabToCache("BaseMantis", "swampTorchIntroductionA", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Base Mantis Loaded.");
 
+        RegisterPrefabToCache("YellowLeaper", "swampTorchIntroductionA", () => RuntimeHelper.FindObjectsOfTypeAll<TurtlePlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "turtleLizardPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<TurtlePlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "turtleLizardPlaceholder").FirstOrDefault().gameObject, "Yellow Leaper Loaded.");
+
         RegisterPrefabToCache("GreenMantis", "kwoloksCavernBossRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Green Mantis Loaded.");
 
         RegisterPrefabToCache("Keystone", "swampWalljumpChallengeB", () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").FirstOrDefault().gameObject, "Keystone Loaded.");
-
-        //RegisterPrefabToCache("TwoSlotDoor", "swampNightcrawlerCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "doorWithTwoSlots").FirstOrDefault().gameObject, "Two Slot Door Loaded.");
-        //RegisterPrefabToCache("FourSlotDoor", "baursReachWindTunnel", () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "door" && g.gameObject.scene.name == "baursReachWindTunnel").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonDoorWithSlots>().Where(g => g.name == "door" && g.gameObject.scene.name == "baursReachWindTunnel").FirstOrDefault().transform.parent.gameObject, "Four slot door Loaded.");
     }
 }
