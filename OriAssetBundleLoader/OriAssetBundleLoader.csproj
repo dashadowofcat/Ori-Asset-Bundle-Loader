@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BundleLoaderMain.cs" />
+    <Compile Include="Element Converters\MortarConverter.cs" />
     <Compile Include="Element Converters\LeaperConverter.cs" />
     <Compile Include="Element Converters\SlotDoorConverter.cs" />
     <Compile Include="Element Converters\EnergyPlantMediumConverter.cs" />

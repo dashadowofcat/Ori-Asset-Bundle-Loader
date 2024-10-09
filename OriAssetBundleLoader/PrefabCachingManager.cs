@@ -68,5 +68,7 @@ public class PrefabCachingManager
         RegisterPrefabToCache("GreenMantis", "kwoloksCavernBossRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Green Mantis Loaded.");
 
         RegisterPrefabToCache("Keystone", "swampWalljumpChallengeB", () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").FirstOrDefault().gameObject, "Keystone Loaded.");
+
+        RegisterPrefabToCache("Mortar", "kwoloksCavernUpperMainRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MortarPlaceholder>().Where(g => g.name == "mortarPlaceholder" && g.gameObject.scene.name == "kwoloksCavernUpperMainRoom").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MortarPlaceholder>().Where(g => g.name == "mortarPlaceholder" && g.gameObject.scene.name == "kwoloksCavernUpperMainRoom").FirstOrDefault().gameObject, "Mortar Loaded.");
     }
 }

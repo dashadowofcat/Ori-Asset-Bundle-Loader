@@ -29,6 +29,7 @@ public class ConverterManager
         RegisterConverter("Auto Rotate", new AutoRotateConverter());
         RegisterConverter("Spawn Position", new SpawnPositionConverter());
         RegisterConverter("Leaper", new LeaperConverter());
+        RegisterConverter("Mortar", new MortarConverter());
         RegisterConverter("Four Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.FourSlot));
         RegisterConverter("Two Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.TwoSlot));
     }
