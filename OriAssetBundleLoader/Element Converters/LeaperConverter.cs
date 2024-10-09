@@ -47,7 +47,11 @@ public class LeaperConverter : ElementConverter
 
         PlaceHolder.SpawnOn = EntityPlaceholder.SpawnMode.AutoSpawn;
 
-        GameObject.Destroy(PlaceHolder.PooledEntity);
+        try
+        {
+            GameObject.Destroy(PlaceHolder.PooledEntity);
+        }
+        catch { }
 
         PlaceHolder.SpawnOnGround = false;
 

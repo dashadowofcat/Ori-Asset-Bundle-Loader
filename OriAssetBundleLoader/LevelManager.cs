@@ -80,8 +80,6 @@ public class LevelManager
         PressedSequence.Actions.Add(ShowMainMenuAction);
     }
 
-
-
     public static void TeleportToLevel()
     {
         LoadLevel();
