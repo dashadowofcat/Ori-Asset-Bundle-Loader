@@ -37,7 +37,7 @@ namespace OriAssetBundleLoader
 
             LevelManager.RegisterComponents();
 
-            ConverterManager.RegisterConverters();
+            ConverterManager.RegisterBuiltInConverters();
 
             Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
         }
