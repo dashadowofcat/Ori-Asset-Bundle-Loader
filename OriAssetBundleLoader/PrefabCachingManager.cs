@@ -34,9 +34,11 @@ public class PrefabCachingManager
 
         GameObject gameObject = GameObjectCondition.Invoke();
 
-        Prefabs.Add(GameObjectName, gameObject);
+        Prefabs.Add(GameObjectName, GameObject.Instantiate(gameObject));
 
         if(FinishCacheMessage != "") MelonLogger.Msg(FinishCacheMessage);
+
+        SceneManager.UnloadSceneAsync(SceneName);
     }
 
     public static GameObject GetPrefab(string GameObjectName)
@@ -64,6 +66,8 @@ public class PrefabCachingManager
         RegisterPrefabToCache("BaseMantis", "swampTorchIntroductionA", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Base Mantis Loaded.");
 
         RegisterPrefabToCache("YellowLeaper", "swampTorchIntroductionA", () => RuntimeHelper.FindObjectsOfTypeAll<TurtlePlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "turtleLizardPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<TurtlePlaceholder>().Where(g => g.gameObject.scene.name == "swampTorchIntroductionA" && g.name == "turtleLizardPlaceholder").FirstOrDefault().gameObject, "Yellow Leaper Loaded.");
+
+        RegisterPrefabToCache("Slime", "kwoloksCavernH", () => RuntimeHelper.FindObjectsOfTypeAll<SlugPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernH" && g.name == "spikeSlugPlaceholder (1)").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<SlugPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernH" && g.name == "spikeSlugPlaceholder (1)").FirstOrDefault().gameObject, "Slime Loaded.");
 
         RegisterPrefabToCache("GreenMantis", "kwoloksCavernBossRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MantisPlaceholder>().Where(g => g.gameObject.scene.name == "kwoloksCavernBossRoom" && g.name == "mantisPlaceholder").FirstOrDefault().gameObject, "Green Mantis Loaded.");
 
