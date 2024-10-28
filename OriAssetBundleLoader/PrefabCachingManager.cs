@@ -57,7 +57,7 @@ public class PrefabCachingManager
 
         RegisterPrefabToCache("HornBug", "kwoloksCavernLeashGate", () => RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject, "Horn Bug Loaded.");
 
-        RegisterPrefabToCache("LifePlant", "kwoloksCavernLeashGate", () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs").FirstOrDefault().gameObject, "Life Plant Loaded.");
+        RegisterPrefabToCache("LifePlant", "swampNightcrawlerA", () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs" && g.gameObject.scene.name == "swampNightcrawlerA").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs" && g.gameObject.scene.name == "swampNightcrawlerA").FirstOrDefault().gameObject, "Life Plant Loaded.");
 
         RegisterPrefabToCache("EnergyPlantMedium", "kwoloksCavernF", () => RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(g => g.name == "energyPlantMedium").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(g => g.name == "energyPlantMedium").FirstOrDefault().gameObject, "Energy Plant Medium Loaded.");
 
@@ -75,4 +75,5 @@ public class PrefabCachingManager
 
         RegisterPrefabToCache("Mortar", "kwoloksCavernUpperMainRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MortarPlaceholder>().Where(g => g.name == "mortarPlaceholder" && g.gameObject.scene.name == "kwoloksCavernUpperMainRoom").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MortarPlaceholder>().Where(g => g.name == "mortarPlaceholder" && g.gameObject.scene.name == "kwoloksCavernUpperMainRoom").FirstOrDefault().gameObject, "Mortar Loaded.");
     }
+
 }

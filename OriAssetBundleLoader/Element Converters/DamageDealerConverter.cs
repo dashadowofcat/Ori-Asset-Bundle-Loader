@@ -20,6 +20,8 @@ public class DamageDealerConverter : ElementConverter
 
         Enum.TryParse<DamageType>(GetString(Asset, "DamageType"), out damageType);
 
+        damageDealer.DamageLayerMask = Il2CppMoon.DamageLayerMask.PlayerAndEnemy;
+
         damageDealer.DamageType = damageType;
 
         damageDealer.m_collider = Asset.GetComponent<Collider>();
