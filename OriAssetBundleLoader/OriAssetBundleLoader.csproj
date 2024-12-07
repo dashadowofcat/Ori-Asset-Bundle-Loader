@@ -59,6 +59,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\Il2Cpp__suspend.dll</HintPath>
     </Reference>
+    <Reference Include="Il2Cpp__timeline, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\Il2Cpp__timeline.dll</HintPath>
+    </Reference>
     <Reference Include="Il2Cpp__uberSerialization, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\Il2Cpp__uberSerialization.dll</HintPath>

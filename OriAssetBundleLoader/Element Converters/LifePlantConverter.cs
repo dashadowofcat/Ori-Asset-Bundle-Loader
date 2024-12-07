@@ -1,4 +1,5 @@
 ﻿using Il2Cpp;
+using Il2CppMoon.Timeline;
 using MelonLoader;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,17 @@ public class LifePlantConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        MelonLogger.Warning("non-completed convertion (LifePlant), you can either ignore it or re-visit the development");
-
         GameObject lifePlant = GameObject.Instantiate(PrefabCachingManager.GetPrefab("LifePlant"), Asset.transform);
 
         lifePlant.transform.localPosition = Vector3.zero;
 
+        MoonTimeline DeathTimeline = lifePlant.GetComponentInChildren<MoonTimeline>();
+
+        DeathTimeline.OnStartEvent += new Action(() => DeathTimeline.OnUpdateEntity(1));
+
         OrbSpawner orbSpawner = lifePlant.GetComponent<OrbSpawner>();
+
+        lifePlant.GetComponent<Respawner>().Respawn();
 
         orbSpawner.IdealOrbCount = this.GetInt(Asset, "IdealOrbs");
 
