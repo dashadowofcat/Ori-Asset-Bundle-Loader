@@ -24,8 +24,6 @@ public class LifePlantConverter : ElementConverter
 
         lifePlant.GetComponent<Respawner>().Respawn();
 
-        orbSpawner.IdealOrbCount = this.GetInt(Asset, "IdealOrbs");
-
         orbSpawner.NumberOfHealthOrbs = this.GetInt(Asset, "NumberOfHealthOrbs");
     }
 }
