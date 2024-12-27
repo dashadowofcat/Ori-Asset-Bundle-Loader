@@ -1,9 +1,5 @@
 ﻿using Il2Cpp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class TerrainDamageDealerConverter : ElementConverter
@@ -27,6 +23,8 @@ public class TerrainDamageDealerConverter : ElementConverter
         damageDealer.m_collider = ColliderGameobject.GetComponent<Collider>();
 
         damageDealer.m_hasMeshCollider = true;
+
+        ColliderGameobject.layer = 16;
     }
 }
 
