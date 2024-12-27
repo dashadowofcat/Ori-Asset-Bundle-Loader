@@ -55,6 +55,10 @@ public class PrefabCachingManager
     {
         RegisterPrefabToCache("Spring", "springIntroCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject, "Spring Loaded.");
 
+        RegisterPrefabToCache("FlingHook", "waterMillBGetLeash", () => RuntimeHelper.FindObjectsOfTypeAll<HookFlingPlant>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HookFlingPlant>().FirstOrDefault().transform.parent.gameObject, "Fling Hook Loaded.");
+
+        RegisterPrefabToCache("Hook", "waterMillBGetLeash", () => RuntimeHelper.FindObjectsOfTypeAll<HookPlant>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HookPlant>().FirstOrDefault().transform.parent.gameObject, "Hook Plant Loaded.");
+
         RegisterPrefabToCache("HornBug", "kwoloksCavernLeashGate", () => RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject, "Horn Bug Loaded.");
 
         RegisterPrefabToCache("LifePlant", "swampNightcrawlerA", () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs" && g.gameObject.scene.name == "swampNightcrawlerA").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<OrbSpawner>().Where(g => g.name == "landOnAndSpawnOrbs" && g.gameObject.scene.name == "swampNightcrawlerA").FirstOrDefault().gameObject, "Life Plant Loaded.");
