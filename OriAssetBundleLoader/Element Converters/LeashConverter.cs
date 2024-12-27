@@ -8,19 +8,19 @@ public class LeashConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        HookType HookType;
+        hookType HookType;
 
-        Enum.TryParse<HookType>(GetString(Asset, "HookType"), out HookType);
+        Enum.TryParse<hookType>(GetString(Asset, "HookType"), out HookType);
 
         GameObject hookGameObject = null;
 
         switch (HookType)
         {
-            case HookType.Sticky:
+            case hookType.Sticky:
                 hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("Hook"), Asset.transform);
                 break;
 
-            case HookType.Fling:
+            case hookType.Fling:
                 hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("FlingHook"), Asset.transform);
                 break;
         }
@@ -28,7 +28,7 @@ public class LeashConverter : ElementConverter
         HookFlingPlant Hook = hookGameObject.GetComponent<HookFlingPlant>();
     }
 
-    public enum HookType
+    public enum hookType
     {
         Sticky,
         Fling
