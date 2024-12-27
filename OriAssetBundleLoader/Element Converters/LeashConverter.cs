@@ -18,14 +18,18 @@ public class LeashConverter : ElementConverter
         {
             case hookType.Sticky:
                 hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("Hook"), Asset.transform);
+
+                hookGameObject.SetActive(true);
+
+                hookGameObject.transform.localPosition = Vector3.zero;
+
+                hookGameObject.GetComponent<DisableGameObjectWhenOutOfFrustrum>().OnFrustumEnter();
                 break;
 
             case hookType.Fling:
                 hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("FlingHook"), Asset.transform);
                 break;
         }
-
-        HookFlingPlant Hook = hookGameObject.GetComponent<HookFlingPlant>();
     }
 
     public enum hookType

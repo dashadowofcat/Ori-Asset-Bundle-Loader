@@ -32,9 +32,11 @@ public class PrefabCachingManager
 
         while (FindCondition.Invoke()) yield return new WaitForFixedUpdate();
 
-        GameObject gameObject = GameObjectCondition.Invoke();
+        GameObject gameObject = GameObject.Instantiate(GameObjectCondition.Invoke());
 
-        Prefabs.Add(GameObjectName, GameObject.Instantiate(gameObject));
+        GameObject.DontDestroyOnLoad(gameObject);
+
+        Prefabs.Add(GameObjectName, gameObject);
 
         if(FinishCacheMessage != "") MelonLogger.Msg(FinishCacheMessage);
 
