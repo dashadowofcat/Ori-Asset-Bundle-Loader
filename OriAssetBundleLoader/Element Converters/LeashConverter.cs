@@ -1,11 +1,6 @@
 ﻿using Il2Cpp;
-using Il2CppMoon;
 using System;
-using MelonLoader;
-using System.Linq;
 using UnityEngine;
-using UniverseLib;
-using static MantisConverter;
 
 
 
@@ -13,19 +8,19 @@ public class LeashConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        hookType HookType;
+        HookType HookType;
 
-        Enum.TryParse<hookType>(GetString(Asset, "HookType"), out HookType);
+        Enum.TryParse<HookType>(GetString(Asset, "HookType"), out HookType);
 
         GameObject hookGameObject = null;
 
         switch (HookType)
         {
-            case hookType.Sticky:
+            case HookType.Sticky:
                 hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("Hook"), Asset.transform);
                 break;
 
-            case hookType.Fling:
+            case HookType.Fling:
                 hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("FlingHook"), Asset.transform);
                 break;
         }
@@ -33,7 +28,7 @@ public class LeashConverter : ElementConverter
         HookFlingPlant Hook = hookGameObject.GetComponent<HookFlingPlant>();
     }
 
-    public enum hookType
+    public enum HookType
     {
         Sticky,
         Fling
