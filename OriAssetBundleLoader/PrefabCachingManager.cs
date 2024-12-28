@@ -59,6 +59,8 @@ public class PrefabCachingManager
 
         RegisterPrefabToCache("FlingHook", "waterMillBEntrance", () => RuntimeHelper.FindObjectsOfTypeAll<RigidbodySolverIterationsModifier>().Where(H => H.name == "swampLeashFlingLanternShort (2)" && H.gameObject.scene.name == "waterMillBEntrance").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<RigidbodySolverIterationsModifier>().Where(H => H.name == "swampLeashFlingLanternShort (2)" && H.gameObject.scene.name == "waterMillBEntrance").FirstOrDefault().gameObject, "Fling Hook Loaded.");
 
+        RegisterPrefabToCache("BashLantern", "wellspringTransitionA", () => RuntimeHelper.FindObjectsOfTypeAll<RigidbodySolverIterationsModifier>().Where(H => H.name == "lianaBashLanternNewShort" && H.gameObject.scene.name == "wellspringTransitionA").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<RigidbodySolverIterationsModifier>().Where(H => H.name == "lianaBashLanternNewShort" && H.gameObject.scene.name == "wellspringTransitionA").FirstOrDefault().gameObject, "Bash Lantern Loaded.");
+
         RegisterPrefabToCache("Hook", "waterMillBGetLeash", () => RuntimeHelper.FindObjectsOfTypeAll<HookPlant>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HookPlant>().FirstOrDefault().transform.parent.gameObject, "Hook Plant Loaded.");
 
         RegisterPrefabToCache("HornBug", "kwoloksCavernLeashGate", () => RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HornBugPlaceholder>().Where(g => g.name == "hornBugPlaceholder").FirstOrDefault().gameObject, "Horn Bug Loaded.");

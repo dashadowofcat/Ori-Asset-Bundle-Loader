@@ -8,8 +8,9 @@ public class BashConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        SpiritLantern lantern = Asset.AddComponent<SpiritLantern>();
+        GameObject bashGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("BashLantern"), Asset.transform.position, Quaternion.identity, Asset.transform);
 
-        lantern.OnBashSoundProvider = RuntimeHelper.FindObjectsOfTypeAll<Varying2DSoundProvider>().Where(S => S.name == "startDashForward").FirstOrDefault();
+        bashGameObject.SetActive(true);
+
     }
 }
