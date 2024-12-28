@@ -57,7 +57,7 @@ public class PrefabCachingManager
     {
         RegisterPrefabToCache("Spring", "springIntroCavernA", () => RuntimeHelper.FindObjectsOfTypeAll<Spring>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<Spring>().FirstOrDefault().transform.parent.gameObject, "Spring Loaded.");
 
-        RegisterPrefabToCache("FlingHook", "waterMillBGetLeash", () => RuntimeHelper.FindObjectsOfTypeAll<HookFlingPlant>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HookFlingPlant>().FirstOrDefault().transform.parent.gameObject, "Fling Hook Loaded.");
+        RegisterPrefabToCache("FlingHook", "waterMillBEntrance", () => RuntimeHelper.FindObjectsOfTypeAll<RigidbodySolverIterationsModifier>().Where(H => H.name == "swampLeashFlingLanternShort (2)" && H.gameObject.scene.name == "waterMillBEntrance").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<RigidbodySolverIterationsModifier>().Where(H => H.name == "swampLeashFlingLanternShort (2)" && H.gameObject.scene.name == "waterMillBEntrance").FirstOrDefault().gameObject, "Fling Hook Loaded.");
 
         RegisterPrefabToCache("Hook", "waterMillBGetLeash", () => RuntimeHelper.FindObjectsOfTypeAll<HookPlant>().Length < 1, () => RuntimeHelper.FindObjectsOfTypeAll<HookPlant>().FirstOrDefault().transform.parent.gameObject, "Hook Plant Loaded.");
 

@@ -27,7 +27,10 @@ public class LeashConverter : ElementConverter
                 break;
 
             case hookType.Fling:
-                hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("FlingHook"), Asset.transform);
+                hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("FlingHook"), Asset.transform.position, Quaternion.identity, Asset.transform);
+
+                hookGameObject.SetActive(true);
+
                 break;
         }
     }
