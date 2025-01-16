@@ -1,13 +1,15 @@
 ﻿using Il2Cpp;
+using System.Reflection;
 using System;
 using UnityEngine;
-
-
+using MelonLoader;
 
 public class LeashConverter : ElementConverter
 {
+
     public override void ConvertElement(GameObject Asset)
     {
+
         hookType HookType;
 
         Enum.TryParse<hookType>(GetString(Asset, "HookType"), out HookType);
@@ -27,13 +29,24 @@ public class LeashConverter : ElementConverter
                 break;
 
             case hookType.Fling:
+
+                PrefabCachingManager.GetPrefab("FlingHook").GetComponentInChildren<SkinningModifier>().enabled = false;
+
                 hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("FlingHook"), Asset.transform.position, Quaternion.identity, Asset.transform);
 
                 hookGameObject.SetActive(true);
 
+                SkinningModifier skinningModifier = hookGameObject.GetComponentInChildren<SkinningModifier>();
+
+                skinningModifier.m_oldMaterial = skinningModifier.GetComponent<Renderer>().material;
+
+                
+
                 break;
         }
     }
+
+
 
     public enum hookType
     {

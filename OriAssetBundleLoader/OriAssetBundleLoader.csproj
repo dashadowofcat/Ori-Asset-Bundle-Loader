@@ -115,7 +115,7 @@
     <Compile Include="Element Converters\MortarConverter.cs" />
     <Compile Include="Element Converters\LeaperConverter.cs" />
     <Compile Include="Element Converters\SlotDoorConverter.cs" />
-    <Compile Include="Element Converters\EnergyPlantMediumConverter.cs" />
+    <Compile Include="Element Converters\EnergyPlantConverter.cs" />
     <Compile Include="Element Converters\KeystoneConverter.cs" />
     <Compile Include="Element Converters\SpawnPositionConverter.cs" />
     <Compile Include="LevelManager.cs" />
