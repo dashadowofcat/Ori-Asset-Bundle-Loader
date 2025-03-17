@@ -130,8 +130,8 @@
     <Compile Include="Element Converters\BashConverter.cs" />
     <Compile Include="Element Converters\SpringConverter.cs" />
     <Compile Include="Element Converters\LeashConverter.cs" />
-    <Compile Include="Element Converters\ElementConverter.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Element Converters\Core\ElementConverter.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

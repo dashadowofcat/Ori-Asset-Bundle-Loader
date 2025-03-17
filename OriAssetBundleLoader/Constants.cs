@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OriAssetBundleLoader
 {
-    public static class Settings
+    public static class Constants
     {
         public static Color EnvironmentColor = new Color(1.8f, 1.6f, 1.4f);
 
@@ -16,5 +16,7 @@ namespace OriAssetBundleLoader
         public static Vector3 LevelSpawnPosition = new Vector3(-333, -2313, 0);
 
         public static Vector2 PlayerSpawnPosition = new Vector2();
+
+        public static float LevelBoundsEndlargeAmount = 5000;
     }
 }

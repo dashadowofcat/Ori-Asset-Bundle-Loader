@@ -86,9 +86,9 @@ public class ConverterManager
 
         Texture2D ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
 
-        ObjRenderer.material = Settings.EnvironmentMaterial;
+        ObjRenderer.material = Constants.EnvironmentMaterial;
 
-        ObjRenderer.material.color = ObjColor * Settings.EnvironmentColor;
+        ObjRenderer.material.color = ObjColor * Constants.EnvironmentColor;
 
         ObjRenderer.material.mainTexture = ObjTexture;
 

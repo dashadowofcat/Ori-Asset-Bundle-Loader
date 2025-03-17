@@ -101,7 +101,7 @@ public class LevelManager
 
         BundleLoaderMain.LevelInstance = obj;
 
-        obj.transform.position = Settings.LevelSpawnPosition;
+        obj.transform.position = Constants.LevelSpawnPosition;
 
         UnityEngine.Object.DontDestroyOnLoad(obj);
 
@@ -111,7 +111,7 @@ public class LevelManager
     static bool SetSize = false;
     public static void OnLoadStressTestMasterScene()
     {
-        GameObject.Find("seinCharacter").transform.position = Settings.PlayerSpawnPosition;
+        GameObject.Find("seinCharacter").transform.position = Constants.PlayerSpawnPosition;
 
         RuntimeHelper.FindObjectsOfTypeAll<GameplayCamera>().FirstOrDefault().MoveCameraToTargetInstantly(true);
 
@@ -125,7 +125,7 @@ public class LevelManager
         {
             Rect rect = metaData.SceneBoundaries[0];
 
-            float enlargeAmount = 1000;
+            float enlargeAmount = Constants.LevelBoundsEndlargeAmount;
 
             Rect newRect = new Rect(rect.x - enlargeAmount / 2, rect.y - enlargeAmount / 2, enlargeAmount, enlargeAmount);
 
