@@ -30,15 +30,13 @@ public class LeashConverter : ElementConverter
 
             case hookType.Fling:
 
-                PrefabCachingManager.GetPrefab("FlingHook").GetComponentInChildren<SkinningModifier>().enabled = false;
-
                 hookGameObject = GameObject.Instantiate(PrefabCachingManager.GetPrefab("FlingHook"), Asset.transform.position, Quaternion.identity, Asset.transform);
 
                 hookGameObject.SetActive(true);
 
                 SkinningModifier skinningModifier = hookGameObject.GetComponentInChildren<SkinningModifier>();
 
-                skinningModifier.m_oldMaterial = skinningModifier.GetComponent<Renderer>().material;
+                skinningModifier.m_oldMaterial = null;
 
                 
 
