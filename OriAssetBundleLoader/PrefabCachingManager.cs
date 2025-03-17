@@ -17,6 +17,16 @@ public class PrefabCachingManager
 
     public static Dictionary<string, GameObject> Prefabs = new Dictionary<string, GameObject>();
 
+    public static GameObject CacheHolder;
+
+
+    public void InitializeHolder()
+    {
+        CacheHolder = new GameObject("Prefab Cache Holder");
+
+        GameObject.DontDestroyOnLoad(CacheHolder);
+    }
+
     /// <summary>
     /// registers a prefab to be cached into
     /// the Prefabs dictionary
@@ -34,9 +44,11 @@ public class PrefabCachingManager
 
         GameObject gameObject = GameObject.Instantiate(GameObjectCondition.Invoke());
 
+        gameObject.transform.parent = CacheHolder.transform;
+
         GameObject.DontDestroyOnLoad(gameObject);
 
-        Prefabs.Add(GameObjectName, gameObject);
+        if(!Prefabs.ContainsKey(GameObjectName)) Prefabs.Add(GameObjectName, gameObject);
 
         if(FinishCacheMessage != "") MelonLogger.Msg(FinishCacheMessage);
 

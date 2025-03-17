@@ -45,13 +45,19 @@ namespace OriAssetBundleLoader
         void OnUniverseInit() { }
         void OnUniverseLog(string txt, LogType type) { }
 
+        private bool Initialized;
+
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            if (sceneName != "wotwTitleScreen") return;
+            if (sceneName != "wotwTitleScreen" || Initialized) return;
+
+            PrefabManager.InitializeHolder();
 
             PrefabManager.RegisterBuiltInPrefabs();
 
             MelonCoroutines.Start(LevelManager.SetupPauseMenuElement());
+
+            Initialized = true;
         }
 
         public override void OnUpdate()
