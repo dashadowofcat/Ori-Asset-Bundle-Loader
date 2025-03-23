@@ -8,6 +8,7 @@ using UnityEngine;
 using UniverseLib;
 using OriAssetBundleLoader;
 using UnityEngine.SceneManagement;
+using Il2CppMoon.Timeline;
 
 public class LevelManager
 {
@@ -109,9 +110,9 @@ public class LevelManager
     }
 
     static bool SetSize = false;
-    public static void OnLoadStressTestMasterScene()
+    static void OnLoadStressTestMasterScene()
     {
-        GameObject.Find("seinCharacter").transform.position = Constants.PlayerSpawnPosition;
+        GameObject.Find("seinCharacter").transform.position = LevelSettings.PlayerSpawnPosition;
 
         RuntimeHelper.FindObjectsOfTypeAll<GameplayCamera>().FirstOrDefault().MoveCameraToTargetInstantly(true);
 
@@ -137,6 +138,27 @@ public class LevelManager
         }
 
         SceneManager.UnloadSceneAsync("stressTestMaster");
+
+        SetupLevelTitle();
+    }
+
+    static void SetupLevelTitle()
+    {
+        GameObject AreaTitle = GameObject.Instantiate(PrefabCachingManager.GetPrefab("AreaTextTimeline"));
+
+        ShowAreaMessageAnimatorEntity AreaTitleAnimator = AreaTitle.GetComponentInChildren<ShowAreaMessageAnimatorEntity>();
+
+        TranslatedMessageProvider TitleMessage = new TranslatedMessageProvider();
+
+        TranslatedMessageProvider.MessageItem item = new TranslatedMessageProvider.MessageItem();
+
+        item.English = LevelSettings.LevelTitle;
+
+        TitleMessage.Messages.Add(item);
+
+        AreaTitleAnimator.Message = TitleMessage;
+
+        AreaTitle.GetComponent<MoonTimeline>().StartPlayback();
     }
 
     class TeleportToLevelOnActivate : MonoBehaviour

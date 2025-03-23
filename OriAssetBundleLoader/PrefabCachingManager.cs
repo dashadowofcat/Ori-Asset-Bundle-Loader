@@ -1,16 +1,13 @@
 ﻿using Il2Cpp;
-using Il2CppMoon;
 using MelonLoader;
-using OriAssetBundleLoader;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UniverseLib;
+using Il2CppMoon.Timeline;
 
 public class PrefabCachingManager
 {
@@ -94,6 +91,8 @@ public class PrefabCachingManager
         RegisterPrefabToCache("Keystone", "swampWalljumpChallengeB", () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<KeystonePickup>().Where(g => g.name == "keystone").FirstOrDefault().gameObject, "Keystone Loaded.");
 
         RegisterPrefabToCache("Mortar", "kwoloksCavernUpperMainRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MortarPlaceholder>().Where(g => g.name == "mortarPlaceholder" && g.gameObject.scene.name == "kwoloksCavernUpperMainRoom").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MortarPlaceholder>().Where(g => g.name == "mortarPlaceholder" && g.gameObject.scene.name == "kwoloksCavernUpperMainRoom").FirstOrDefault().gameObject, "Mortar Loaded.");
+
+        RegisterPrefabToCache("AreaTextTimeline", "baursReachA", () => RuntimeHelper.FindObjectsOfTypeAll<MoonTimeline>().Where(g => g.name == "timeline" && g.gameObject.scene.name == "baursReachA" && g.transform.parent.name == "areaTextZone").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonTimeline>().Where(g => g.name == "timeline" && g.gameObject.scene.name == "baursReachA" && g.transform.parent.name == "areaTextZone").FirstOrDefault().gameObject, "Area Text Loaded.");
     }
 
 }

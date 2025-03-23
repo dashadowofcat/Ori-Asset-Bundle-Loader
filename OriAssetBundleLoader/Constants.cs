@@ -15,8 +15,6 @@ namespace OriAssetBundleLoader
 
         public static Vector3 LevelSpawnPosition = new Vector3(-333, -2313, 0);
 
-        public static Vector2 PlayerSpawnPosition = new Vector2();
-
         public static float LevelBoundsEndlargeAmount = 5000;
 
         public static Vector3 CachedPrefabsLocation = new Vector3(0, 999, 0);
