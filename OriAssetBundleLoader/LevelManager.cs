@@ -107,13 +107,17 @@ public class LevelManager
         UnityEngine.Object.DontDestroyOnLoad(obj);
 
         BundleLoaderMain.ConverterManager.ConvertToWOTW(obj.transform);
+
+        SetupLevelTitle();
+
+        DelayedActionManager.Instance.ExecuteAfter(.01f, new Action(EnterLevel));
     }
+
+    static void EnterLevel() => GameObject.Find("seinCharacter").transform.position = LevelSettings.PlayerSpawnPosition;
 
     static bool SetSize = false;
     static void OnLoadStressTestMasterScene()
     {
-        GameObject.Find("seinCharacter").transform.position = LevelSettings.PlayerSpawnPosition;
-
         RuntimeHelper.FindObjectsOfTypeAll<GameplayCamera>().FirstOrDefault().MoveCameraToTargetInstantly(true);
 
         if (!GameObject.Find("stressTestMaster")) return;
@@ -138,8 +142,6 @@ public class LevelManager
         }
 
         SceneManager.UnloadSceneAsync("stressTestMaster");
-
-        SetupLevelTitle();
     }
 
     static void SetupLevelTitle()
