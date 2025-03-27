@@ -50,6 +50,7 @@ public class LeaperConverter : ElementConverter
         try
         {
             GameObject.Destroy(PlaceHolder.PooledEntity);
+            GameObject.Destroy(PlaceHolder.CurrentEntity);
         }
         catch { }
 
@@ -58,6 +59,6 @@ public class LeaperConverter : ElementConverter
 
         // spawn
 
-        PlaceHolder.Invoke("Spawn", 0f);
+        PlaceHolder.Invoke("Spawn", 0.01f);
     }
 }

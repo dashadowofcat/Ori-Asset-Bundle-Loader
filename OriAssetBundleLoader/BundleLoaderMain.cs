@@ -18,8 +18,6 @@ namespace OriAssetBundleLoader
 
         public static PrefabCachingManager PrefabManager = new PrefabCachingManager();
 
-        public static GameObject LevelInstance;
-
         public override void OnInitializeMelon()
         {
 

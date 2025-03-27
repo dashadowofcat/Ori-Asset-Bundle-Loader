@@ -49,12 +49,13 @@ public class HornBugConverter : ElementConverter
         PlaceHolder.SpawnOn = EntityPlaceholder.SpawnMode.AutoSpawn;
 
         GameObject.Destroy(PlaceHolder.PooledEntity);
+        GameObject.Destroy(PlaceHolder.CurrentEntity);
 
         PlaceHolder.SpawnOnGround = false;
 
         // spawn
 
-        PlaceHolder.Invoke("Spawn", 0f);
+        PlaceHolder.Invoke("Spawn", 0.01f);
     }
 
     public enum hornBugType

@@ -49,6 +49,7 @@ public class SlimeConverter : ElementConverter
         try
         {
             GameObject.Destroy(PlaceHolder.PooledEntity);
+            GameObject.Destroy(PlaceHolder.CurrentEntity);
         }
         catch { }
 
@@ -57,6 +58,6 @@ public class SlimeConverter : ElementConverter
 
         // spawn
 
-        PlaceHolder.Invoke("Spawn", 0f);
+        PlaceHolder.Invoke("Spawn", 0.01f);
     }
 }

@@ -11,7 +11,7 @@ public class SpawnPositionConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        LevelSettings.PlayerSpawnPosition = Asset.transform.position;
+        LevelInstanceSettings.PlayerSpawnPosition = Asset.transform.position;
     }
 }
 

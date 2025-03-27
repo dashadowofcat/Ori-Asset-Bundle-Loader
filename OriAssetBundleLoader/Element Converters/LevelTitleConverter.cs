@@ -4,7 +4,8 @@ public class LevelTitleConverter : ElementConverter
 {
     public override void ConvertElement(GameObject Asset)
     {
-        LevelSettings.LevelTitle = GetString(Asset, "Title");
+        LevelInstanceSettings.ShowLevelTitle = true;
+        LevelInstanceSettings.LevelTitle = GetString(Asset, "Title");
     }
 }
 

@@ -13,6 +13,8 @@ using Il2CppMoon.Timeline;
 public class LevelManager
 {
 
+    public static GameObject LevelInstance;
+
     public static void RegisterComponents()
     {
         ClassInjector.RegisterTypeInIl2Cpp<TextSetter>();
@@ -94,27 +96,38 @@ public class LevelManager
 
     public static void LoadLevel()
     {
-        if(BundleLoaderMain.LevelInstance != null) GameObject.Destroy(BundleLoaderMain.LevelInstance);
+        if(LevelInstance != null) GameObject.Destroy(LevelInstance);
+
+        LevelInstanceSettings.ResetSettings();
 
         GameObject Root = BundleLoaderMain.Bundle.LoadAsset<GameObject>("Level");
 
-        GameObject obj = UnityEngine.Object.Instantiate(Root);
+        GameObject level = UnityEngine.Object.Instantiate(Root);
 
-        BundleLoaderMain.LevelInstance = obj;
+        LevelInstance = level;
 
-        obj.transform.position = Constants.LevelSpawnPosition;
+        level.transform.position = Constants.LevelSpawnPosition;
 
-        UnityEngine.Object.DontDestroyOnLoad(obj);
+        UnityEngine.Object.DontDestroyOnLoad(level);
 
-        BundleLoaderMain.ConverterManager.ConvertToWOTW(obj.transform);
+        BundleLoaderMain.ConverterManager.ConvertToWOTW(level.transform);
 
         SetupLevelTitle();
+
+        DelayedActionManager.Instance.ExecuteAfter(.03f, new Action(EnterLevel));
+    }
+
+    static void EnterLevel()
+    {
+        GameplayCamera camera = RuntimeHelper.FindObjectsOfTypeAll<GameplayCamera>().FirstOrDefault();
+
+        GameObject.Find("seinCharacter").transform.position = LevelInstanceSettings.PlayerSpawnPosition;
+        camera.MoveCameraToTargetInstantly(true);
     }
 
     static bool SetSize = false;
     static void OnLoadStressTestMasterScene()
     {
-        RuntimeHelper.FindObjectsOfTypeAll<GameplayCamera>().FirstOrDefault().MoveCameraToTargetInstantly(true);
 
         if (!GameObject.Find("stressTestMaster")) return;
 
@@ -138,8 +151,6 @@ public class LevelManager
         }
 
         SceneManager.UnloadSceneAsync("stressTestMaster");
-
-        GameObject.Find("seinCharacter").transform.position = LevelSettings.PlayerSpawnPosition;
     }
 
     static void SetupLevelTitle()
@@ -152,7 +163,7 @@ public class LevelManager
 
         TranslatedMessageProvider.MessageItem item = new TranslatedMessageProvider.MessageItem();
 
-        item.English = LevelSettings.LevelTitle;
+        item.English = LevelInstanceSettings.LevelTitle;
 
         TitleMessage.Messages.Add(item);
 
