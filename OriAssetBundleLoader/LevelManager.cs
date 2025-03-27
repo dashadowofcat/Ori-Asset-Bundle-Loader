@@ -112,7 +112,7 @@ public class LevelManager
 
         BundleLoaderMain.ConverterManager.ConvertToWOTW(level.transform);
 
-        SetupLevelTitle();
+        if(LevelInstanceSettings.ShowLevelTitle) ShowLevelTitle();
 
         DelayedActionManager.Instance.ExecuteAfter(.03f, new Action(EnterLevel));
     }
@@ -153,7 +153,7 @@ public class LevelManager
         SceneManager.UnloadSceneAsync("stressTestMaster");
     }
 
-    static void SetupLevelTitle()
+    static void ShowLevelTitle()
     {
         GameObject AreaTitle = GameObject.Instantiate(PrefabCachingManager.GetPrefab("AreaTextTimeline"));
 
