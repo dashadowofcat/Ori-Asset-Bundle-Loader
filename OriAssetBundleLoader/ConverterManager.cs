@@ -31,6 +31,7 @@ public class ConverterManager
         RegisterConverter("Leaper", new LeaperConverter());
         RegisterConverter("Mortar", new MortarConverter());
         RegisterConverter("Slime", new SlimeConverter());
+        RegisterConverter("Level Title", new LevelTitleConverter());
 
         RegisterConverter("Four Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.FourSlot));
         RegisterConverter("Two Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.TwoSlot));

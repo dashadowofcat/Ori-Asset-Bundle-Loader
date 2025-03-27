@@ -109,11 +109,7 @@ public class LevelManager
         BundleLoaderMain.ConverterManager.ConvertToWOTW(obj.transform);
 
         SetupLevelTitle();
-
-        DelayedActionManager.Instance.ExecuteAfter(.01f, new Action(EnterLevel));
     }
-
-    static void EnterLevel() => GameObject.Find("seinCharacter").transform.position = LevelSettings.PlayerSpawnPosition;
 
     static bool SetSize = false;
     static void OnLoadStressTestMasterScene()
@@ -142,6 +138,8 @@ public class LevelManager
         }
 
         SceneManager.UnloadSceneAsync("stressTestMaster");
+
+        GameObject.Find("seinCharacter").transform.position = LevelSettings.PlayerSpawnPosition;
     }
 
     static void SetupLevelTitle()
