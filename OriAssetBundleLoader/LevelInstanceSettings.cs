@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class LevelInstanceSettings
 {
-    public static Vector2 PlayerSpawnPosition = new Vector2();
+    public static Vector2 PlayerSpawnPosition;
 
-    public static string LevelTitle = "Example Title";
-    public static bool ShowLevelTitle = false;
+    public static string LevelTitle;
+    public static bool ShowLevelTitle;
 
     public static void ResetSettings()
     {
