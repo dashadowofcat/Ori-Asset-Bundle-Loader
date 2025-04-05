@@ -38,6 +38,8 @@ namespace OriAssetBundleLoader
             ConverterManager.RegisterBuiltInConverters();
 
             Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/assets/ori");
+
+            LevelManager.FindLevelFiles();
         }
 
         void OnUniverseInit() { }
@@ -62,7 +64,10 @@ namespace OriAssetBundleLoader
         {
             if(InputManager.GetKeyDown(KeyCode.U))
             {
-                LevelManager.LoadLevel();
+                MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
+                string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
+
+                LevelManager.LoadLevelFromJSON(json);
             }
         }
     }

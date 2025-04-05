@@ -91,6 +91,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Managed\UnityEngine.Il2CppAssetBundleManager.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\..\DialogueMod\DialogueMod\bin\Debug\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
@@ -128,6 +132,7 @@
     <Compile Include="Element Converters\LifePlantConverter.cs" />
     <Compile Include="Element Converters\DamageDealerConverter.cs" />
     <Compile Include="Element Converters\TerrainDamageDealerConverter.cs" />
+    <Compile Include="MeshGenerator.cs" />
     <Compile Include="PrefabCachingManager.cs" />
     <Compile Include="Element Converters\BashConverter.cs" />
     <Compile Include="Element Converters\SpringConverter.cs" />

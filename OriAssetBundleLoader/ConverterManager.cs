@@ -1,6 +1,7 @@
 ﻿using Il2Cpp;
 using Il2CppMoon;
 using Il2CppMoon.ArtOptimization;
+using MelonLoader;
 using OriAssetBundleLoader;
 using System;
 using System.Collections.Generic;
@@ -81,17 +82,29 @@ public class ConverterManager
 
     private void ConvertRendererToWOTW(GameObject Asset)
     {
+        if (Asset == null) return;
+
         MeshRenderer ObjRenderer = Asset.GetComponent<MeshRenderer>();
+        if (ObjRenderer == null) return;
 
-        Color ObjColor = ObjRenderer.material.color;
+        if(ObjRenderer.material != null)
+        {
+            Color ObjColor = ObjRenderer.material.color;
+            Texture2D ObjTexture = null;
+            if(ObjRenderer.material.mainTexture != null)
+                ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
 
-        Texture2D ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
+            ObjRenderer.material = Constants.EnvironmentMaterial;
+            ObjRenderer.material.color = ObjColor * Constants.EnvironmentColor;
 
-        ObjRenderer.material = Constants.EnvironmentMaterial;
-
-        ObjRenderer.material.color = ObjColor * Constants.EnvironmentColor;
-
-        ObjRenderer.material.mainTexture = ObjTexture;
+            if(ObjTexture != null)
+                ObjRenderer.material.mainTexture = ObjTexture;
+        }
+        else
+        {
+            ObjRenderer.material = Constants.EnvironmentMaterial;
+            ObjRenderer.material.color = Constants.EnvironmentColor;
+        }
 
         UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerMaskTexture, null);
         UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerTexture, null);

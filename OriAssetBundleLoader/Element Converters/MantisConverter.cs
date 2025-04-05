@@ -74,7 +74,7 @@ public class MantisConverter : ElementConverter
 
         // spawn
 
-        PlaceHolder.Invoke("Spawn", 0.01f);
+        PlaceHolder.Invoke("Spawn", 0.1f);
     }
 
     public enum mantisType
