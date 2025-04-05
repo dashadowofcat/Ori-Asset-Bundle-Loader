@@ -50,20 +50,22 @@ public class ConverterManager
 
     public void ConvertToWOTW(Transform LevelParent)
     {
+        MelonLogger.Msg("Converting assets to WotW...");
         foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == LevelParent && m != LevelParent))
         {
+            //MelonLogger.Msg("  " + child.gameObject.name);
             ConvertAssetToWOTW(child.gameObject);
         }
 
+        MelonLogger.Msg("Converting colliders to WotW...");
         foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == LevelParent && m != LevelParent))
         {
             GameObject Asset = child.gameObject;
+            //MelonLogger.Msg("  " + Asset.name);
 
             if (Asset.GetComponent<Collider>())
             {
                 ConvertColliderToWOTW(Asset);
-
-                return;
             }
         }
     }
@@ -113,6 +115,17 @@ public class ConverterManager
     private void ConvertColliderToWOTW(GameObject Asset)
     {
         Asset.layer = 10;
+
+        //MelonLogger.Msg("Checking if " + Asset.name + " has GoThrough object...");
+        Transform goThroughObj = Asset.transform.FindChild("GoThrough");
+        if (goThroughObj != null)
+        {
+            //MelonLogger.Msg("Adding GoThroughPlatform component...");
+            GoThroughPlatform goThroughPlatform = Asset.AddComponent<GoThroughPlatform>();
+            if (!GoThroughPlatformManager.GoThroughPlatforms.Contains(goThroughPlatform))
+                GoThroughPlatformManager.Register(goThroughPlatform);
+            goThroughPlatform.enabled = true;
+        }
     }
     private void ConvertElementToWOTW(GameObject Asset)
     {

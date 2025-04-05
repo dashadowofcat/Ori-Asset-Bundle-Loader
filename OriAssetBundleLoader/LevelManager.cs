@@ -210,10 +210,12 @@ public class LevelManager
                 string colliderType = collider["type"];
                 Vector2[] colliderPoints = collider["points"].Make<Vector2[]>();
                 Color colliderColor = collider["color"].Make<Color>();
+                bool goThrough = collider["goThrough"];
 
                 MelonLogger.Msg("Collider Type: " + colliderType);
                 MelonLogger.Msg("Collider Points Size: " + colliderPoints.Length);
                 MelonLogger.Msg("Collider Color: " + colliderColor);
+                MelonLogger.Msg("Collider GoThrough: " + goThrough);
 
                 GameObject colliderObj = new GameObject("collider");
                 colliderObj.transform.parent = level.transform;
@@ -279,7 +281,7 @@ public class LevelManager
                     mesh.RecalculateBounds();
 
                     ColliderGameObject.AddComponent<MeshFilter>().sharedMesh = mesh;
-                    ColliderGameObject.AddComponent<MeshCollider>();
+                    MeshCollider meshCollider = ColliderGameObject.AddComponent<MeshCollider>();
 
                     foreach (MeshFilter colliderMesh in ColliderMeshes)
                     {
@@ -301,6 +303,11 @@ public class LevelManager
                         meshRenderer.sharedMaterial.color = colliderColor;
 
                         meshFilter.mesh = SplineMesh;
+                    }
+
+                    if (goThrough)
+                    {
+                        CreateGameObjectProperty("GoThrough", "true", ColliderGameObject.transform);
                     }
                 }
             }
