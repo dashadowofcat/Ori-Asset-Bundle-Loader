@@ -64,10 +64,11 @@ namespace OriAssetBundleLoader
         {
             if(InputManager.GetKeyDown(KeyCode.U))
             {
-                MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
-                string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
+                //MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
+                //string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
 
-                LevelManager.LoadLevelFromJSON(json);
+                //LevelManager.LoadLevelFromJSON(json);
+                LevelManager.LoadLevel();
             }
         }
     }

@@ -98,11 +98,12 @@ public class LevelManager
 
     public static void TeleportToLevel()
     {
-        //LoadLevel();
-        MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
-        string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
+        LoadLevel();
 
-        LevelManager.LoadLevelFromJSON(json);
+        //MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
+        //string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
+
+        //LevelManager.LoadLevelFromJSON(json);
 
         GameObject ScenesManager = GameObject.Find("systems/scenesManager");
 
@@ -113,7 +114,7 @@ public class LevelManager
 
     public static void LoadLevel()
     {
-        if(LevelInstance != null) GameObject.Destroy(LevelInstance);
+        if (LevelInstance != null) GameObject.Destroy(LevelInstance);
 
         LevelInstanceSettings.ResetSettings();
 
