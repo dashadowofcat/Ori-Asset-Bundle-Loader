@@ -17,10 +17,11 @@ using Il2CppZenFulcrum.EmbeddedBrowser;
 
 public class LevelManager
 {
-
     public static GameObject LevelInstance;
 
     public static List<string> levelJsonFiles;
+
+    private static Il2CppAssetBundle Bundle = null;
 
     public static void FindLevelFiles()
     {
@@ -98,12 +99,10 @@ public class LevelManager
 
     public static void TeleportToLevel()
     {
-        LoadLevel();
+        MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
+        string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
 
-        //MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
-        //string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
-
-        //LevelManager.LoadLevelFromJSON(json);
+        LevelManager.LoadLevelFromJSON(json);
 
         GameObject ScenesManager = GameObject.Find("systems/scenesManager");
 
@@ -112,130 +111,110 @@ public class LevelManager
         ScenesManager.GetComponent<GoToSceneController>().GoToScene(stressTestMaster, new Action(OnLoadStressTestMasterScene), false);
     }
 
-    public static void LoadLevel()
-    {
-        if (LevelInstance != null) GameObject.Destroy(LevelInstance);
-
-        LevelInstanceSettings.ResetSettings();
-
-        GameObject Root = BundleLoaderMain.Bundle.LoadAsset<GameObject>("Level");
-
-        GameObject level = UnityEngine.Object.Instantiate(Root);
-
-        LevelInstance = level;
-
-        level.transform.position = Constants.LevelSpawnPosition;
-
-        UnityEngine.Object.DontDestroyOnLoad(level);
-
-        BundleLoaderMain.ConverterManager.ConvertToWOTW(level.transform);
-
-        if(LevelInstanceSettings.ShowLevelTitle) ShowLevelTitle();
-
-        DelayedActionManager.Instance.ExecuteAfter(.03f, new Action(EnterLevel));
-    }
-
     public static void LoadLevelFromJSON(string json)
     {
-        if(json == null) return;
+        if(json == null)
+            return;
 
         var levelObj = MelonLoader.TinyJSON.JSON.Load(json);
         string levelName = levelObj["name"];
-        string levelTitle = levelObj["title"];
-        Vector2 spawnPosition = levelObj["spawnPosition"].Make<Vector2>();
+        string assetBundle = levelObj["assetBundle"];
 
         MelonLogger.Msg("Level Name: " + levelName);
-        MelonLogger.Msg("Level Title: " + levelTitle);
-        MelonLogger.Msg("Spawn Position: " + spawnPosition);
+        MelonLogger.Msg("Asset Bundle: " + assetBundle);
 
-        if (LevelInstance != null) GameObject.Destroy(LevelInstance);
+        if (LevelInstance != null)
+            GameObject.Destroy(LevelInstance);
 
         LevelInstanceSettings.ResetSettings();
 
-        GameObject level = new GameObject("Level");
-
-        GameObject spawnPositionObject = new GameObject("Spawn Position");
-        spawnPositionObject.transform.parent = level.transform;
-        spawnPositionObject.transform.position = spawnPosition;
-
-        var spriteArray = levelObj["sprites"];
-        if(spriteArray != null)
+        if (assetBundle != null && assetBundle != "")
         {
-            MelonLogger.Msg("Sprites");
+            if (Bundle != null)
+                Bundle.Unload(true);
 
-            foreach(var sprite in spriteArray as ProxyArray)
-            {
-                string spriteFile = sprite["file"];
-                Vector3 spritePosition = sprite["position"].Make<Vector3>();
-
-                MelonLogger.Msg("Sprite File: " + spriteFile);
-                MelonLogger.Msg("Sprite Position: " + spritePosition);
-
-                string fullSpriteFileName = "Mods/OriCanvasLevels/" + spriteFile;
-
-                if (!File.Exists(fullSpriteFileName))
-                    continue;
-
-                byte[] spriteFileData = File.ReadAllBytes(fullSpriteFileName);
-
-                Texture2D texture = new Texture2D(2, 2);
-                ImageConversion.LoadImage(texture, spriteFileData);
-
-                GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                plane.transform.parent = level.transform;
-
-                Renderer renderer = plane.GetComponent<Renderer>();
-
-                UnityEngine.Object.DestroyImmediate(plane.GetComponent<MeshCollider>());
-
-                Material spriteMaterial = new Material(Shader.Find("Sprites/Default"));
-                spriteMaterial.mainTexture = texture;
-                renderer.sharedMaterial = spriteMaterial;
-
-                plane.transform.position = spritePosition;
-
-                plane.transform.localScale = new Vector3(texture.width / 1000f, 1, texture.height / 1000f);
-                plane.transform.eulerAngles = new Vector3(90, 0, 180);
-
-                plane.name = texture.name;
-            }
+            Bundle = Il2CppAssetBundleManager.LoadFromFile("Mods/OriCanvasLevels/" + assetBundle);
+            LevelInstance = UnityEngine.Object.Instantiate(Bundle.LoadAsset<GameObject>("Level"));
         }
-
-        var colliderArray = levelObj["colliders"];
-        if(colliderArray != null)
+        else
         {
-            MelonLogger.Msg("Colliders");
+            string levelTitle = levelObj["title"];
+            Vector2 spawnPosition = levelObj["spawnPosition"].Make<Vector2>();
 
-            foreach(var collider in colliderArray as ProxyArray)
+            MelonLogger.Msg("Level Title: " + levelTitle);
+            MelonLogger.Msg("Spawn Position: " + spawnPosition);
+
+            GameObject level = new GameObject("Level");
+
+            GameObject spawnPositionObject = new GameObject("Spawn Position");
+            spawnPositionObject.transform.parent = level.transform;
+            spawnPositionObject.transform.position = spawnPosition;
+
+            var spriteArray = levelObj["sprites"];
+            if (spriteArray != null)
             {
-                string colliderType = collider["type"];
-                Vector2[] colliderPoints = collider["points"].Make<Vector2[]>();
-                Color colliderColor = collider["color"].Make<Color>();
-                bool goThrough = collider["goThrough"];
+                MelonLogger.Msg("Sprites");
 
-                MelonLogger.Msg("Collider Type: " + colliderType);
-                MelonLogger.Msg("Collider Points Size: " + colliderPoints.Length);
-                MelonLogger.Msg("Collider Color: " + colliderColor);
-                MelonLogger.Msg("Collider GoThrough: " + goThrough);
-
-                GameObject colliderObj = new GameObject("collider");
-                colliderObj.transform.parent = level.transform;
-
-                if(colliderType == "Cubic" || colliderType == "Bezier" || colliderType == "Catmull Rom")
+                foreach (var sprite in spriteArray as ProxyArray)
                 {
-                    int colliderSplineCount = 50;
-                    if (collider["splineCount"] != null)
-                        colliderSplineCount = collider["splineCount"];
+                    string spriteFile = sprite["file"];
+                    Vector3 spritePosition = sprite["position"].Make<Vector3>();
 
-                    MelonLogger.Msg("Collider Spline Count: " + colliderSplineCount);
+                    MelonLogger.Msg("Sprite File: " + spriteFile);
+                    MelonLogger.Msg("Sprite Position: " + spritePosition);
 
-                    List<Vector2> InterpolatedPoints;
-                    switch(colliderType)
-                    {
-                        case "Bezier": InterpolatedPoints = MeshGenerator.Bezier.Interpolate(colliderPoints, colliderSplineCount).ToList(); break;
-                        case "Catmull Rom": InterpolatedPoints = MeshGenerator.CatmullRom.Interpolate(colliderPoints, colliderSplineCount).ToList(); break;
-                        default: InterpolatedPoints = MeshGenerator.Cubic.Interpolate(colliderPoints, colliderSplineCount).ToList(); break;
-                    }
+                    string fullSpriteFileName = "Mods/OriCanvasLevels/" + spriteFile;
+
+                    if (!File.Exists(fullSpriteFileName))
+                        continue;
+
+                    byte[] spriteFileData = File.ReadAllBytes(fullSpriteFileName);
+
+                    Texture2D texture = new Texture2D(2, 2);
+                    ImageConversion.LoadImage(texture, spriteFileData);
+
+                    GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                    plane.transform.parent = level.transform;
+
+                    Renderer renderer = plane.GetComponent<Renderer>();
+
+                    UnityEngine.Object.DestroyImmediate(plane.GetComponent<MeshCollider>());
+
+                    Material spriteMaterial = new Material(Shader.Find("Sprites/Default"));
+                    spriteMaterial.mainTexture = texture;
+                    renderer.sharedMaterial = spriteMaterial;
+
+                    plane.transform.position = spritePosition;
+
+                    plane.transform.localScale = new Vector3(texture.width / 1000f, 1, texture.height / 1000f);
+                    plane.transform.eulerAngles = new Vector3(90, 0, 180);
+
+                    plane.name = texture.name;
+                }
+            }
+
+            var colliderArray = levelObj["colliders"];
+            if (colliderArray != null)
+            {
+                MelonLogger.Msg("Colliders");
+
+                foreach (var collider in colliderArray as ProxyArray)
+                {
+                    string colliderType = collider["type"];
+                    Vector2 colliderPosition = collider["position"].Make<Vector2>();
+                    Vector2[] colliderPoints = collider["points"].Make<Vector2[]>();
+                    Color colliderColor = collider["color"].Make<Color>();
+                    bool goThrough = collider["goThrough"];
+
+                    MelonLogger.Msg("Collider Type: " + colliderType);
+                    MelonLogger.Msg("Collider Position: " + colliderPosition);
+                    MelonLogger.Msg("Collider Points Size: " + colliderPoints.Length);
+                    MelonLogger.Msg("Collider Color: " + colliderColor);
+                    MelonLogger.Msg("Collider GoThrough: " + goThrough);
+
+                    GameObject colliderObj = new GameObject("collider");
+                    colliderObj.transform.parent = level.transform;
+                    colliderObj.transform.position = colliderPosition;
 
                     GameObject ColliderGameObject = new GameObject("Collision");
 
@@ -243,28 +222,71 @@ public class LevelManager
                     ColliderGameObject.transform.parent = colliderObj.transform;
 
                     List<MeshFilter> ColliderMeshes = new List<MeshFilter>();
+                    Mesh rendererMesh = null;
+                    Vector3 rendererRotation = Vector3.zero;
 
-                    for (int y = 0; y < InterpolatedPoints.ToArray().Length; y++)
+                    if (colliderType == "Cubic" || colliderType == "Bezier" || colliderType == "Catmull Rom")
                     {
-                        if (y == InterpolatedPoints.ToArray().Length - 1) break;
+                        int colliderSplineCount = 50;
+                        if (collider["splineCount"] != null)
+                            colliderSplineCount = collider["splineCount"];
 
-                        var Quad = MeshGenerator.InstanciateCollisionQuad(InterpolatedPoints[y], InterpolatedPoints[y + 1], ColliderGameObject.transform, 1);
+                        MelonLogger.Msg("Collider Spline Count: " + colliderSplineCount);
 
-                        ColliderMeshes.Add(Quad.GetComponent<MeshFilter>());
+                        List<Vector2> InterpolatedPoints;
+                        switch (colliderType)
+                        {
+                            case "Bezier": InterpolatedPoints = MeshGenerator.Bezier.Interpolate(colliderPoints, colliderSplineCount).ToList(); break;
+                            case "Catmull Rom": InterpolatedPoints = MeshGenerator.CatmullRom.Interpolate(colliderPoints, colliderSplineCount).ToList(); break;
+                            default: InterpolatedPoints = MeshGenerator.Cubic.Interpolate(colliderPoints, colliderSplineCount).ToList(); break;
+                        }
+
+                        for (int y = 0; y < InterpolatedPoints.Count; y++)
+                        {
+                            if (y == InterpolatedPoints.Count - 1) break;
+
+                            var Quad = MeshGenerator.InstanciateCollisionQuad(InterpolatedPoints[y], InterpolatedPoints[y + 1], ColliderGameObject.transform, 1);
+
+                            ColliderMeshes.Add(Quad.GetComponent<MeshFilter>());
+                        }
+
+                        if (colliderColor != null)
+                        {
+                            rendererMesh = MeshGenerator.CreateMeshFromSpline(InterpolatedPoints, 0.1f);
+                        }
+                    }
+                    else
+                    {
+                        for (int y = 0; y < colliderPoints.Length; y++)
+                        {
+                            GameObject Quad;
+                            if (y == colliderPoints.Length - 1)
+                                Quad = MeshGenerator.InstanciateCollisionQuad(colliderPoints[y], colliderPoints[0], ColliderGameObject.transform, 1);
+                            else
+                                Quad = MeshGenerator.InstanciateCollisionQuad(colliderPoints[y], colliderPoints[y + 1], ColliderGameObject.transform, 1);
+
+                            ColliderMeshes.Add(Quad.GetComponent<MeshFilter>());
+                        }
+
+                        if (colliderColor != null)
+                        {
+                            rendererMesh = MeshGenerator.CreateMeshFromPolygon(colliderPoints.ToList<Vector2>());
+                            rendererRotation = new Vector3(-90, 0, 0);
+                        }
                     }
 
                     List<Vector3> vertices = new List<Vector3>();
                     List<int> triangles = new List<int>();
                     int meshVertexIndex = 0;
 
-                    foreach(MeshFilter colliderMesh in ColliderMeshes)
+                    foreach (MeshFilter colliderMesh in ColliderMeshes)
                     {
                         Mesh collMesh = colliderMesh.sharedMesh;
-                        for(int i = 0; i < collMesh.vertices.Length; i++)
+                        for (int i = 0; i < collMesh.vertices.Length; i++)
                         {
                             vertices.Add(colliderMesh.transform.localToWorldMatrix.MultiplyPoint3x4(collMesh.vertices[i]));
                         }
-                        for(int i = 0; i < collMesh.triangles.Length; i++)
+                        for (int i = 0; i < collMesh.triangles.Length; i++)
                         {
                             triangles.Add(collMesh.triangles[i] + meshVertexIndex);
                         }
@@ -289,12 +311,11 @@ public class LevelManager
                         UnityEngine.Object.DestroyImmediate(colliderMesh.gameObject);
                     }
 
-                    if(colliderColor != null)
+                    if (rendererMesh != null)
                     {
-                        Mesh SplineMesh = MeshGenerator.CreateMeshFromSpline(InterpolatedPoints, 0.1f);
-
                         GameObject Renderer = new GameObject("Renderer");
                         Renderer.transform.parent = colliderObj.transform;
+                        Renderer.transform.Rotate(rendererRotation);
 
                         MeshFilter meshFilter = Renderer.AddComponent<MeshFilter>();
 
@@ -303,7 +324,7 @@ public class LevelManager
                         meshRenderer.material.color = Color.white;
                         meshRenderer.sharedMaterial.color = colliderColor;
 
-                        meshFilter.mesh = SplineMesh;
+                        meshFilter.mesh = rendererMesh;
                     }
 
                     if (goThrough)
@@ -312,51 +333,52 @@ public class LevelManager
                     }
                 }
             }
-        }
 
-        var enemyArray = levelObj["enemies"];
-        if(enemyArray != null)
-        {
-            MelonLogger.Msg("Enemies");
-
-            foreach(var enemy in enemyArray as ProxyArray)
+            var enemyArray = levelObj["enemies"];
+            if (enemyArray != null)
             {
-                string enemyType = enemy["type"];
-                Vector2 enemyPosition = enemy["position"].Make<Vector2>();
+                MelonLogger.Msg("Enemies");
 
-                MelonLogger.Msg("Enemy Type: " + enemyType);
-                MelonLogger.Msg("Enemy Position: " + enemyPosition);
-
-                GameObject enemyObj = new GameObject(enemyType);
-                enemyObj.transform.parent = level.transform;
-                enemyObj.transform.position = enemyPosition;
-
-                if (enemyType == "Mantis")
+                foreach (var enemy in enemyArray as ProxyArray)
                 {
-                    CreateGameObjectProperty("MantisType", "Base", enemyObj.transform);
-                    CreateGameObjectProperty("MaxHealth", "10", enemyObj.transform);
-                    CreateGameObjectProperty("MaxSensorRadius", "-1", enemyObj.transform);
-                    CreateGameObjectProperty("LoseSightRadius", "-1", enemyObj.transform);
-                    CreateGameObjectProperty("ShouldSpawnLoot", "true", enemyObj.transform);
-                    CreateGameObjectProperty("EnergyOrbsNumber", "-1", enemyObj.transform);
-                    CreateGameObjectProperty("HealthOrbsNumber", "-1", enemyObj.transform);
-                    CreateGameObjectProperty("SpawnsExpOrbs", "false", enemyObj.transform);
-                    CreateGameObjectProperty("ExpOrbNumber", "-1", enemyObj.transform);
-                    CreateGameObjectProperty("RespawnOnScreen", "true", enemyObj.transform);
-                    CreateGameObjectProperty("RespawnTime", "0", enemyObj.transform);
+                    string enemyType = enemy["type"];
+                    Vector2 enemyPosition = enemy["position"].Make<Vector2>();
+
+                    MelonLogger.Msg("Enemy Type: " + enemyType);
+                    MelonLogger.Msg("Enemy Position: " + enemyPosition);
+
+                    GameObject enemyObj = new GameObject(enemyType);
+                    enemyObj.transform.parent = level.transform;
+                    enemyObj.transform.position = enemyPosition;
+
+                    if (enemyType == "Mantis")
+                    {
+                        CreateGameObjectProperty("MantisType", "Base", enemyObj.transform);
+                        CreateGameObjectProperty("MaxHealth", "10", enemyObj.transform);
+                        CreateGameObjectProperty("MaxSensorRadius", "-1", enemyObj.transform);
+                        CreateGameObjectProperty("LoseSightRadius", "-1", enemyObj.transform);
+                        CreateGameObjectProperty("ShouldSpawnLoot", "true", enemyObj.transform);
+                        CreateGameObjectProperty("EnergyOrbsNumber", "-1", enemyObj.transform);
+                        CreateGameObjectProperty("HealthOrbsNumber", "-1", enemyObj.transform);
+                        CreateGameObjectProperty("SpawnsExpOrbs", "false", enemyObj.transform);
+                        CreateGameObjectProperty("ExpOrbNumber", "-1", enemyObj.transform);
+                        CreateGameObjectProperty("RespawnOnScreen", "true", enemyObj.transform);
+                        CreateGameObjectProperty("RespawnTime", "0", enemyObj.transform);
+                    }
                 }
             }
+
+            LevelInstance = level;
         }
 
-        LevelInstance = level;
+        LevelInstance.transform.position = Constants.LevelSpawnPosition;
 
-        level.transform.position = Constants.LevelSpawnPosition;
+        UnityEngine.Object.DontDestroyOnLoad(LevelInstance);
 
-        UnityEngine.Object.DontDestroyOnLoad(level);
+        BundleLoaderMain.ConverterManager.ConvertToWOTW(LevelInstance.transform);
 
-        BundleLoaderMain.ConverterManager.ConvertToWOTW(level.transform);
-
-        if (LevelInstanceSettings.ShowLevelTitle) ShowLevelTitle();
+        if (LevelInstanceSettings.ShowLevelTitle)
+            ShowLevelTitle();
 
         DelayedActionManager.Instance.ExecuteAfter(.03f, new Action(EnterLevel));
     }
@@ -381,7 +403,6 @@ public class LevelManager
     static bool SetSize = false;
     static void OnLoadStressTestMasterScene()
     {
-
         if (!GameObject.Find("stressTestMaster")) return;
 
         GameObject ScenesManager = GameObject.Find("systems/scenesManager");
@@ -397,7 +418,6 @@ public class LevelManager
             Rect newRect = new Rect(rect.x - enlargeAmount / 2, rect.y - enlargeAmount / 2, enlargeAmount, enlargeAmount);
 
             metaData.SceneBoundaries[0] = newRect;
-
             metaData.m_totalRect = newRect;
 
             SetSize = true;
