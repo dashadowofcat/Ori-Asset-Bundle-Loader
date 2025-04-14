@@ -45,26 +45,58 @@ namespace OriAssetBundleLoader
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            if (sceneName != "wotwTitleScreen" || Initialized) return;
+            MelonLogger.Msg("Loaded scene: " + sceneName);
 
-            PrefabManager.InitializeHolder();
+            if(sceneName == "wotwTitleScreen") // Loaded title screen
+            {
+                // Caches and registers the prefabs once
+                if(!Initialized)
+                {
+                    MelonLogger.Msg("Loading prefabs...");
+                    PrefabManager.InitializeHolder();
+                    PrefabManager.RegisterBuiltInPrefabs();
+                }
 
-            PrefabManager.RegisterBuiltInPrefabs();
+                // Sets up the Enter Level menu item
+                MelonLogger.Msg("Setting up pause menu element...");
+                MelonCoroutines.Start(LevelManager.SetupPauseMenuElement());
 
-            MelonCoroutines.Start(LevelManager.SetupPauseMenuElement());
+                Initialized = true;
+            }
+            else if(sceneName == "stressTestMaster") // Loaded Stress Test Master
+            {
+                // Loads the level if it doesn't exist.
+                // This occurs if:
+                // 1) Reach a checkpoint in the custom level.
+                // 2) Exit the game.
+                // 3) Rerun the game.
+                // 4) Enter the save file with the checkpoint in the custom level.
+                if (LevelManager.LevelInstance == null)
+                {
+                    MelonLogger.Msg("Custom level doesn't exist. Loading level...");
+                    LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
+                    //LevelManager.LoadLevelFromJsonFile(0);
+                }
 
-            Initialized = true;
+                MelonCoroutines.Start(LevelManager.OnLoadStressTestMasterSceneRoutine());
+            }
+        }
+
+        public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
+        {
+            base.OnSceneWasUnloaded(buildIndex, sceneName);
+
+            MelonLogger.Msg("Unloaded scene: " + sceneName);
         }
 
         public override void OnUpdate()
         {
             if(InputManager.GetKeyDown(KeyCode.U))
             {
-                MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
-                string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
-
-                LevelManager.LoadLevelFromJSON(json);
-                //LevelManager.LoadLevel();
+                // Loads the custom level and teleports to it.
+                LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
+                //LevelManager.LoadLevelFromJsonFile(0);
+                LevelManager.TeleportToLevel();
             }
         }
     }

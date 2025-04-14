@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BundleLoaderMain.cs" />
+    <Compile Include="Element Converters\CheckpointConverter.cs" />
     <Compile Include="Element Converters\LevelTitleConverter.cs" />
     <Compile Include="LevelInstanceSettings.cs" />
     <Compile Include="Element Converters\SlimeConverter.cs" />

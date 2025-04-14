@@ -17,7 +17,7 @@ using Il2CppZenFulcrum.EmbeddedBrowser;
 
 public class LevelManager
 {
-    public static GameObject LevelInstance;
+    public static GameObject LevelInstance = null;
 
     public static List<string> levelJsonFiles;
 
@@ -32,7 +32,6 @@ public class LevelManager
     public static void RegisterComponents()
     {
         ClassInjector.RegisterTypeInIl2Cpp<TextSetter>();
-
         ClassInjector.RegisterTypeInIl2Cpp<TeleportToLevelOnActivate>();
     }
 
@@ -99,21 +98,51 @@ public class LevelManager
 
     public static void TeleportToLevel()
     {
-        MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[0] + "...");
-        string json = File.ReadAllText(LevelManager.levelJsonFiles[0]);
+        if (LevelInstanceSettings.ShowLevelTitle)
+            ShowLevelTitle();
 
-        LevelManager.LoadLevelFromJSON(json);
+        DelayedActionManager.Instance.ExecuteAfter(.03f, new Action(EnterLevel));
 
-        GameObject ScenesManager = GameObject.Find("systems/scenesManager");
-
-        RuntimeSceneMetaData stressTestMaster = ScenesManager.GetComponent<ScenesManager>().AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
-
-        ScenesManager.GetComponent<GoToSceneController>().GoToScene(stressTestMaster, new Action(OnLoadStressTestMasterScene), false);
+        GoToStressTestMaster();
     }
 
-    public static void LoadLevelFromJSON(string json)
+    public static void GoToStressTestMaster()
     {
-        if(json == null)
+        GameObject ScenesManager = GameObject.Find("systems/scenesManager");
+        RuntimeSceneMetaData stressTestMaster = ScenesManager.GetComponent<ScenesManager>().AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
+        ScenesManager.GetComponent<GoToSceneController>().GoToScene(stressTestMaster, new Action(GoToStressTestMasterAction), false);
+    }
+
+    public static void GoToStressTestMasterAction()
+    {
+    }
+
+    public static void LoadLevelFromAssetBundle(string assetBundle)
+    {
+        if (LevelInstance != null)
+            GameObject.Destroy(LevelInstance);
+
+        LevelInstanceSettings.ResetSettings();
+
+        if (Bundle != null)
+            Bundle.Unload(true);
+
+        Bundle = Il2CppAssetBundleManager.LoadFromFile(assetBundle);
+
+        LevelInstance = UnityEngine.Object.Instantiate(Bundle.LoadAsset<GameObject>("Level"));
+        LevelInstance.transform.position = Constants.LevelSpawnPosition;
+
+        UnityEngine.Object.DontDestroyOnLoad(LevelInstance);
+
+        BundleLoaderMain.ConverterManager.ConvertToWOTW(LevelInstance.transform);
+    }
+
+    public static void LoadLevelFromJsonFile(int levelJsonFileIndex)
+    {
+        MelonLogger.Msg("Loading json file " + LevelManager.levelJsonFiles[levelJsonFileIndex] + "...");
+        string json = File.ReadAllText(LevelManager.levelJsonFiles[levelJsonFileIndex]);
+
+        if (json == null)
             return;
 
         var levelObj = MelonLoader.TinyJSON.JSON.Load(json);
@@ -368,6 +397,32 @@ public class LevelManager
                 }
             }
 
+            var checkpoints = levelObj["checkpoints"];
+            if (checkpoints != null)
+            {
+                MelonLogger.Msg("Checkpoints");
+
+                foreach (var checkpoint in checkpoints as ProxyArray)
+                {
+                    Vector2 leftBottom = checkpoint["leftBottom"].Make<Vector2>();
+                    Vector2 rightTop = checkpoint["rightTop"].Make<Vector2>();
+
+                    Rect checkpointBounds = new Rect();
+                    checkpointBounds.Set(leftBottom.x + Constants.LevelSpawnPosition.x,
+                        leftBottom.y + Constants.LevelSpawnPosition.y,
+                        rightTop.x - leftBottom.x,
+                        rightTop.y - leftBottom.y);
+
+                    MelonLogger.Msg("Checkpoint Bounds: " + checkpointBounds);
+
+                    GameObject checkpointObj = new GameObject("checkpoint");
+                    checkpointObj.transform.parent = level.transform;
+
+                    InvisibleCheckpoint invisibleCheckpoint = checkpointObj.AddComponent<InvisibleCheckpoint>();
+                    invisibleCheckpoint.m_bounds = checkpointBounds;
+                }
+            }
+
             LevelInstance = level;
         }
 
@@ -376,11 +431,6 @@ public class LevelManager
         UnityEngine.Object.DontDestroyOnLoad(LevelInstance);
 
         BundleLoaderMain.ConverterManager.ConvertToWOTW(LevelInstance.transform);
-
-        if (LevelInstanceSettings.ShowLevelTitle)
-            ShowLevelTitle();
-
-        DelayedActionManager.Instance.ExecuteAfter(.03f, new Action(EnterLevel));
     }
 
     public static void CreateGameObjectProperty(string name, string value, Transform parent)
@@ -400,28 +450,23 @@ public class LevelManager
         camera.MoveCameraToTargetInstantly(true);
     }
 
-    static bool SetSize = false;
-    static void OnLoadStressTestMasterScene()
+    public static IEnumerator OnLoadStressTestMasterSceneRoutine()
     {
-        if (!GameObject.Find("stressTestMaster")) return;
+        MelonLogger.Msg("OnLoadStressTestMasterScene");
+
+        while (!GameObject.Find("stressTestMaster"))
+            yield return new WaitForFixedUpdate();
+
+        MelonLogger.Msg("Setting stressTestMaster boundaries...");
 
         GameObject ScenesManager = GameObject.Find("systems/scenesManager");
 
         RuntimeSceneMetaData metaData = ScenesManager.GetComponent<ScenesManager>().ActiveScenes.ToArray().Where(S => S.SceneRoot.name == "stressTestMaster").FirstOrDefault().MetaData;
 
-        if (SetSize == false)
-        {
-            Rect rect = metaData.SceneBoundaries[0];
+        Rect newRect = new Rect(-2859.5f, -4838.5f, 5000f, 5000f);
 
-            float enlargeAmount = Constants.LevelBoundsEndlargeAmount;
-
-            Rect newRect = new Rect(rect.x - enlargeAmount / 2, rect.y - enlargeAmount / 2, enlargeAmount, enlargeAmount);
-
-            metaData.SceneBoundaries[0] = newRect;
-            metaData.m_totalRect = newRect;
-
-            SetSize = true;
-        }
+        metaData.SceneBoundaries[0] = newRect;
+        metaData.m_totalRect = newRect;
 
         SceneManager.UnloadSceneAsync("stressTestMaster");
     }
@@ -454,6 +499,8 @@ public class LevelManager
 
         void OnEnable()
         {
+            LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
+            //LevelManager.LoadLevelFromJsonFile(0);
             LevelManager.TeleportToLevel();
 
             gameObject.SetActive(false);
