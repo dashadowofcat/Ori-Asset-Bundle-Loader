@@ -370,6 +370,34 @@ public class LevelManager
                 }
             }
 
+            var waterZoneArray = levelObj["waterZones"];
+            if(waterZoneArray != null)
+            {
+                MelonLogger.Msg("Water Zones");
+
+                foreach(var waterZone in waterZoneArray as ProxyArray)
+                {
+                    Vector2 leftBottom = waterZone["leftBottom"].Make<Vector2>();
+                    Vector2 rightTop = waterZone["rightTop"].Make<Vector2>();
+
+                    Rect waterZoneBounds = new Rect();
+                    waterZoneBounds.Set(leftBottom.x + Constants.LevelSpawnPosition.x,
+                        leftBottom.y + Constants.LevelSpawnPosition.y,
+                        rightTop.x - leftBottom.x,
+                        rightTop.y - leftBottom.y);
+
+                    MelonLogger.Msg("Water Zone Bounds: " + waterZoneBounds);
+
+                    GameObject waterZoneObj = new GameObject("waterZone");
+                    waterZoneObj.transform.parent = level.transform;
+                    waterZoneObj.transform.localPosition = leftBottom + waterZoneBounds.size / 2f;
+                    waterZoneObj.transform.localScale = waterZoneBounds.size;
+
+                    WaterZone waterZoneComp = waterZoneObj.AddComponent<WaterZone>();
+                    waterZoneComp.Bounds = waterZoneBounds;
+                }
+            }
+
             var enemyArray = levelObj["enemies"];
             if (enemyArray != null)
             {

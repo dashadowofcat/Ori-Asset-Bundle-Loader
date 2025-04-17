@@ -34,6 +34,7 @@ public class ConverterManager
         RegisterConverter("Slime", new SlimeConverter());
         RegisterConverter("Level Title", new LevelTitleConverter());
         RegisterConverter("Checkpoint", new CheckpointConverter());
+        RegisterConverter("Water Zone", new WaterZoneConverter());
 
         RegisterConverter("Four Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.FourSlot));
         RegisterConverter("Two Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.TwoSlot));

@@ -117,6 +117,7 @@
     <Compile Include="BundleLoaderMain.cs" />
     <Compile Include="Element Converters\CheckpointConverter.cs" />
     <Compile Include="Element Converters\LevelTitleConverter.cs" />
+    <Compile Include="Element Converters\WaterZoneConverter.cs" />
     <Compile Include="LevelInstanceSettings.cs" />
     <Compile Include="Element Converters\SlimeConverter.cs" />
     <Compile Include="Element Converters\MortarConverter.cs" />
