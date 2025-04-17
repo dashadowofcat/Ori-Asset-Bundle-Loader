@@ -7,6 +7,8 @@ using Il2CppSystem.IO;
 using UniverseLib.Config;
 using MelonLoader.Utils;
 using UniverseLib.Input;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace OriAssetBundleLoader
 {
@@ -52,6 +54,16 @@ namespace OriAssetBundleLoader
                 // Caches and registers the prefabs once
                 if(!Initialized)
                 {
+                    // Sets stressTestMaster's boundaries
+                    GameObject ScenesManager = GameObject.Find("systems/scenesManager");
+                    RuntimeSceneMetaData stressTestMaster = ScenesManager.GetComponent<ScenesManager>().AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
+
+                    MelonLogger.Msg("Setting stressTestMaster boundaries...");
+                    Rect newRect = new Rect(-2859.5f, -4838.5f, 5000f, 5000f);
+
+                    stressTestMaster.SceneBoundaries[0] = newRect;
+                    stressTestMaster.m_totalRect = newRect;
+
                     MelonLogger.Msg("Loading prefabs...");
                     PrefabManager.InitializeHolder();
                     PrefabManager.RegisterBuiltInPrefabs();
@@ -74,8 +86,7 @@ namespace OriAssetBundleLoader
                 if (LevelManager.LevelInstance == null)
                 {
                     MelonLogger.Msg("Custom level doesn't exist. Loading level...");
-                    LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
-                    //LevelManager.LoadLevelFromJsonFile(0);
+                    LevelManager.LoadLevel();
                 }
 
                 MelonCoroutines.Start(LevelManager.OnLoadStressTestMasterSceneRoutine());
@@ -91,11 +102,10 @@ namespace OriAssetBundleLoader
 
         public override void OnUpdate()
         {
-            if(InputManager.GetKeyDown(KeyCode.U))
+            if (InputManager.GetKeyDown(KeyCode.U) && InputManager.GetKey(KeyCode.LeftControl))
             {
                 // Loads the custom level and teleports to it.
-                LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
-                //LevelManager.LoadLevelFromJsonFile(0);
+                LevelManager.LoadLevel();
                 LevelManager.TeleportToLevel();
             }
         }

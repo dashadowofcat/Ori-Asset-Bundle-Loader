@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using MelonLoader.TinyJSON;
 using System.IO;
 using Il2CppZenFulcrum.EmbeddedBrowser;
+using UnityEngine.Profiling.Memory.Experimental;
 
 public class LevelManager
 {
@@ -101,9 +102,9 @@ public class LevelManager
         if (LevelInstanceSettings.ShowLevelTitle)
             ShowLevelTitle();
 
-        DelayedActionManager.Instance.ExecuteAfter(.03f, new Action(EnterLevel));
-
         GoToStressTestMaster();
+
+        DelayedActionManager.Instance.ExecuteAfter(0.1f, new Action(TeleportToLevelSpawnPosition));
     }
 
     public static void GoToStressTestMaster()
@@ -115,6 +116,12 @@ public class LevelManager
 
     public static void GoToStressTestMasterAction()
     {
+    }
+
+    public static void LoadLevel()
+    {
+        LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
+        //LevelManager.LoadLevelFromJsonFile(0);
     }
 
     public static void LoadLevelFromAssetBundle(string assetBundle)
@@ -442,31 +449,35 @@ public class LevelManager
         valueName.transform.parent = objectName.transform;
     }
 
-    static void EnterLevel()
+    public static void TeleportToLevelSpawnPosition()
     {
-        GameplayCamera camera = RuntimeHelper.FindObjectsOfTypeAll<GameplayCamera>().FirstOrDefault();
+        TeleportToLocation(LevelInstanceSettings.PlayerSpawnPosition);
+    }
 
-        GameObject.Find("seinCharacter").transform.position = LevelInstanceSettings.PlayerSpawnPosition;
-        camera.MoveCameraToTargetInstantly(true);
+    public static void TeleportToLocation(Vector2 location)
+    {
+        GameObject ori = GameObject.Find("seinCharacter");
+        if(ori != null)
+        {
+            MelonLogger.Msg("Teleporting Ori to " + location + "...");
+
+            GameplayCamera camera = RuntimeHelper.FindObjectsOfTypeAll<GameplayCamera>().FirstOrDefault();
+
+            ori.transform.position = location;
+            camera.MoveCameraToTargetInstantly(true);
+        }
     }
 
     public static IEnumerator OnLoadStressTestMasterSceneRoutine()
     {
         MelonLogger.Msg("OnLoadStressTestMasterScene");
 
-        while (!GameObject.Find("stressTestMaster"))
+        GameObject stressTestMasterObj = GameObject.Find("stressTestMaster");
+        while (stressTestMasterObj == null)
+        {
             yield return new WaitForFixedUpdate();
-
-        MelonLogger.Msg("Setting stressTestMaster boundaries...");
-
-        GameObject ScenesManager = GameObject.Find("systems/scenesManager");
-
-        RuntimeSceneMetaData metaData = ScenesManager.GetComponent<ScenesManager>().ActiveScenes.ToArray().Where(S => S.SceneRoot.name == "stressTestMaster").FirstOrDefault().MetaData;
-
-        Rect newRect = new Rect(-2859.5f, -4838.5f, 5000f, 5000f);
-
-        metaData.SceneBoundaries[0] = newRect;
-        metaData.m_totalRect = newRect;
+            stressTestMasterObj = GameObject.Find("stressTestMaster");
+        }
 
         SceneManager.UnloadSceneAsync("stressTestMaster");
     }
@@ -499,8 +510,7 @@ public class LevelManager
 
         void OnEnable()
         {
-            LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
-            //LevelManager.LoadLevelFromJsonFile(0);
+            LevelManager.LoadLevel();
             LevelManager.TeleportToLevel();
 
             gameObject.SetActive(false);

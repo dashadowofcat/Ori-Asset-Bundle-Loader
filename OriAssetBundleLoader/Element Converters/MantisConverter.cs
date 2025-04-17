@@ -54,8 +54,12 @@ public class MantisConverter : ElementConverter
 
         // spawner settings
 
-        PlaceHolder.RespawnOnScreen = GetBool(Asset, "RespawnOnScreen");
-        if (GetFloat(Asset, "RespawnTime") != -1) PlaceHolder.RespawnTime = GetFloat(Asset, "RespawnTime");
+        //PlaceHolder.RespawnOnScreen = GetBool(Asset, "RespawnOnScreen");
+        //if (GetFloat(Asset, "RespawnTime") != -1) PlaceHolder.RespawnTime = GetFloat(Asset, "RespawnTime");
+
+        PlaceHolder.RespawnOnTimeout = true;
+        PlaceHolder.RespawnTime = 60;
+        PlaceHolder.MinDistanceFromPlayer = 5;
 
 
         // initialize for level
