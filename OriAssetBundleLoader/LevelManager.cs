@@ -395,6 +395,7 @@ public class LevelManager
 
                     WaterZone waterZoneComp = waterZoneObj.AddComponent<WaterZone>();
                     waterZoneComp.Bounds = waterZoneBounds;
+                    waterZoneComp.DamageCondition = WaterZone.DamageApplyType.NeverApplyDamage;
                 }
             }
 
