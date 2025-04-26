@@ -12,7 +12,6 @@ public class LeaperConverter : ElementConverter
     {
         GameObject leaper = GameObject.Instantiate(PrefabCachingManager.GetPrefab("YellowLeaper"), Asset.transform); ;
 
-
         leaper.transform.localPosition = Vector3.zero;
 
         TurtlePlaceholder PlaceHolder = leaper.GetComponent<TurtlePlaceholder>();
@@ -35,8 +34,18 @@ public class LeaperConverter : ElementConverter
 
         // spawner settings
 
+        if (GetInt(Asset, "MinDistanceFromPlayer") != -1) PlaceHolder.MinDistanceFromPlayer = GetInt(Asset, "MinDistanceFromPlayer");
+
         PlaceHolder.RespawnOnScreen = GetBool(Asset, "RespawnOnScreen");
-        if (GetFloat(Asset, "RespawnTime") != -1) PlaceHolder.RespawnTime = GetFloat(Asset, "RespawnTime");
+        if (GetFloat(Asset, "RespawnTime") != -1)
+        {
+            PlaceHolder.RespawnOnTimeout = true;
+            PlaceHolder.RespawnTime = GetFloat(Asset, "RespawnTime");
+        }
+        else
+        {
+            PlaceHolder.RespawnOnTimeout = false;
+        }
 
 
         // initialize for level
@@ -56,9 +65,6 @@ public class LeaperConverter : ElementConverter
 
         PlaceHolder.SpawnOnGround = false;
 
-
-        // spawn
-
-        PlaceHolder.Invoke("Spawn", 0.01f);
+        LevelManager.AddEnemyPlaceholder(PlaceHolder);
     }
 }

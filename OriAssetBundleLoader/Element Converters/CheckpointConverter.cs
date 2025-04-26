@@ -22,5 +22,6 @@ public class CheckpointConverter : ElementConverter
 
         InvisibleCheckpoint invisibleCheckpoint = Asset.AddComponent<InvisibleCheckpoint>();
         invisibleCheckpoint.m_bounds = checkpointBounds;
+        invisibleCheckpoint.RespawnPosition = new Vector2(checkpointBounds.x + boxCollider2D.size.x / 2, checkpointBounds.y + 1f);
     }
 }

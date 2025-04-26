@@ -9,6 +9,7 @@ using MelonLoader.Utils;
 using UniverseLib.Input;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace OriAssetBundleLoader
 {
@@ -51,7 +52,6 @@ namespace OriAssetBundleLoader
 
             if(sceneName == "wotwTitleScreen") // Loaded title screen
             {
-                // Caches and registers the prefabs once
                 if(!Initialized)
                 {
                     // Sets stressTestMaster's boundaries
@@ -83,11 +83,11 @@ namespace OriAssetBundleLoader
                 // 2) Exit the game.
                 // 3) Rerun the game.
                 // 4) Enter the save file with the checkpoint in the custom level.
-                if (LevelManager.LevelInstance == null)
-                {
-                    MelonLogger.Msg("Custom level doesn't exist. Loading level...");
-                    LevelManager.LoadLevel();
-                }
+                //if (LevelManager.LevelInstance == null)
+                //{
+                //    MelonLogger.Msg("Custom level doesn't exist. Loading level...");
+                //    LevelManager.LoadLevel();
+                //}
 
                 MelonCoroutines.Start(LevelManager.OnLoadStressTestMasterSceneRoutine());
             }
@@ -104,10 +104,20 @@ namespace OriAssetBundleLoader
         {
             if (InputManager.GetKeyDown(KeyCode.U) && InputManager.GetKey(KeyCode.LeftControl))
             {
-                // Loads the custom level and teleports to it.
-                LevelManager.LoadLevel();
-                LevelManager.TeleportToLevel();
+                if(LevelManager.LevelInstance == null)
+                {
+                    // Loads the custom level and teleports to it.
+                    LevelManager.teleportToLevel = true;
+                    LevelManager.LoadStressTestMaster();
+                }
+                else
+                {
+                    LevelManager.LoadLevel(); // Reloads level
+                    LevelManager.TeleportToLevelSpawnPosition();
+                }
             }
+
+            LevelManager.Update();
         }
     }
 }

@@ -54,13 +54,18 @@ public class MantisConverter : ElementConverter
 
         // spawner settings
 
-        //PlaceHolder.RespawnOnScreen = GetBool(Asset, "RespawnOnScreen");
-        //if (GetFloat(Asset, "RespawnTime") != -1) PlaceHolder.RespawnTime = GetFloat(Asset, "RespawnTime");
+        if (GetInt(Asset, "MinDistanceFromPlayer") != -1) PlaceHolder.MinDistanceFromPlayer = GetInt(Asset, "MinDistanceFromPlayer");
 
-        PlaceHolder.RespawnOnTimeout = true;
-        PlaceHolder.RespawnTime = 60;
-        PlaceHolder.MinDistanceFromPlayer = 5;
-
+        PlaceHolder.RespawnOnScreen = GetBool(Asset, "RespawnOnScreen");
+        if (GetFloat(Asset, "RespawnTime") != -1)
+        {
+            PlaceHolder.RespawnOnTimeout = true;
+            PlaceHolder.RespawnTime = GetFloat(Asset, "RespawnTime");
+        }
+        else
+        {
+            PlaceHolder.RespawnOnTimeout = false;
+        }
 
         // initialize for level
 
@@ -70,15 +75,16 @@ public class MantisConverter : ElementConverter
 
         PlaceHolder.SpawnOn = EntityPlaceholder.SpawnMode.AutoSpawn;
 
-        GameObject.Destroy(PlaceHolder.PooledEntity);
-        GameObject.Destroy(PlaceHolder.CurrentEntity);
+        try
+        {
+            GameObject.Destroy(PlaceHolder.PooledEntity);
+            GameObject.Destroy(PlaceHolder.CurrentEntity);
+        }
+        catch { }
 
         PlaceHolder.SpawnOnGround = false;
 
-
-        // spawn
-
-        PlaceHolder.Invoke("Spawn", 0.1f);
+        LevelManager.AddEnemyPlaceholder(PlaceHolder);
     }
 
     public enum mantisType

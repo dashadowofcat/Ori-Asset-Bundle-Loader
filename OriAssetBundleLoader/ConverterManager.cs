@@ -1,6 +1,7 @@
 ﻿using Il2Cpp;
 using Il2CppMoon;
 using Il2CppMoon.ArtOptimization;
+using Il2CppMoon.Rendering;
 using MelonLoader;
 using OriAssetBundleLoader;
 using System;
@@ -52,23 +53,20 @@ public class ConverterManager
 
     public void ConvertToWOTW(Transform LevelParent)
     {
-        MelonLogger.Msg("Converting assets to WotW...");
-        foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == LevelParent && m != LevelParent))
+        MelonLogger.Msg("Converting assets in parent " + LevelParent.name + " to WotW...");
+        for(int i = 0; i < LevelParent.childCount; ++i)
         {
-            //MelonLogger.Msg("  " + child.gameObject.name);
-            ConvertAssetToWOTW(child.gameObject);
-        }
+            GameObject gameObject = LevelParent.GetChild(i).gameObject;
+            MelonLogger.Msg("  " + gameObject.name);
 
-        MelonLogger.Msg("Converting colliders to WotW...");
-        foreach (Transform child in RuntimeHelper.FindObjectsOfTypeAll<Transform>().Where(m => m.root == LevelParent && m != LevelParent))
-        {
-            GameObject Asset = child.gameObject;
-            //MelonLogger.Msg("  " + Asset.name);
+            ConvertAssetToWOTW(gameObject);
 
-            if (Asset.GetComponent<Collider>())
+            if (gameObject.GetComponent<Collider>())
             {
-                ConvertColliderToWOTW(Asset);
+                ConvertColliderToWOTW(gameObject);
             }
+
+            ConvertToWOTW(gameObject.transform);
         }
     }
 

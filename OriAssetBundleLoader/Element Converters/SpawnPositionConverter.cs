@@ -12,6 +12,7 @@ public class SpawnPositionConverter : ElementConverter
     public override void ConvertElement(GameObject Asset)
     {
         LevelInstanceSettings.PlayerSpawnPosition = Asset.transform.position;
+        MelonLogger.Msg("Player Spawn Position: " + LevelInstanceSettings.PlayerSpawnPosition);
     }
 }
 

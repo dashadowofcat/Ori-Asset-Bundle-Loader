@@ -19,10 +19,32 @@ using UnityEngine.Profiling.Memory.Experimental;
 public class LevelManager
 {
     public static GameObject LevelInstance = null;
+    public static bool teleportToLevel = false;
 
     public static List<string> levelJsonFiles;
 
     private static Il2CppAssetBundle Bundle = null;
+
+    private static List<EntityPlaceholder> enemyPlaceholders = new List<EntityPlaceholder>();
+
+    public static void Update()
+    {
+        foreach(EntityPlaceholder enemyPlaceholder in enemyPlaceholders)
+        {
+            if(enemyPlaceholder != null)
+            {
+                enemyPlaceholder.UpdateAutoSpawnState();
+            }
+        }
+    }
+
+    public static void AddEnemyPlaceholder(EntityPlaceholder enemyPlaceholder)
+    {
+        if (!enemyPlaceholders.Contains(enemyPlaceholder))
+        {
+            enemyPlaceholders.Add(enemyPlaceholder);
+        }
+    }
 
     public static void FindLevelFiles()
     {
@@ -97,17 +119,7 @@ public class LevelManager
         PressedSequence.Actions.Add(ShowMainMenuAction);
     }
 
-    public static void TeleportToLevel()
-    {
-        if (LevelInstanceSettings.ShowLevelTitle)
-            ShowLevelTitle();
-
-        GoToStressTestMaster();
-
-        DelayedActionManager.Instance.ExecuteAfter(0.1f, new Action(TeleportToLevelSpawnPosition));
-    }
-
-    public static void GoToStressTestMaster()
+    public static void LoadStressTestMaster()
     {
         GameObject ScenesManager = GameObject.Find("systems/scenesManager");
         RuntimeSceneMetaData stressTestMaster = ScenesManager.GetComponent<ScenesManager>().AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
@@ -120,12 +132,14 @@ public class LevelManager
 
     public static void LoadLevel()
     {
-        LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
-        //LevelManager.LoadLevelFromJsonFile(0);
+        //LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
+        LevelManager.LoadLevelFromJsonFile(0);
     }
 
     public static void LoadLevelFromAssetBundle(string assetBundle)
     {
+        enemyPlaceholders.Clear();
+
         if (LevelInstance != null)
             GameObject.Destroy(LevelInstance);
 
@@ -139,7 +153,10 @@ public class LevelManager
         LevelInstance = UnityEngine.Object.Instantiate(Bundle.LoadAsset<GameObject>("Level"));
         LevelInstance.transform.position = Constants.LevelSpawnPosition;
 
-        UnityEngine.Object.DontDestroyOnLoad(LevelInstance);
+        GameObject stressTestMasterObject = GetStressTestMasterObject();
+        LevelInstance.transform.parent = stressTestMasterObject.transform;
+
+        //UnityEngine.Object.DontDestroyOnLoad(LevelInstance);
 
         BundleLoaderMain.ConverterManager.ConvertToWOTW(LevelInstance.transform);
     }
@@ -158,6 +175,8 @@ public class LevelManager
 
         MelonLogger.Msg("Level Name: " + levelName);
         MelonLogger.Msg("Asset Bundle: " + assetBundle);
+
+        enemyPlaceholders.Clear();
 
         if (LevelInstance != null)
             GameObject.Destroy(LevelInstance);
@@ -415,19 +434,34 @@ public class LevelManager
                     enemyObj.transform.parent = level.transform;
                     enemyObj.transform.position = enemyPosition;
 
-                    if (enemyType == "Mantis")
+                    bool shouldSpawnLoot = enemy["shouldSpawnLoot"];
+                    int numExpOrbs = enemy["expOrbs"];
+
+                    CreateGameObjectProperty("MaxHealth", enemy["maxHealth"], enemyObj.transform);
+                    CreateGameObjectProperty("MaxSensorRadius", enemy["maxSensorRadius"], enemyObj.transform);
+                    CreateGameObjectProperty("LoseSightRadius", enemy["loseSightRadius"], enemyObj.transform);
+                    CreateGameObjectProperty("ShouldSpawnLoot", "" + shouldSpawnLoot, enemyObj.transform);
+                    if(shouldSpawnLoot)
                     {
-                        CreateGameObjectProperty("MantisType", "Base", enemyObj.transform);
-                        CreateGameObjectProperty("MaxHealth", "10", enemyObj.transform);
-                        CreateGameObjectProperty("MaxSensorRadius", "-1", enemyObj.transform);
-                        CreateGameObjectProperty("LoseSightRadius", "-1", enemyObj.transform);
-                        CreateGameObjectProperty("ShouldSpawnLoot", "true", enemyObj.transform);
+                        CreateGameObjectProperty("EnergyOrbsNumber", enemy["energyOrbs"], enemyObj.transform);
+                        CreateGameObjectProperty("HealthOrbsNumber", enemy["healthOrbs"], enemyObj.transform);
+                    }
+                    else
+                    {
                         CreateGameObjectProperty("EnergyOrbsNumber", "-1", enemyObj.transform);
                         CreateGameObjectProperty("HealthOrbsNumber", "-1", enemyObj.transform);
-                        CreateGameObjectProperty("SpawnsExpOrbs", "false", enemyObj.transform);
-                        CreateGameObjectProperty("ExpOrbNumber", "-1", enemyObj.transform);
-                        CreateGameObjectProperty("RespawnOnScreen", "true", enemyObj.transform);
-                        CreateGameObjectProperty("RespawnTime", "0", enemyObj.transform);
+                    }
+                    CreateGameObjectProperty("SpawnsExpOrbs", "" + (numExpOrbs != -1), enemyObj.transform);
+                    CreateGameObjectProperty("ExpOrbNumber", "" + numExpOrbs, enemyObj.transform);
+                    CreateGameObjectProperty("MinDistanceFromPlayer", enemy["minDistanceFromPlayer"], enemyObj.transform);
+                    CreateGameObjectProperty("RespawnOnScreen", enemy["respawnOnScreen"], enemyObj.transform);
+                    CreateGameObjectProperty("RespawnTime", enemy["respawnTime"], enemyObj.transform);
+
+                    switch(enemyType)
+                    {
+                        case "Mantis":         CreateGameObjectProperty("MantisType", "Base", enemyObj.transform); break;
+                        case "GreenMantis":    CreateGameObjectProperty("MantisType", "Green", enemyObj.transform); break;
+                        case "ElectricMantis": CreateGameObjectProperty("MantisType", "Electric", enemyObj.transform); break;
                     }
                 }
             }
@@ -455,6 +489,7 @@ public class LevelManager
 
                     InvisibleCheckpoint invisibleCheckpoint = checkpointObj.AddComponent<InvisibleCheckpoint>();
                     invisibleCheckpoint.m_bounds = checkpointBounds;
+                    invisibleCheckpoint.RespawnPosition = new Vector2(checkpointBounds.x + checkpointBounds.width / 2f, checkpointBounds.y + 1f);
                 }
             }
 
@@ -463,7 +498,10 @@ public class LevelManager
 
         LevelInstance.transform.position = Constants.LevelSpawnPosition;
 
-        UnityEngine.Object.DontDestroyOnLoad(LevelInstance);
+        GameObject stressTestMasterObject = GetStressTestMasterObject();
+        LevelInstance.transform.parent = stressTestMasterObject.transform;
+
+        //UnityEngine.Object.DontDestroyOnLoad(LevelInstance);
 
         BundleLoaderMain.ConverterManager.ConvertToWOTW(LevelInstance.transform);
     }
@@ -496,6 +534,11 @@ public class LevelManager
         }
     }
 
+    public static GameObject GetStressTestMasterObject()
+    {
+        return SceneManager.GetSceneByName("stressTestMaster").GetRootGameObjects().ToArray().Where(R => R.name == "stressTestMaster").FirstOrDefault();
+    }
+
     public static IEnumerator OnLoadStressTestMasterSceneRoutine()
     {
         MelonLogger.Msg("OnLoadStressTestMasterScene");
@@ -507,7 +550,36 @@ public class LevelManager
             stressTestMasterObj = GameObject.Find("stressTestMaster");
         }
 
-        SceneManager.UnloadSceneAsync("stressTestMaster");
+        MelonLogger.Msg("Do something in stressTestMaster scene...");
+
+        stressTestMasterObj = GetStressTestMasterObject();
+
+        for (int i = 0; i < stressTestMasterObj.transform.childCount; ++i)
+        {
+            Transform child = stressTestMasterObj.transform.GetChild(i);
+            MelonLogger.Msg("  " + child.name);
+
+            if (child.name == "ground")
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+
+        SceneRoot sceneRoot = stressTestMasterObj.GetComponent<SceneRoot>();
+
+        LoadLevel();
+
+        if(teleportToLevel)
+        {
+            if (LevelInstanceSettings.ShowLevelTitle)
+                ShowLevelTitle();
+
+            DelayedActionManager.Instance.ExecuteAfter(0.1f, new Action(TeleportToLevelSpawnPosition));
+
+            teleportToLevel = false;
+        }
+
+        //SceneManager.UnloadSceneAsync("stressTestMaster");
     }
 
     static void ShowLevelTitle()
@@ -538,8 +610,16 @@ public class LevelManager
 
         void OnEnable()
         {
-            LevelManager.LoadLevel();
-            LevelManager.TeleportToLevel();
+            if(LevelInstance == null)
+            {
+                LevelManager.teleportToLevel = true;
+                LevelManager.LoadStressTestMaster();
+            }
+            else
+            {
+                LevelManager.LoadLevel(); // Reload level
+                LevelManager.TeleportToLevelSpawnPosition();
+            }
 
             gameObject.SetActive(false);
         }
