@@ -46,6 +46,8 @@ namespace OriAssetBundleLoader
 
         private bool Initialized;
 
+        public static GameObject ori = null;
+
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             MelonLogger.Msg("Loaded scene: " + sceneName);
@@ -77,18 +79,6 @@ namespace OriAssetBundleLoader
             }
             else if(sceneName == "stressTestMaster") // Loaded Stress Test Master
             {
-                // Loads the level if it doesn't exist.
-                // This occurs if:
-                // 1) Reach a checkpoint in the custom level.
-                // 2) Exit the game.
-                // 3) Rerun the game.
-                // 4) Enter the save file with the checkpoint in the custom level.
-                //if (LevelManager.LevelInstance == null)
-                //{
-                //    MelonLogger.Msg("Custom level doesn't exist. Loading level...");
-                //    LevelManager.LoadLevel();
-                //}
-
                 MelonCoroutines.Start(LevelManager.OnLoadStressTestMasterSceneRoutine());
             }
         }
@@ -102,6 +92,11 @@ namespace OriAssetBundleLoader
 
         public override void OnUpdate()
         {
+            if(ori == null)
+            {
+                ori = GameObject.Find("seinCharacter");
+            }
+
             if (InputManager.GetKeyDown(KeyCode.U) && InputManager.GetKey(KeyCode.LeftControl))
             {
                 if(LevelManager.LevelInstance == null)

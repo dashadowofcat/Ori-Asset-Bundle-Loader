@@ -15,5 +15,8 @@ namespace OriAssetBundleLoader
         public static Vector3 LevelSpawnPosition = new Vector3(-333, -2313, 0);
 
         public static Vector3 CachedPrefabsLocation = new Vector3(0, 999, 0);
+
+        public static string levelHubJsonFileName = "Mods/OriCanvasLevels/LevelHub.json";
+        public static float levelImageSize = 4f;
     }
 }

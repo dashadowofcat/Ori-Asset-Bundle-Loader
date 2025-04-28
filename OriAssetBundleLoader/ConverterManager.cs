@@ -36,6 +36,7 @@ public class ConverterManager
         RegisterConverter("Level Title", new LevelTitleConverter());
         RegisterConverter("Checkpoint", new CheckpointConverter());
         RegisterConverter("Water Zone", new WaterZoneConverter());
+        RegisterConverter("Camera Settings", new CameraSettingsConverter());
 
         RegisterConverter("Four Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.FourSlot));
         RegisterConverter("Two Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.TwoSlot));

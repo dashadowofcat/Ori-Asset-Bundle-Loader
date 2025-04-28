@@ -1,12 +1,5 @@
 ﻿using Il2Cpp;
-using MelonLoader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static Il2Cpp.XboxOneRichPresence;
 
 public class CheckpointConverter : ElementConverter
 {
@@ -22,6 +15,6 @@ public class CheckpointConverter : ElementConverter
 
         InvisibleCheckpoint invisibleCheckpoint = Asset.AddComponent<InvisibleCheckpoint>();
         invisibleCheckpoint.m_bounds = checkpointBounds;
-        invisibleCheckpoint.RespawnPosition = new Vector2(checkpointBounds.x + boxCollider2D.size.x / 2, checkpointBounds.y + 1f);
+        invisibleCheckpoint.RespawnPosition = new Vector2(checkpointBounds.x + boxCollider2D.size.x / 2, checkpointBounds.y + 0.5f);
     }
 }

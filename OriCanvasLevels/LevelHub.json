@@ -1,0 +1,40 @@
+{
+    "name": "Level Hub",
+    "title": "Level Hub",
+    "assetBundle": "",
+    "cameraPosition": { "x": 0, "y": 3, "z": 29.2708 },
+    "cameraFoV": 45,
+    "spawnPosition": { "x": -745, "y": -999.5 },
+    "sprites": [{
+        "file": "LevelHub/Sprites/snowMountainsBG.png",
+        "position": { "x": -745, "y": -990, "z": 50 },
+        "scale": { "x": 20, "y": 20 }
+    }, {
+        "file": "LevelHub/Sprites/rockSlab.png",
+        "position": { "x": -745, "y": -1002.8, "z": 0.4 },
+        "scale": { "x": 2, "y": 2 }
+    }, {
+        "file": "LevelHub/Sprites/rockSlab.png",
+        "position": { "x": -727.5, "y": -1002.8, "z": 0.4 },
+        "scale": { "x": 2, "y": 2 }
+    }],
+    "colliders": [{
+        "type": "Polygon",
+        "position": { "x": 0, "y": 0 },
+        "points": [
+            { "x": -754.5, "y": -1000 },
+            { "x": -700, "y": -1000 },
+            { "x": -600, "y": -1000 },
+            { "x": -500, "y": -1000 },
+            { "x": -500, "y": -1005 },
+            { "x": -600, "y": -1005 },
+            { "x": -700, "y": -1005 },
+            { "x": -754.5, "y": -1005 }
+        ],
+        "color": { "r": 0, "g": 0, "b": 0, "a": 0 },
+        "goThrough": false
+    }],
+    "waterZones": [],
+    "enemies": [],
+    "checkpoints": []
+}

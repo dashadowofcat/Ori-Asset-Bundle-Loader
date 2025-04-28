@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static Il2Cpp.XboxOneRichPresence;
 
 public class WaterZoneConverter : ElementConverter
 {

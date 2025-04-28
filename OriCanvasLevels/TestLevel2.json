@@ -1,0 +1,39 @@
+{
+    "name": "TestLevel2",
+    "title": "Test Level 2",
+    "assetBundle": "",
+    "cameraPosition": { "x": 0, "y": 10, "z": 29.2708 },
+    "cameraFoV": 60,
+    "spawnPosition": { "x": -745, "y": -499.5 },
+    "sprites": [],
+    "colliders": [{
+        "type": "Polygon",
+        "position": { "x": 0, "y": 0 },
+        "points": [
+            { "x": -800, "y": -500 },
+            { "x": -700, "y": -500 },
+            { "x": -600, "y": -500 },
+            { "x": -500, "y": -500 },
+            { "x": -500, "y": -502 },
+            { "x": -600, "y": -502 },
+            { "x": -700, "y": -502 },
+            { "x": -800, "y": -502 }
+        ],
+        "color": { "r": 1, "g": 0, "b": 0, "a": 1 },
+        "goThrough": false
+    }],
+    "waterZones": [],
+    "enemies": [{
+        "type": "Mantis",
+        "position": { "x": -720, "y": -499 },
+        "maxHealth": -1,
+        "maxSensorRadius": -1,
+        "loseSightRadius": -1,
+        "shouldSpawnLoot": false,
+        "expOrbs": -1,
+        "minDistanceFromPlayer": -1,
+        "respawnOnScreen": true,
+        "respawnTime": 300
+    }],
+    "checkpoints": []
+}
