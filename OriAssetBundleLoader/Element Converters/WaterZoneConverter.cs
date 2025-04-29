@@ -24,5 +24,6 @@ public class WaterZoneConverter : ElementConverter
 
         WaterZone waterZoneComp = Asset.AddComponent<WaterZone>();
         waterZoneComp.Bounds = waterBounds;
+        waterZoneComp.DamageCondition = WaterZone.DamageApplyType.NeverApplyDamage;
     }
 }
