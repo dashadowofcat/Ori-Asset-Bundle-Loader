@@ -46,8 +46,6 @@ namespace OriAssetBundleLoader
 
         private bool Initialized;
 
-        public static GameObject ori = null;
-
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             MelonLogger.Msg("Loaded scene: " + sceneName);
@@ -56,15 +54,7 @@ namespace OriAssetBundleLoader
             {
                 if(!Initialized)
                 {
-                    // Sets stressTestMaster's boundaries
-                    GameObject ScenesManager = GameObject.Find("systems/scenesManager");
-                    RuntimeSceneMetaData stressTestMaster = ScenesManager.GetComponent<ScenesManager>().AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
-
-                    MelonLogger.Msg("Setting stressTestMaster boundaries...");
-                    Rect newRect = new Rect(-2859.5f, -4838.5f, 5000f, 5000f);
-
-                    stressTestMaster.SceneBoundaries[0] = newRect;
-                    stressTestMaster.m_totalRect = newRect;
+                    LevelManager.Initialize();
 
                     MelonLogger.Msg("Loading prefabs...");
                     PrefabManager.InitializeHolder();
@@ -92,11 +82,6 @@ namespace OriAssetBundleLoader
 
         public override void OnUpdate()
         {
-            if(ori == null)
-            {
-                ori = GameObject.Find("seinCharacter");
-            }
-
             if (InputManager.GetKeyDown(KeyCode.U) && InputManager.GetKey(KeyCode.LeftControl))
             {
                 if(LevelManager.LevelInstance == null)

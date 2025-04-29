@@ -1,16 +1,8 @@
 ﻿using Il2Cpp;
-using Il2CppMoon;
-using Il2CppMoon.ArtOptimization;
-using Il2CppMoon.Rendering;
 using MelonLoader;
 using OriAssetBundleLoader;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UniverseLib;
 
 public class ConverterManager
 {
@@ -52,12 +44,15 @@ public class ConverterManager
         Converters.Add(GameObjectName, Converter);
     }
 
-    public void ConvertToWOTW(Transform LevelParent)
+    public void ConvertToWOTW(Transform Level)
     {
-        MelonLogger.Msg("Converting assets in parent " + LevelParent.name + " to WotW...");
-        for(int i = 0; i < LevelParent.childCount; ++i)
+        // Gets all objects in level before converting them since converting them adds new objects
+        List<Transform> levelTransforms = new List<Transform>();
+        AddTransformsFromParent(Level, levelTransforms);
+
+        for(int i = 0; i < levelTransforms.Count; ++i)
         {
-            GameObject gameObject = LevelParent.GetChild(i).gameObject;
+            GameObject gameObject = levelTransforms[i].gameObject;
             MelonLogger.Msg("  " + gameObject.name);
 
             ConvertAssetToWOTW(gameObject);
@@ -66,8 +61,19 @@ public class ConverterManager
             {
                 ConvertColliderToWOTW(gameObject);
             }
+        }
+    }
 
-            ConvertToWOTW(gameObject.transform);
+    public void AddTransformsFromParent(Transform Parent, List<Transform> Transforms)
+    {
+        for(int i = 0; i < Parent.childCount; ++i)
+        {
+            Transform child = Parent.GetChild(i);
+            if(child != null)
+            {
+                Transforms.Add(child);
+                AddTransformsFromParent(child, Transforms);
+            }
         }
     }
 

@@ -12,6 +12,8 @@ using Il2CppMoon.Timeline;
 using MelonLoader;
 using System.Collections.Generic;
 using System.IO;
+using static Il2Cpp.XboxOneRichPresence;
+using UnityEngine.UI;
 
 public class LevelManager
 {
@@ -23,7 +25,34 @@ public class LevelManager
 
     private static Il2CppAssetBundle Bundle = null;
 
+    public static GameObject ori = null;
+
+    public static ScenesManager ScenesManager = null;
+    public static GoToSceneController GoToSceneController = null;
+
+    public static GameController GameController = null;
+
     private static List<EntityPlaceholder> enemyPlaceholders = new List<EntityPlaceholder>();
+
+    public static void Initialize()
+    {
+        // Finds the system game objects
+        GameObject ScenesManagerObject = GameObject.Find("systems/scenesManager");
+        ScenesManager = ScenesManagerObject.GetComponent<ScenesManager>();
+        GoToSceneController = ScenesManagerObject.GetComponent<GoToSceneController>();
+
+        GameObject GameControllerObject = GameObject.Find("systems/gameController");
+        GameController = GameControllerObject.GetComponent<GameController>();
+
+        // Sets stressTestMaster's boundaries
+        RuntimeSceneMetaData stressTestMaster = ScenesManager.AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
+
+        MelonLogger.Msg("Setting stressTestMaster boundaries...");
+        Rect newRect = new Rect(-2859.5f, -4838.5f, 5000f, 5000f);
+
+        stressTestMaster.SceneBoundaries[0] = newRect;
+        stressTestMaster.m_totalRect = newRect;
+    }
 
     public static void Update()
     {
@@ -40,7 +69,6 @@ public class LevelManager
             // In Level Hub
             if (currentLevelJsonFile == Constants.levelHubJsonFileName)
             {
-                GameObject ori = BundleLoaderMain.ori;
                 if(ori != null)
                 {
                     Transform levelHolder = LevelInstance.transform.Find("LevelHolder");
@@ -119,7 +147,8 @@ public class LevelManager
 
         TextSetter setter = text.AddComponent<TextSetter>();
 
-        setter.Text = "LEVEL HUB";
+        setter.Text = "ENTER LEVEL";
+        //setter.Text = "LEVEL HUB";
 
         // setup on pressed action sequence
 
@@ -153,9 +182,8 @@ public class LevelManager
 
     public static void LoadStressTestMaster()
     {
-        GameObject ScenesManager = GameObject.Find("systems/scenesManager");
-        RuntimeSceneMetaData stressTestMaster = ScenesManager.GetComponent<ScenesManager>().AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
-        ScenesManager.GetComponent<GoToSceneController>().GoToScene(stressTestMaster, new Action(GoToStressTestMasterAction), false);
+        RuntimeSceneMetaData stressTestMaster = ScenesManager.AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
+        GoToSceneController.GoToScene(stressTestMaster, new Action(GoToStressTestMasterAction), false);
     }
 
     public static void GoToStressTestMasterAction()
@@ -180,8 +208,8 @@ public class LevelManager
             currentLevelJsonFile = Constants.levelHubJsonFileName;
 
         // Creates the level
-        //LevelInstance = LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
-        LevelInstance = LevelManager.LoadLevelFromJsonFile(currentLevelJsonFile);
+        LevelInstance = LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
+        //LevelInstance = LevelManager.LoadLevelFromJsonFile(currentLevelJsonFile);
 
         if (LevelInstance == null)
         {
@@ -219,7 +247,6 @@ public class LevelManager
 
                 JSONLevelManager.CreateQuadFromSprite("Mods/OriCanvasLevels/LevelHub/Sprites/woodSlats.png", levelObject.transform, new Vector3(x, -995f,   0.6f), new Vector2(1.3f, 1.3f));
                 JSONLevelManager.CreateQuadFromSprite("Mods/OriCanvasLevels/LevelHub/Sprites/woodPlank.png", levelObject.transform, new Vector3(x, -998.5f, 0.7f), new Vector2(2f, 2f));
-
                 x += 7f;
             }
         }
@@ -230,7 +257,7 @@ public class LevelManager
         GameObject stressTestMasterObject = GetStressTestMasterObject();
         LevelInstance.transform.parent = stressTestMasterObject.transform;
 
-        // Converts any objects into WotW elements
+        // Converts all child objects into WotW elements
         BundleLoaderMain.ConverterManager.ConvertToWOTW(LevelInstance.transform);
 
         // Sets the camera's default position and fov
@@ -245,6 +272,8 @@ public class LevelManager
             Bundle.Unload(true);
 
         Bundle = Il2CppAssetBundleManager.LoadFromFile(assetBundle);
+
+        currentLevelJsonFile = assetBundle;
 
         return UnityEngine.Object.Instantiate(Bundle.LoadAsset<GameObject>("Level"));
     }
@@ -290,14 +319,13 @@ public class LevelManager
     {
         MelonLogger.Msg("OnLoadStressTestMasterScene");
 
+        // Gets the stressTestMaster object
         GameObject stressTestMasterObj = GameObject.Find("stressTestMaster");
         while (stressTestMasterObj == null)
         {
             yield return new WaitForFixedUpdate();
             stressTestMasterObj = GameObject.Find("stressTestMaster");
         }
-
-        MelonLogger.Msg("Do something in stressTestMaster scene...");
 
         stressTestMasterObj = GetStressTestMasterObject();
 
@@ -312,10 +340,14 @@ public class LevelManager
             }
         }
 
-        SceneRoot sceneRoot = stressTestMasterObj.GetComponent<SceneRoot>();
+        // Finds the Oi
+        MelonLogger.Msg("Finding the Oi...");
+        ori = GameObject.Find("seinCharacter");
 
+        // Loads the custom level.
         LoadLevel();
 
+        // If teleporting to level, shows level title and teleports to it.
         if(teleportToLevel)
         {
             if (LevelInstanceSettings.ShowLevelTitle)
@@ -325,8 +357,6 @@ public class LevelManager
 
             teleportToLevel = false;
         }
-
-        //SceneManager.UnloadSceneAsync("stressTestMaster");
     }
 
     static void ShowLevelTitle()

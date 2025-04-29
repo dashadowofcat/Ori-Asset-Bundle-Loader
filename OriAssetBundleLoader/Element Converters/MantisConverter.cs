@@ -54,7 +54,7 @@ public class MantisConverter : ElementConverter
 
         // spawner settings
 
-        if (GetInt(Asset, "MinDistanceFromPlayer") != -1) PlaceHolder.MinDistanceFromPlayer = GetInt(Asset, "MinDistanceFromPlayer");
+        //if (GetInt(Asset, "MinDistanceFromPlayer") != -1) PlaceHolder.MinDistanceFromPlayer = GetInt(Asset, "MinDistanceFromPlayer");
 
         PlaceHolder.RespawnOnScreen = GetBool(Asset, "RespawnOnScreen");
         if (GetFloat(Asset, "RespawnTime") != -1)
