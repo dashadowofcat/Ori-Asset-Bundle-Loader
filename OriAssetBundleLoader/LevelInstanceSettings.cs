@@ -11,6 +11,7 @@ public class LevelInstanceSettings
     public static float CameraFoV;
 
     public static Vector2 PlayerSpawnPosition;
+    public static Rect GoalRect;
 
     public static string LevelTitle;
     public static bool ShowLevelTitle;
@@ -21,6 +22,8 @@ public class LevelInstanceSettings
         CameraFoV = 45;
 
         PlayerSpawnPosition = new Vector2();
+        GoalRect = new Rect();
+
         LevelTitle = "Example Title";
         ShowLevelTitle = false;
     }

@@ -117,6 +117,7 @@
     <Compile Include="BundleLoaderMain.cs" />
     <Compile Include="Element Converters\CameraSettingsConverter.cs" />
     <Compile Include="Element Converters\CheckpointConverter.cs" />
+    <Compile Include="Element Converters\GoalConverter.cs" />
     <Compile Include="Element Converters\LevelTitleConverter.cs" />
     <Compile Include="Element Converters\WaterZoneConverter.cs" />
     <Compile Include="JSONLevelManager.cs" />

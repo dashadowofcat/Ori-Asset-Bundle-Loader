@@ -27,25 +27,31 @@ public class LevelManager
 
     public static GameObject ori = null;
 
-    public static ScenesManager ScenesManager = null;
-    public static GoToSceneController GoToSceneController = null;
+    public static ScenesManager scenesManager = null;
+    public static GoToSceneController goToSceneController = null;
 
-    public static GameController GameController = null;
+    public static GameController gameController = null;
+    //public static SavePedestalController savePedestalController = null;
 
     private static List<EntityPlaceholder> enemyPlaceholders = new List<EntityPlaceholder>();
+
+    private static bool reachedGoal = false;
 
     public static void Initialize()
     {
         // Finds the system game objects
-        GameObject ScenesManagerObject = GameObject.Find("systems/scenesManager");
-        ScenesManager = ScenesManagerObject.GetComponent<ScenesManager>();
-        GoToSceneController = ScenesManagerObject.GetComponent<GoToSceneController>();
+        GameObject scenesManagerObject = GameObject.Find("systems/scenesManager");
+        scenesManager = scenesManagerObject.GetComponent<ScenesManager>();
+        goToSceneController = scenesManagerObject.GetComponent<GoToSceneController>();
 
-        GameObject GameControllerObject = GameObject.Find("systems/gameController");
-        GameController = GameControllerObject.GetComponent<GameController>();
+        GameObject gameControllerObject = GameObject.Find("systems/gameController");
+        gameController = gameControllerObject.GetComponent<GameController>();
+
+        //GameObject worldMapLogicObject = GameObject.Find("systems/worldMapLogic");
+        //savePedestalController = worldMapLogicObject.GetComponent<SavePedestalController>();
 
         // Sets stressTestMaster's boundaries
-        RuntimeSceneMetaData stressTestMaster = ScenesManager.AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
+        RuntimeSceneMetaData stressTestMaster = scenesManager.AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
 
         MelonLogger.Msg("Setting stressTestMaster boundaries...");
         Rect newRect = new Rect(-2859.5f, -4838.5f, 5000f, 5000f);
@@ -58,6 +64,22 @@ public class LevelManager
     {
         if(LevelInstance != null)
         {
+            if(ori != null)
+            {
+                if(!reachedGoal)
+                {
+                    Vector2 oriPosition = ori.transform.position;
+                    Rect goalRect = LevelInstanceSettings.GoalRect;
+
+                    if (oriPosition.x >= goalRect.xMin && oriPosition.x <= goalRect.xMax && oriPosition.y >= goalRect.yMin && oriPosition.y <= goalRect.yMax)
+                    {
+                        // Ori reached the goal! Teleports back to Wellspring Glade
+                        reachedGoal = true;
+                        SavePedestalController.BeginTeleportation(new Vector2(-307f, -4151f));
+                    }
+                }
+            }
+
             foreach (EntityPlaceholder enemyPlaceholder in enemyPlaceholders)
             {
                 if (enemyPlaceholder != null)
@@ -182,8 +204,8 @@ public class LevelManager
 
     public static void LoadStressTestMaster()
     {
-        RuntimeSceneMetaData stressTestMaster = ScenesManager.AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
-        GoToSceneController.GoToScene(stressTestMaster, new Action(GoToStressTestMasterAction), false);
+        RuntimeSceneMetaData stressTestMaster = scenesManager.AllScenes.ToArray().Where(S => S.Scene == "stressTestMaster").FirstOrDefault();
+        goToSceneController.GoToScene(stressTestMaster, new Action(GoToStressTestMasterAction), false);
     }
 
     public static void GoToStressTestMasterAction()
@@ -347,8 +369,11 @@ public class LevelManager
         // Loads the custom level.
         LoadLevel();
 
+        // Resets reach goal flag
+        reachedGoal = false;
+
         // If teleporting to level, shows level title and teleports to it.
-        if(teleportToLevel)
+        if (teleportToLevel)
         {
             if (LevelInstanceSettings.ShowLevelTitle)
                 ShowLevelTitle();

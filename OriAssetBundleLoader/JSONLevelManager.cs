@@ -44,6 +44,8 @@ public class JSONLevelManager
         Vector3 cameraPosition = levelObj["cameraPosition"].Make<Vector3>();
         float cameraFoV = levelObj["cameraFoV"];
         Vector2 spawnPosition = levelObj["spawnPosition"].Make<Vector2>();
+        Vector2 goalLeftBottom = levelObj["goalLeftBottom"].Make<Vector2>();
+        Vector2 goalRightTop = levelObj["goalRightTop"].Make<Vector2>();
 
         MelonLogger.Msg("Level Title: " + levelTitle);
         MelonLogger.Msg("Camera Position: " + cameraPosition);
@@ -59,6 +61,16 @@ public class JSONLevelManager
 
             CreateGameObjectProperty("Title", levelTitle, titleObj.transform);
         }
+
+        Rect goalBounds = new Rect();
+        goalBounds.Set(goalLeftBottom.x + Constants.LevelSpawnPosition.x,
+            goalLeftBottom.y + Constants.LevelSpawnPosition.y,
+            goalRightTop.x - goalLeftBottom.x,
+            goalRightTop.y - goalLeftBottom.y);
+
+        MelonLogger.Msg("Goal Bounds: " + goalBounds);
+
+        LevelInstanceSettings.GoalRect = goalBounds;
 
         GameObject cameraSettingsObj = new GameObject("Camera Settings");
         cameraSettingsObj.transform.parent = level.transform;
