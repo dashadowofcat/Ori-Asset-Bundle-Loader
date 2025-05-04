@@ -17,6 +17,8 @@ using UnityEngine.UI;
 
 public class LevelManager
 {
+    public static bool useLevelHub = true;
+
     public static GameObject LevelInstance = null;
     public static bool teleportToLevel = false;
 
@@ -169,8 +171,10 @@ public class LevelManager
 
         TextSetter setter = text.AddComponent<TextSetter>();
 
-        setter.Text = "ENTER LEVEL";
-        //setter.Text = "LEVEL HUB";
+        if(useLevelHub)
+            setter.Text = "LEVEL HUB";
+        else
+            setter.Text = "ENTER LEVEL";
 
         // setup on pressed action sequence
 
@@ -230,8 +234,10 @@ public class LevelManager
             currentLevelJsonFile = Constants.levelHubJsonFileName;
 
         // Creates the level
-        LevelInstance = LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
-        //LevelInstance = LevelManager.LoadLevelFromJsonFile(currentLevelJsonFile);
+        if(useLevelHub)
+            LevelInstance = LevelManager.LoadLevelFromJsonFile(currentLevelJsonFile);
+        else
+            LevelInstance = LevelManager.LoadLevelFromAssetBundle("Mods/assets/ori");
 
         if (LevelInstance == null)
         {
