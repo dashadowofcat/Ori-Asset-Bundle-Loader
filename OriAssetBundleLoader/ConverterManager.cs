@@ -62,6 +62,12 @@ public class ConverterManager
             {
                 ConvertColliderToWOTW(gameObject);
             }
+
+            Animator animator = gameObject.GetComponent<Animator>();
+            if (animator != null)
+            {
+                LevelManager.AddAnimator(animator);
+            }
         }
     }
 

@@ -12,12 +12,10 @@ using Il2CppMoon.Timeline;
 using MelonLoader;
 using System.Collections.Generic;
 using System.IO;
-using static Il2Cpp.XboxOneRichPresence;
-using UnityEngine.UI;
 
 public class LevelManager
 {
-    public static bool useLevelHub = true;
+    public static bool useLevelHub = false;
 
     public static GameObject LevelInstance = null;
     public static bool teleportToLevel = false;
@@ -36,6 +34,7 @@ public class LevelManager
     //public static SavePedestalController savePedestalController = null;
 
     private static List<EntityPlaceholder> enemyPlaceholders = new List<EntityPlaceholder>();
+    private static List<Animator> animators = new List<Animator>();
 
     private static bool reachedGoal = false;
 
@@ -90,6 +89,27 @@ public class LevelManager
                 }
             }
 
+            foreach(Animator animator in animators)
+            {
+                if(animator != null)
+                {
+                    for(int i = 0; i < animator.parameters.Length; ++i)
+                    {
+                        if (animator.parameters[i].name == "GameTime")
+                        {
+                            float animationLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                            if (animationLength > 0f)
+                            {
+                                float t = gameController.GameTime / animationLength;
+                                animator.SetFloat("GameTime", t - ((int)t));
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+
             // In Level Hub
             if (currentLevelJsonFile == Constants.levelHubJsonFileName)
             {
@@ -123,6 +143,14 @@ public class LevelManager
         if (!enemyPlaceholders.Contains(enemyPlaceholder))
         {
             enemyPlaceholders.Add(enemyPlaceholder);
+        }
+    }
+
+    public static void AddAnimator(Animator animator)
+    {
+        if(!animators.Contains(animator))
+        {
+            animators.Add(animator);
         }
     }
 
@@ -220,6 +248,7 @@ public class LevelManager
     {
         // Resets and destroys the current level
         enemyPlaceholders.Clear();
+        animators.Clear();
 
         if (LevelInstance != null)
         {
