@@ -110,8 +110,9 @@ public class ConverterManager
             if(ObjRenderer.material.mainTexture != null)
                 ObjTexture = ObjRenderer.material.mainTexture.TryCast<Texture2D>();
 
-            ObjRenderer.material = Constants.EnvironmentMaterial;
+            ObjRenderer.material = new Material(Constants.EnvironmentMaterial);
             ObjRenderer.material.color = ObjColor * Constants.EnvironmentColor;
+            ObjRenderer.material.mainTexture = null;
 
             if(ObjTexture != null)
                 ObjRenderer.material.mainTexture = ObjTexture;
@@ -122,8 +123,10 @@ public class ConverterManager
             ObjRenderer.material.color = Constants.EnvironmentColor;
         }
 
-        UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerMaskTexture, null);
-        UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerTexture, null);
+        //UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerMaskTexture, null);
+        //UberShaderAPI.SetTexture(ObjRenderer, UberShaderProperty_Texture.MultiplyLayerTexture, null);
+
+        //UberShaderAPI.SetColor(ObjRenderer, UberShaderProperty_Color.EmissivityColor, Color.black);
     }
 
     private void ConvertColliderToWOTW(GameObject Asset)
