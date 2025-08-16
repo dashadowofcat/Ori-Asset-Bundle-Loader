@@ -1,10 +1,6 @@
 ﻿using Il2Cpp;
-using Il2CppMoon;
 using System;
-using MelonLoader;
-using System.Linq;
 using UnityEngine;
-using UniverseLib;
 
 public class MantisConverter : ElementConverter
 {
@@ -38,29 +34,40 @@ public class MantisConverter : ElementConverter
 
         // settings
 
-        if(GetFloat(Asset, "MaxHealth") != -1) PlaceHolder.Settings.MaxHealth = GetFloat(Asset, "MaxHealth");
+        float maxHealth = GetFloat(Asset, "MaxHealth");
+        if(maxHealth != -1f) PlaceHolder.Settings.MaxHealth = maxHealth;
 
-        if (GetFloat(Asset, "MaxSensorRadius") != -1) PlaceHolder.Settings.MaxSensorRadius = GetFloat(Asset, "MaxSensorRadius");
-        if (GetFloat(Asset, "LoseSightRadius") != -1) PlaceHolder.Settings.LoseSightRadius = GetFloat(Asset, "LoseSightRadius");
+        float maxSensorRadius = GetFloat(Asset, "MaxSensorRadius");
+        if (maxSensorRadius != -1f) PlaceHolder.Settings.MaxSensorRadius = maxSensorRadius;
+
+        float loseSightRadius = GetFloat(Asset, "LoseSightRadius");
+        if (loseSightRadius != -1f) PlaceHolder.Settings.LoseSightRadius = loseSightRadius;
 
         PlaceHolder.Settings.ShouldSpawnLoot = GetBool(Asset, "ShouldSpawnLoot");
 
-        if (GetInt(Asset, "EnergyOrbsNumber") != -1) PlaceHolder.Settings.NumberOfEnergyOrbs = GetInt(Asset, "EnergyOrbsNumber");
-        if (GetInt(Asset, "HealthOrbsNumber") != -1) PlaceHolder.Settings.NumberOfHealthOrbs = GetInt(Asset, "HealthOrbsNumber");
+        int energyOrbsNumber = GetInt(Asset, "EnergyOrbsNumber");
+        if (energyOrbsNumber != -1) PlaceHolder.Settings.NumberOfEnergyOrbs = energyOrbsNumber;
+
+        int healthOrbsNumber = GetInt(Asset, "HealthOrbsNumber");
+        if (healthOrbsNumber != -1) PlaceHolder.Settings.NumberOfHealthOrbs = healthOrbsNumber;
 
         PlaceHolder.Settings.ShouldSpawnExpOrbs = GetBool(Asset, "SpawnsExpOrbs");
 
-        if (GetInt(Asset, "ExpOrbNumber") != -1) PlaceHolder.Settings.NumberOfExperienceOrbs = GetInt(Asset, "ExpOrbNumber");
+        int expOrbNumber = GetInt(Asset, "ExpOrbNumber");
+        if (expOrbNumber != -1) PlaceHolder.Settings.NumberOfExperienceOrbs = expOrbNumber;
 
         // spawner settings
 
-        //if (GetInt(Asset, "MinDistanceFromPlayer") != -1) PlaceHolder.MinDistanceFromPlayer = GetInt(Asset, "MinDistanceFromPlayer");
+        float minDistanceFromPlayer = GetInt(Asset, "MinDistanceFromPlayer");
+        if (minDistanceFromPlayer != -1f) PlaceHolder.MinDistanceFromPlayer = minDistanceFromPlayer;
 
         PlaceHolder.RespawnOnScreen = GetBool(Asset, "RespawnOnScreen");
-        if (GetFloat(Asset, "RespawnTime") != -1)
+
+        float respawnTime = GetFloat(Asset, "RespawnTime");
+        if (respawnTime != -1f)
         {
             PlaceHolder.RespawnOnTimeout = true;
-            PlaceHolder.RespawnTime = GetFloat(Asset, "RespawnTime");
+            PlaceHolder.RespawnTime = respawnTime;
         }
         else
         {

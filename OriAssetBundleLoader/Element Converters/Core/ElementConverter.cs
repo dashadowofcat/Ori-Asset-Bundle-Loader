@@ -4,26 +4,45 @@ public class ElementConverter
 {
     public virtual void ConvertElement(GameObject Asset)
     {
-
     }
 
     public string GetString(GameObject Asset, string PropertyName)
     {
-        return Asset.transform.Find(PropertyName).GetChild(0).name;
+        Transform child = Asset.transform.Find(PropertyName);
+        if(child != null && child.childCount > 0)
+        {
+            return child.GetChild(0).name;
+        }
+
+        return null;
     }
 
     public int GetInt(GameObject Asset, string PropertyName)
     {
-        return int.Parse(Asset.transform.Find(PropertyName).GetChild(0).name);
+        string value = GetString(Asset, PropertyName);
+        if (value == null)
+            return -1;
+
+        return int.Parse(value);
     }
 
     public float GetFloat(GameObject Asset, string PropertyName)
     {
-        return float.Parse(Asset.transform.Find(PropertyName).GetChild(0).name);
+        string value = GetString(Asset, PropertyName);
+        if (value == null)
+            return -1f;
+
+        return float.Parse(value);
     }
 
     public bool GetBool(GameObject Asset, string PropertyName)
     {
-        return Asset.transform.Find(PropertyName).Find("true");
+        Transform child = Asset.transform.Find(PropertyName);
+        if (child != null)
+        {
+            return child.Find("true");
+        }
+
+        return false;
     }
 }

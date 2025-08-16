@@ -93,6 +93,8 @@ public class PrefabCachingManager
         RegisterPrefabToCache("Mortar", "kwoloksCavernUpperMainRoom", () => RuntimeHelper.FindObjectsOfTypeAll<MortarPlaceholder>().Where(g => g.name == "mortarPlaceholder" && g.gameObject.scene.name == "kwoloksCavernUpperMainRoom").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MortarPlaceholder>().Where(g => g.name == "mortarPlaceholder" && g.gameObject.scene.name == "kwoloksCavernUpperMainRoom").FirstOrDefault().gameObject, "Mortar Loaded.");
 
         RegisterPrefabToCache("AreaTextTimeline", "baursReachA", () => RuntimeHelper.FindObjectsOfTypeAll<MoonTimeline>().Where(g => g.name == "timeline" && g.gameObject.scene.name == "baursReachA" && g.transform.parent.name == "areaTextZone").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonTimeline>().Where(g => g.name == "timeline" && g.gameObject.scene.name == "baursReachA" && g.transform.parent.name == "areaTextZone").FirstOrDefault().gameObject, "Area Text Loaded.");
+
+        RegisterPrefabToCache("musicToSilence", "baursReachPeak", () => RuntimeHelper.FindObjectsOfTypeAll<SoundZoneTrigger>().Where(g => g.name == "musicToSilence" && g.gameObject.scene.name == "baursReachPeak" && g.transform.parent.name == "sound").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<SoundZoneTrigger>().Where(g => g.name == "musicToSilence" && g.gameObject.scene.name == "baursReachPeak" && g.transform.parent.name == "sound").FirstOrDefault().gameObject, "Music to Silence Loader.");
     }
 
 }

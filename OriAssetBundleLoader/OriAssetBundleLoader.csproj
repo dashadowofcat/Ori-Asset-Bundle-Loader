@@ -67,6 +67,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\MelonLoader\Il2CppAssemblies\Il2Cpp__uberSerialization.dll</HintPath>
     </Reference>
+    <Reference Include="Il2Cpp__wwise, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Il2Cpp__wwise.dll</HintPath>
+    </Reference>
     <Reference Include="MelonLoader">
       <HintPath>..\..\..\..\Desktop\cell machine\MelonLoader\net6\MelonLoader.dll</HintPath>
     </Reference>
@@ -113,6 +117,10 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\DialogueMod\DialogueMod\bin\Debug\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
     <Reference Include="UniverseLib.IL2CPP.Interop.ML">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\content\app_1057090\depot_1057091\UserLibs\UniverseLib.IL2CPP.Interop.ML.dll</HintPath>
     </Reference>
@@ -123,6 +131,7 @@
     <Compile Include="Element Converters\CheckpointConverter.cs" />
     <Compile Include="Element Converters\GoalConverter.cs" />
     <Compile Include="Element Converters\LevelTitleConverter.cs" />
+    <Compile Include="Element Converters\MusicConverter.cs" />
     <Compile Include="Element Converters\WaterZoneConverter.cs" />
     <Compile Include="JSONLevelManager.cs" />
     <Compile Include="LevelInstanceSettings.cs" />

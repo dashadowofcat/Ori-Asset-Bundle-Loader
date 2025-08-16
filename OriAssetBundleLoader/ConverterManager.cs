@@ -30,6 +30,7 @@ public class ConverterManager
         RegisterConverter("Water Zone", new WaterZoneConverter());
         RegisterConverter("Camera Settings", new CameraSettingsConverter());
         RegisterConverter("Goal", new GoalConverter());
+        RegisterConverter("Music", new MusicConverter());
 
         RegisterConverter("Four Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.FourSlot));
         RegisterConverter("Two Slot Door", new SlotDoorConverter(SlotDoorConverter.DoorType.TwoSlot));
