@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BundleLoaderMain.cs" />
+    <Compile Include="Element Converters\BashLanternConverter.cs" />
     <Compile Include="Element Converters\CameraSettingsConverter.cs" />
     <Compile Include="Element Converters\CheckpointConverter.cs" />
     <Compile Include="Element Converters\GoalConverter.cs" />

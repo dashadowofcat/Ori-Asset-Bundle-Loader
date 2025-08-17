@@ -11,6 +11,7 @@ public class ConverterManager
     public void RegisterBuiltInConverters()
     {
         RegisterConverter("Bash", new BashConverter());
+        RegisterConverter("BashLantern", new BashLanternConverter());
         RegisterConverter("Leash", new LeashConverter());
         RegisterConverter("Spring", new SpringConverter());
         RegisterConverter("Life Plant", new LifePlantConverter());
