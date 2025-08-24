@@ -25,6 +25,8 @@ public class LevelManager
 
     private static Il2CppAssetBundle Bundle = null;
 
+    private static bool firstFrameUpdate = false;
+
     public static GameObject ori = null;
 
     public static ScenesManager scenesManager = null;
@@ -32,6 +34,8 @@ public class LevelManager
 
     public static GameController gameController = null;
     //public static SavePedestalController savePedestalController = null;
+
+    private static List<Transform> bashTransforms = new List<Transform>();
 
     private static List<EntityPlaceholder> enemyPlaceholders = new List<EntityPlaceholder>();
     private static List<Animator> animators = new List<Animator>();
@@ -61,10 +65,27 @@ public class LevelManager
         stressTestMaster.m_totalRect = newRect;
     }
 
+    public static void UpdateInFirstFrameAfterLevelLoad()
+    {
+        foreach(Transform bashTransform in bashTransforms)
+        {
+            if(bashTransform != null)
+            {
+                bashTransform.localPosition = Vector3.zero;
+            }
+        }
+    }
+
     public static void Update()
     {
         if(LevelInstance != null)
         {
+            if(firstFrameUpdate)
+            {
+                UpdateInFirstFrameAfterLevelLoad();
+                firstFrameUpdate = false;
+            }
+
             if(ori != null)
             {
                 if(!reachedGoal)
@@ -135,6 +156,14 @@ public class LevelManager
                     }
                 }
             }
+        }
+    }
+
+    public static void AddBashTransform(Transform bashTransform)
+    {
+        if(!bashTransforms.Contains(bashTransform))
+        {
+            bashTransforms.Add(bashTransform);
         }
     }
 
@@ -247,6 +276,7 @@ public class LevelManager
     public static void LoadLevel()
     {
         // Resets and destroys the current level
+        bashTransforms.Clear();
         enemyPlaceholders.Clear();
         animators.Clear();
 
@@ -321,6 +351,8 @@ public class LevelManager
         SceneSettingsComponent sceneSettingsComponent = stressTestMasterObject.GetComponent<SceneSettingsComponent>();
         sceneSettingsComponent.m_sceneSettings.DefaultCameraZoom = LevelInstanceSettings.CameraPosition;
         sceneSettingsComponent.FieldOfView = LevelInstanceSettings.CameraFoV;
+
+        firstFrameUpdate = true;
     }
 
     public static GameObject LoadLevelFromAssetBundle(string assetBundle)

@@ -31,7 +31,21 @@ public class BashConverter : ElementConverter
             }
         }
 
+        bool hasParticles = GetBool(Asset, "HasParticles");
+        if (!hasParticles)
+        {
+            Object.Destroy(spiritLanternObject.GetComponent<InstantiateAction>());
+
+            for(int i = 0; i < spiritLanternObject.transform.childCount; ++i)
+            {
+                Transform child = spiritLanternObject.transform.GetChild(i);
+                Object.Destroy(child.gameObject);
+            }
+        }
+
         spiritLanternTransform.localPosition = new Vector3(0f, 0f, 0f);
+
+        LevelManager.AddBashTransform(spiritLanternTransform);
 
         //SpiritLantern spiritLantern = Asset.AddComponent<SpiritLantern>();
 

@@ -3,15 +3,116 @@ using Il2CppMoon.Wwise;
 using MelonLoader;
 using System.Collections;
 using UnityEngine;
+using System;
+using System.IO;
+using Il2CppCore;
 
 public class MusicConverter : ElementConverter
 {
-    public override void ConvertElement(GameObject Asset)
+    public enum InGameMusic
+    {
+        None,
+        WellspringGlades,
+        LumaPools
+    }
+
+    private void SilentMusic()
     {
         // Silences the music
         SoundZoneTrigger silenceTrigger = PrefabCachingManager.GetPrefab("musicToSilence").GetComponent<SoundZoneTrigger>();
         silenceTrigger.TriggerOnce = false;
         silenceTrigger.Triggered();
+    }
+
+    public override void ConvertElement(GameObject Asset)
+    {
+        InGameMusic inGameMusic;
+        Enum.TryParse<InGameMusic>(GetString(Asset, "InGame"), out inGameMusic);
+        
+        if(inGameMusic != InGameMusic.None)
+        {
+            switch (inGameMusic)
+            {
+                case InGameMusic.WellspringGlades:
+                    {
+                        SoundZoneTrigger trigger = PrefabCachingManager.GetPrefab("Music_WellspringGlades").GetComponent<SoundZoneTrigger>();
+                        trigger.Triggered();
+                        break;
+                    }
+                case InGameMusic.LumaPools:
+                    {
+                        AmbienceZone zone = PrefabCachingManager.GetPrefab("Music_LumaPools").GetComponent<AmbienceZone>();
+                        zone.ActivateAmbienceZone();
+                        break;
+                    }
+
+                default:
+                    {
+                        SilentMusic();
+                        break;
+                    }
+
+            }
+        }
+        else
+        {
+            SilentMusic();
+        }
+
+        //uint bankId;
+        //AkSoundEngine.LoadBank("Mods/assets/OriCanvas.bnk", AkSoundEngine.AK_DEFAULT_POOL_ID, out bankId);
+        //AkBankManager.LoadBank("OriCanvas.bnk", false, false);
+
+        //string bankName = "OriCanvas";
+        //string eventName = "CustomLevelMusic";
+
+        //MelonLogger.Msg("Checking if bank file exists...");
+        //string bankPath = Path.Combine(Application.streamingAssetsPath, "Audio", "GeneratedSoundBanks", "Windows", bankName + ".bnk");
+        //if(File.Exists(bankPath))
+        //{
+        //    MelonLogger.Msg("Bank file exists. Loading bank...");
+
+        //    uint bankId;
+        //    AkSoundEngine.LoadBank(bankName, AkSoundEngine.AK_DEFAULT_POOL_ID, out bankId);
+
+        //    if(bankId != AkSoundEngine.AK_INVALID_BANK_ID)
+        //    {
+        //        MelonLogger.Msg("Bank loaded as " + bankId + ". Checking if event exists...");
+        //        uint eventId = AkSoundEngine.GetIDFromString(eventName);
+
+        //        MelonLogger.Msg("Event Id for " + eventName + ": " + eventId);
+
+        //        GameObject defaultHost = GameObject.Find("wiseBootstrap(Clone)/DefaultHost");
+
+        //        MelonLogger.Msg("Getting playing Ids...");
+
+        //        uint[] playingIds = new uint[10];
+        //        uint playingIdCount = 10;
+        //        AkSoundEngine.GetPlayingIDsFromGameObject(defaultHost, ref playingIdCount, playingIds);
+
+        //        MelonLogger.Msg("Got " + playingIdCount + " playing ids. Getting event id from each...");
+        //        for(int i = 0; i < playingIdCount; ++i)
+        //        {
+        //            uint playingId = playingIds[i];
+        //            uint playingEventId = AkSoundEngine.GetEventIDFromPlayingID(playingId);
+
+        //            MelonLogger.Msg("  Playing event id: " + playingEventId);
+        //        }
+
+        //        MelonLogger.Msg("Stop playing things...");
+        //        AkSoundEngine.StopAll(defaultHost);
+
+        //        MelonLogger.Msg("Playing custom music event...");
+        //        AkSoundEngine.PostEvent(eventId, defaultHost);
+        //    }
+        //    else
+        //    {
+        //        MelonLogger.Msg("Failed to load bank!");
+        //    }
+        //}
+
+        
+        //AkSoundEngine.PostEvent("CustomLevelMusic", Asset);
 
         // Loads the music audio clip
         //AudioSource musicSource = Asset.GetComponent<AudioSource>();

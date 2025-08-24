@@ -95,6 +95,10 @@ public class PrefabCachingManager
         RegisterPrefabToCache("AreaTextTimeline", "baursReachA", () => RuntimeHelper.FindObjectsOfTypeAll<MoonTimeline>().Where(g => g.name == "timeline" && g.gameObject.scene.name == "baursReachA" && g.transform.parent.name == "areaTextZone").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<MoonTimeline>().Where(g => g.name == "timeline" && g.gameObject.scene.name == "baursReachA" && g.transform.parent.name == "areaTextZone").FirstOrDefault().gameObject, "Area Text Loaded.");
 
         RegisterPrefabToCache("musicToSilence", "baursReachPeak", () => RuntimeHelper.FindObjectsOfTypeAll<SoundZoneTrigger>().Where(g => g.name == "musicToSilence" && g.gameObject.scene.name == "baursReachPeak" && g.transform.parent.name == "sound").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<SoundZoneTrigger>().Where(g => g.name == "musicToSilence" && g.gameObject.scene.name == "baursReachPeak" && g.transform.parent.name == "sound").FirstOrDefault().gameObject, "Music to Silence Loader.");
+
+        RegisterPrefabToCache("Music_LumaPools", "lumaPoolsA", () => RuntimeHelper.FindObjectsOfTypeAll<AmbienceZone>().Where(g => g.name == "enviroSceneStates" && g.gameObject.scene.name == "lumaPoolsA" && g.transform.parent.name == "Sound").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<AmbienceZone>().Where(g => g.name == "enviroSceneStates" && g.gameObject.scene.name == "lumaPoolsA" && g.transform.parent.name == "Sound").FirstOrDefault().gameObject, "Luma Pools Music Loaded.");
+
+        RegisterPrefabToCache("Music_WellspringGlades", "wellspringGladesHub", () => RuntimeHelper.FindObjectsOfTypeAll<SoundZoneTrigger>().Where(g => g.name == "enviroSceneStates" && g.gameObject.scene.name == "wellspringGladesHub" && g.transform.parent.name == "Sound").Count() < 1, () => RuntimeHelper.FindObjectsOfTypeAll<SoundZoneTrigger>().Where(g => g.name == "enviroSceneStates" && g.gameObject.scene.name == "wellspringGladesHub" && g.transform.parent.name == "Sound").FirstOrDefault().gameObject, "Wellspring Glades Music Loaded.");
     }
 
 }
